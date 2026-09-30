@@ -2,514 +2,442 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#111111">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Projeto Massa</title>
+<title>PROJETO DENIS 2027</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-:root {
-    --bg: #0d0d0f;
-    --card: #18181b;
-    --card2: #222225;
-    --text: #ffffff;
-    --muted: #a1a1aa;
-    --green: #22c55e;
-    --green-dark: #15803d;
-    --orange: #f59e0b;
-    --red: #ef4444;
-    --border: #29292d;
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#0a0a0c;
+    color:#fff;
+    min-height:100vh;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 90px;
+.app{
+    max-width:900px;
+    margin:auto;
+    min-height:100vh;
+    background:#0d0d0f;
 }
 
-button {
-    font-family: inherit;
+header{
+    padding:22px 18px 16px;
+    border-bottom:1px solid #222;
+    position:sticky;
+    top:0;
+    background:#0d0d0fee;
+    backdrop-filter:blur(10px);
+    z-index:10;
 }
 
-.app {
-    max-width: 650px;
-    margin: auto;
+.logo{
+    font-size:23px;
+    font-weight:900;
+    letter-spacing:1px;
 }
 
-/* HEADER */
-
-.header {
-    padding: 22px 18px 12px;
-}
-
-.header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.logo span{
+    color:#39d353;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: 800;
+.date{
+    margin-top:5px;
+    color:#999;
+    font-size:13px;
 }
 
-.logo span {
-    color: var(--green);
+.page{
+    display:none;
+    padding:18px;
+    padding-bottom:95px;
 }
 
-.date {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 5px;
+.page.active{
+    display:block;
 }
 
-.header-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: var(--card);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
+.hero{
+    background:linear-gradient(135deg,#16191a,#101112);
+    border:1px solid #25282a;
+    border-radius:20px;
+    padding:22px;
+    margin-bottom:18px;
 }
-
-/* PAGES */
 
-.page {
-    display: none;
-    padding: 0 16px;
+.hero h1{
+    font-size:27px;
+    margin-bottom:8px;
 }
 
-.page.active {
-    display: block;
+.hero p{
+    color:#aaa;
+    line-height:1.5;
 }
 
-/* HERO */
-
-.hero {
-    background: linear-gradient(135deg, #171717, #202124);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 20px;
-    margin: 10px 0 16px;
+.progress-box{
+    margin-top:18px;
 }
 
-.hero small {
-    color: var(--muted);
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:13px;
+    color:#aaa;
 }
 
-.hero h1 {
-    margin-top: 5px;
-    font-size: 25px;
+.progress{
+    height:10px;
+    background:#242629;
+    border-radius:20px;
+    overflow:hidden;
 }
 
-.hero p {
-    color: #d4d4d8;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-top: 8px;
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#39d353;
+    border-radius:20px;
+    transition:.3s;
 }
-
-/* PROGRESS */
 
-.progress-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 17px;
-    margin-bottom: 16px;
+.section-title{
+    font-size:19px;
+    margin:22px 0 12px;
 }
 
-.progress-title {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+.card{
+    background:#151618;
+    border:1px solid #25272a;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:12px;
 }
 
-.progress-title span:last-child {
-    color: var(--green);
-    font-weight: bold;
+.meal{
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
-.progress-bar {
-    width: 100%;
-    height: 9px;
-    background: #303034;
-    border-radius: 10px;
-    overflow: hidden;
+.check{
+    width:28px;
+    height:28px;
+    border:2px solid #444;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
 }
 
-.progress-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--green);
-    border-radius: 10px;
-    transition: 0.3s;
+.check.done{
+    background:#39d353;
+    border-color:#39d353;
+    color:#000;
 }
 
-/* SECTION */
-
-.section-title {
-    font-size: 19px;
-    margin: 20px 0 11px;
+.meal-content{
+    flex:1;
 }
 
-/* MEALS */
-
-.meal {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 16px;
-    margin-bottom: 10px;
-    transition: 0.2s;
+.meal-time{
+    color:#39d353;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:3px;
 }
 
-.meal.done {
-    border-color: var(--green-dark);
-    background: #101d15;
+.meal-name{
+    font-weight:bold;
+    margin-bottom:5px;
 }
 
-.meal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.meal-desc{
+    color:#999;
+    font-size:13px;
+    line-height:1.4;
 }
 
-.meal-name {
-    font-size: 16px;
-    font-weight: bold;
+.water{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
 }
 
-.meal-time {
-    color: var(--green);
-    font-size: 13px;
-    margin-top: 4px;
+.water-count{
+    font-size:28px;
+    font-weight:bold;
 }
 
-.meal-content {
-    color: #d4d4d8;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-top: 10px;
+.water-buttons{
+    display:flex;
+    gap:8px;
 }
 
-.check-btn {
-    border: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #303034;
-    color: transparent;
-    cursor: pointer;
-    font-size: 18px;
+button{
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
 }
 
-.meal.done .check-btn {
-    background: var(--green);
-    color: white;
+.btn{
+    background:#24272a;
+    color:#fff;
+    padding:11px 16px;
+    border-radius:10px;
+    font-weight:bold;
 }
-
-/* CARDS */
 
-.card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 18px;
-    margin-bottom: 12px;
+.btn-green{
+    background:#39d353;
+    color:#000;
 }
 
-.card h3 {
-    font-size: 17px;
-    margin-bottom: 8px;
+.btn-danger{
+    background:#392020;
+    color:#ff7777;
 }
 
-.card p {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.5;
+.quick-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
 
-/* WATER */
-
-.water-counter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.quick{
+    background:#151618;
+    border:1px solid #25272a;
+    padding:18px;
+    border-radius:16px;
+    cursor:pointer;
 }
 
-.water-number {
-    font-size: 38px;
-    font-weight: 800;
+.quick strong{
+    display:block;
+    margin-bottom:5px;
 }
 
-.water-number span {
-    font-size: 15px;
-    color: var(--muted);
-    font-weight: normal;
+.quick span{
+    color:#888;
+    font-size:12px;
 }
 
-.water-buttons {
-    display: flex;
-    gap: 7px;
+.option{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
 }
 
-.water-btn {
-    border: none;
-    background: var(--card2);
-    color: white;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
+.option-text{
+    flex:1;
 }
 
-.water-progress {
-    margin-top: 15px;
+.option-title{
+    font-weight:bold;
+    margin-bottom:5px;
 }
-
-/* QUICK BUTTONS */
 
-.quick-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+.option-desc{
+    color:#999;
+    font-size:13px;
 }
 
-.quick-btn {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 17px;
-    padding: 16px;
-    color: white;
-    text-align: left;
-    cursor: pointer;
+.input-group{
+    margin-bottom:14px;
 }
 
-.quick-btn strong {
-    display: block;
-    margin-top: 8px;
+.input-group label{
+    display:block;
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:7px;
 }
 
-.quick-btn small {
-    display: block;
-    color: var(--muted);
-    margin-top: 4px;
+input{
+    width:100%;
+    background:#111214;
+    color:#fff;
+    border:1px solid #292b2e;
+    border-radius:10px;
+    padding:13px;
+    outline:none;
 }
 
-/* SWEET */
-
-.sweet-option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--card2);
-    padding: 13px;
-    border-radius: 13px;
-    margin-top: 8px;
+input:focus{
+    border-color:#39d353;
 }
 
-.sweet-option button {
-    background: var(--green);
-    color: white;
-    border: none;
-    border-radius: 9px;
-    padding: 8px 12px;
-    cursor: pointer;
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
-
-/* FORMS */
 
-.input-group {
-    margin-bottom: 13px;
+.stat{
+    background:#151618;
+    border:1px solid #25272a;
+    border-radius:16px;
+    padding:18px;
 }
 
-.input-group label {
-    display: block;
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 6px;
+.stat small{
+    color:#888;
 }
 
-.input {
-    width: 100%;
-    padding: 13px;
-    border-radius: 11px;
-    border: 1px solid var(--border);
-    background: var(--card2);
-    color: white;
-    outline: none;
-    font-size: 15px;
+.stat strong{
+    display:block;
+    font-size:25px;
+    margin-top:5px;
 }
 
-.primary-btn {
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    background: var(--green);
-    color: white;
-    padding: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 15px;
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:900px;
+    background:#111214f5;
+    backdrop-filter:blur(12px);
+    border-top:1px solid #242629;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    z-index:20;
 }
 
-/* STATS */
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+.nav-btn{
+    background:none;
+    color:#777;
+    padding:12px 5px 10px;
+    font-size:11px;
 }
 
-.stat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 17px;
-    border-radius: 17px;
+.nav-btn.active{
+    color:#39d353;
 }
 
-.stat-label {
-    color: var(--muted);
-    font-size: 12px;
+.nav-icon{
+    display:block;
+    font-size:20px;
+    margin-bottom:3px;
 }
 
-.stat-value {
-    font-size: 25px;
-    font-weight: bold;
-    margin-top: 5px;
+.reminder-list{
+    margin-top:10px;
 }
-
-/* NAVIGATION */
 
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 74px;
-    background: rgba(18,18,20,0.97);
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-    z-index: 100;
+.reminder{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#151618;
+    border:1px solid #25272a;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:10px;
 }
 
-.nav-inner {
-    width: 100%;
-    max-width: 650px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+.reminder-time{
+    color:#39d353;
+    font-weight:bold;
 }
 
-.nav-btn {
-    background: none;
-    border: none;
-    color: #71717a;
-    cursor: pointer;
-    font-size: 11px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
+.switch{
+    width:45px;
+    height:25px;
+    background:#333;
+    border-radius:20px;
+    position:relative;
+    cursor:pointer;
 }
 
-.nav-btn span {
-    font-size: 21px;
+.switch::after{
+    content:"";
+    width:19px;
+    height:19px;
+    background:#fff;
+    border-radius:50%;
+    position:absolute;
+    top:3px;
+    left:3px;
+    transition:.2s;
 }
 
-.nav-btn.active {
-    color: var(--green);
+.switch.on{
+    background:#39d353;
 }
 
-/* MODAL */
-
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    align-items: flex-end;
-    justify-content: center;
-    z-index: 200;
+.switch.on::after{
+    left:23px;
 }
 
-.modal.active {
-    display: flex;
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000b;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
 }
 
-.modal-box {
-    background: #18181b;
-    width: 100%;
-    max-width: 650px;
-    border-radius: 25px 25px 0 0;
-    padding: 22px;
-    border: 1px solid var(--border);
+.modal.active{
+    display:flex;
 }
 
-.modal-box h2 {
-    margin-bottom: 15px;
+.modal-box{
+    background:#17181a;
+    border:1px solid #292b2e;
+    border-radius:18px;
+    padding:22px;
+    width:100%;
+    max-width:400px;
 }
 
-.close-btn {
-    background: var(--card2);
-    border: none;
-    color: white;
-    width: 100%;
-    padding: 13px;
-    border-radius: 12px;
-    margin-top: 8px;
+.modal-box h2{
+    margin-bottom:10px;
 }
 
-/* TOAST */
-
-.toast {
-    position: fixed;
-    left: 50%;
-    bottom: 90px;
-    transform: translateX(-50%) translateY(20px);
-    background: #27272a;
-    color: white;
-    padding: 12px 17px;
-    border-radius: 12px;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.3s;
-    z-index: 300;
-    white-space: nowrap;
+.modal-box p{
+    color:#999;
+    line-height:1.5;
+    margin-bottom:18px;
 }
 
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+.empty{
+    color:#777;
+    text-align:center;
+    padding:20px;
 }
-
-/* DESKTOP */
 
-@media (min-width: 700px) {
-    body {
-        background: #09090b;
+@media(max-width:600px){
+    .app{
+        width:100%;
     }
 
-    .app {
-        border-left: 1px solid #18181b;
-        border-right: 1px solid #18181b;
-        min-height: 100vh;
-        background: #0d0d0f;
+    .hero h1{
+        font-size:24px;
+    }
+
+    .quick-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .page{
+        padding:15px;
+        padding-bottom:90px;
     }
 }
 </style>
@@ -519,748 +447,630 @@ button {
 
 <div class="app">
 
-    <!-- ================= HEADER ================= -->
+<header>
+    <div class="logo">PROJETO <span>DENIS 2027</span></div>
+    <div class="date" id="currentDate"></div>
+</header>
 
-    <header class="header">
-        <div class="header-top">
-            <div>
-                <div class="logo">PROJETO <span>MASSA</span></div>
-                <div class="date" id="currentDate"></div>
+<!-- HOME -->
+<section class="page active" id="home">
+
+    <div class="hero">
+        <h1>Foco no Projeto Denis 2027 💪</h1>
+        <p>
+            Ganhar massa muscular, reduzir gordura abdominal
+            e construir um físico cada vez melhor.
+        </p>
+
+        <div class="progress-box">
+            <div class="progress-info">
+                <span>Progresso do dia</span>
+                <span id="progressText">0%</span>
             </div>
 
-            <div class="header-icon">💪</div>
-        </div>
-    </header>
-
-
-    <!-- ================= INÍCIO ================= -->
-
-    <main id="home" class="page active">
-
-        <div class="hero">
-            <small>FOCO ATUAL</small>
-            <h1>Ganhar massa + secar a barriga</h1>
-            <p>
-                Consistência na alimentação, treino e cardio.
-                Um dia de cada vez.
-            </p>
-        </div>
-
-        <div class="progress-card">
-            <div class="progress-title">
-                <strong>Progresso do dia</strong>
-                <span id="dayPercent">0%</span>
-            </div>
-
-            <div class="progress-bar">
-                <div class="progress-fill" id="dayProgress"></div>
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
         </div>
+    </div>
 
+    <h2 class="section-title">Refeições de hoje</h2>
 
-        <h2 class="section-title">🍽️ Refeições de hoje</h2>
+    <div id="homeMeals"></div>
 
-        <div id="mealList"></div>
+    <h2 class="section-title">Água</h2>
 
-
-        <h2 class="section-title">💧 Água</h2>
-
-        <div class="card">
-            <div class="water-counter">
-
-                <div>
-                    <div class="water-number">
-                        <span id="waterCount">0</span>
-                        <span>/ 8 copos</span>
-                    </div>
-                </div>
-
-                <div class="water-buttons">
-                    <button class="water-btn" onclick="removeWater()">−</button>
-                    <button class="water-btn" onclick="addWater()">+</button>
-                </div>
-
+    <div class="card water">
+        <div>
+            <div class="water-count">
+                <span id="waterCount">0</span>/8
             </div>
-
-            <div class="water-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="waterProgress"></div>
-                </div>
-            </div>
+            <small style="color:#888">copos de água</small>
         </div>
 
+        <div class="water-buttons">
+            <button class="btn" onclick="changeWater(-1)">−</button>
+            <button class="btn btn-green" onclick="changeWater(1)">+</button>
+        </div>
+    </div>
 
-        <h2 class="section-title">⚡ Atalhos</h2>
+    <h2 class="section-title">Acesso rápido</h2>
 
-        <div class="quick-grid">
-
-            <button class="quick-btn" onclick="showPage('training')">
-                🏋️
-                <strong>Treino</strong>
-                <small>Registrar treino/cardio</small>
-            </button>
-
-            <button class="quick-btn" onclick="showPage('sweet')">
-                🍫
-                <strong>Vontade de doce</strong>
-                <small>Opções dentro da dieta</small>
-            </button>
-
-            <button class="quick-btn" onclick="showPage('progress')">
-                📊
-                <strong>Meu progresso</strong>
-                <small>Peso e cintura</small>
-            </button>
-
-            <button class="quick-btn" onclick="openReminder()">
-                🔔
-                <strong>Lembretes</strong>
-                <small>Configurar horários</small>
-            </button>
-
+    <div class="quick-grid">
+        <div class="quick" onclick="showPage('training')">
+            <strong>🏋️ Treino</strong>
+            <span>Registrar treino e cardio</span>
         </div>
 
-    </main>
-
-
-    <!-- ================= DIETA ================= -->
-
-    <main id="diet" class="page">
-
-        <h2 class="section-title">🍽️ Minha dieta</h2>
-
-        <div class="card">
-            <h3>Objetivo</h3>
-            <p>
-                Ganho de massa muscular com redução gradual
-                da gordura abdominal.
-            </p>
+        <div class="quick" onclick="showPage('sweet')">
+            <strong>🍫 Vontade de doce</strong>
+            <span>Registrar opção consumida</span>
         </div>
 
-        <div id="dietList"></div>
-
-    </main>
-
-
-    <!-- ================= TREINO ================= -->
-
-    <main id="training" class="page">
-
-        <h2 class="section-title">🏋️ Treino & Cardio</h2>
-
-        <div class="card">
-            <h3>Cardio diário</h3>
-            <p>
-                2 km caminhando + 1 km correndo na esteira.
-            </p>
-
-            <br>
-
-            <button class="primary-btn" onclick="registerCardio()">
-                ✅ Marcar cardio como feito
-            </button>
+        <div class="quick" onclick="showPage('progress')">
+            <strong>📈 Progresso</strong>
+            <span>Peso e cintura</span>
         </div>
 
-        <div class="card">
-
-            <h3>Treino de musculação</h3>
-
-            <div class="input-group">
-                <label>Qual treino você fez?</label>
-
-                <select class="input" id="workoutSelect">
-                    <option>Peito</option>
-                    <option>Costas</option>
-                    <option>Ombros</option>
-                    <option>Bíceps</option>
-                    <option>Tríceps</option>
-                    <option>Pernas</option>
-                    <option>Full Body</option>
-                    <option>Descanso</option>
-                </select>
-            </div>
-
-            <button class="primary-btn" onclick="registerWorkout()">
-                💪 Registrar treino
-            </button>
-
+        <div class="quick" onclick="showPage('reminders')">
+            <strong>⏰ Lembretes</strong>
+            <span>Organizar horários</span>
         </div>
+    </div>
 
-        <div class="card">
+</section>
 
-            <h3>Hoje</h3>
+<!-- DIETA -->
+<section class="page" id="diet">
 
-            <p id="trainingStatus">
-                Nenhum treino registrado ainda.
-            </p>
+    <h2 class="section-title">Minha dieta</h2>
 
-        </div>
+    <div id="dietMeals"></div>
 
-    </main>
+</section>
 
+<!-- TREINO -->
+<section class="page" id="training">
 
-    <!-- ================= DOCE ================= -->
+    <div class="hero">
+        <h1>Treino 💪</h1>
+        <p>Registre seu treino e seu cardio diário.</p>
+    </div>
 
-    <main id="sweet" class="page">
+    <div class="card">
+        <div class="meal">
+            <div class="check" id="cardioCheck" onclick="toggleCardio()">✓</div>
 
-        <h2 class="section-title">🍫 Vontade de doce</h2>
-
-        <div class="hero">
-
-            <small>SEM SAIR DO FOCO</small>
-
-            <h1>Bateu vontade de doce?</h1>
-
-            <p>
-                Use uma dessas opções para matar a vontade
-                sem transformar um desejo em uma refeição fora da dieta.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>🥤 Coca-Cola Zero</h3>
-
-            <p>
-                Pode ser utilizada como opção para matar
-                a vontade de algo doce.
-            </p>
-
-            <div class="sweet-option">
-                <span>1 lata — 350 ml</span>
-
-                <button onclick="registerSweet('Coca Zero')">
-                    Consumi
-                </button>
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>🍓 Outras opções</h3>
-
-            <div class="sweet-option">
-                <span>🍮 Gelatina zero</span>
-                <button onclick="registerSweet('Gelatina zero')">
-                    Consumi
-                </button>
-            </div>
-
-            <div class="sweet-option">
-                <span>🥛 Iogurte + fruta</span>
-                <button onclick="registerSweet('Iogurte + fruta')">
-                    Consumi
-                </button>
-            </div>
-
-            <div class="sweet-option">
-                <span>🍌 Whey + banana</span>
-                <button onclick="registerSweet('Whey + banana')">
-                    Consumi
-                </button>
-            </div>
-
-            <div class="sweet-option">
-                <span>🍫 Pequena porção de chocolate</span>
-                <button onclick="registerSweet('Chocolate')">
-                    Consumi
-                </button>
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>📊 Hoje</h3>
-
-            <p id="sweetStatus">
-                Nenhuma opção registrada hoje.
-            </p>
-
-        </div>
-
-    </main>
-
-
-    <!-- ================= PROGRESSO ================= -->
-
-    <main id="progress" class="page">
-
-        <h2 class="section-title">📊 Meu progresso</h2>
-
-        <div class="stats-grid">
-
-            <div class="stat">
-                <div class="stat-label">Peso atual</div>
-                <div class="stat-value">
-                    <span id="currentWeight">--</span>
-                    <small>kg</small>
+            <div class="meal-content">
+                <div class="meal-name">Cardio</div>
+                <div class="meal-desc">
+                    2 km caminhando + 1 km correndo na esteira.
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="stat">
-                <div class="stat-label">Cintura</div>
-                <div class="stat-value">
-                    <span id="currentWaist">--</span>
-                    <small>cm</small>
-                </div>
-            </div>
+    <div class="card">
 
+        <div class="input-group">
+            <label>Treino realizado</label>
+            <input id="workoutInput" placeholder="Ex.: Peito + Tríceps">
         </div>
 
+        <button class="btn btn-green" onclick="saveWorkout()">
+            Salvar treino
+        </button>
 
-        <div class="card" style="margin-top:12px;">
+        <div id="workoutResult" style="margin-top:15px;color:#aaa"></div>
 
-            <h3>📝 Atualizar medidas</h3>
+    </div>
 
-            <div class="input-group">
-                <label>Peso (kg)</label>
+</section>
 
-                <input
-                    type="number"
-                    step="0.1"
-                    id="weightInput"
-                    class="input"
-                    placeholder="Ex.: 80.5">
-            </div>
+<!-- DOCE -->
+<section class="page" id="sweet">
 
+    <div class="hero">
+        <h1>Vontade de doce 🍫</h1>
+        <p>
+            Escolha uma opção que encaixe na sua dieta
+            sem transformar uma vontade em exagero.
+        </p>
+    </div>
 
-            <div class="input-group">
-                <label>Cintura (cm)</label>
+    <div id="sweetOptions"></div>
 
-                <input
-                    type="number"
-                    step="0.1"
-                    id="waistInput"
-                    class="input"
-                    placeholder="Ex.: 90">
-            </div>
+</section>
 
+<!-- PROGRESSO -->
+<section class="page" id="progress">
 
-            <button class="primary-btn" onclick="saveMeasurements()">
-                💾 Salvar medidas
-            </button>
+    <div class="hero">
+        <h1>Meu progresso 📈</h1>
+        <p>Acompanhe peso e medida da cintura.</p>
+    </div>
 
+    <div class="stat-grid">
+
+        <div class="stat">
+            <small>Peso atual</small>
+            <strong id="weightDisplay">-- kg</strong>
         </div>
 
-
-        <div class="card">
-
-            <h3>🎯 O que estamos acompanhando</h3>
-
-            <p>
-                • Ganho de massa muscular<br>
-                • Redução da gordura abdominal<br>
-                • Evolução da cintura<br>
-                • Consistência nos treinos<br>
-                • Consistência na alimentação
-            </p>
-
+        <div class="stat">
+            <small>Cintura</small>
+            <strong id="waistDisplay">-- cm</strong>
         </div>
 
-    </main>
+    </div>
 
+    <h2 class="section-title">Atualizar medidas</h2>
 
-    <!-- ================= MENU ================= -->
+    <div class="card">
 
-    <nav class="bottom-nav">
-
-        <div class="nav-inner">
-
-            <button
-                class="nav-btn active"
-                data-page="home"
-                onclick="showPage('home')">
-
-                <span>🏠</span>
-                Início
-
-            </button>
-
-
-            <button
-                class="nav-btn"
-                data-page="diet"
-                onclick="showPage('diet')">
-
-                <span>🍽️</span>
-                Dieta
-
-            </button>
-
-
-            <button
-                class="nav-btn"
-                data-page="training"
-                onclick="showPage('training')">
-
-                <span>🏋️</span>
-                Treino
-
-            </button>
-
-
-            <button
-                class="nav-btn"
-                data-page="progress"
-                onclick="showPage('progress')">
-
-                <span>📊</span>
-                Progresso
-
-            </button>
-
+        <div class="input-group">
+            <label>Peso (kg)</label>
+            <input type="number" step="0.1" id="weightInput">
         </div>
 
-    </nav>
+        <div class="input-group">
+            <label>Cintura (cm)</label>
+            <input type="number" step="0.1" id="waistInput">
+        </div>
+
+        <button class="btn btn-green" onclick="saveProgress()">
+            Salvar progresso
+        </button>
+
+    </div>
+
+</section>
+
+<!-- LEMBRETES -->
+<section class="page" id="reminders">
+
+    <div class="hero">
+        <h1>Lembretes ⏰</h1>
+        <p>Ative os horários que você quer acompanhar.</p>
+    </div>
+
+    <div class="reminder-list" id="reminderList"></div>
+
+</section>
 
 </div>
 
+<!-- NAVEGAÇÃO -->
+<nav class="bottom-nav">
 
-<!-- ================= MODAL LEMBRETES ================= -->
+    <button class="nav-btn active" onclick="showPage('home',this)">
+        <span class="nav-icon">🏠</span>
+        Início
+    </button>
 
-<div class="modal" id="reminderModal">
+    <button class="nav-btn" onclick="showPage('diet',this)">
+        <span class="nav-icon">🥗</span>
+        Dieta
+    </button>
+
+    <button class="nav-btn" onclick="showPage('training',this)">
+        <span class="nav-icon">🏋️</span>
+        Treino
+    </button>
+
+    <button class="nav-btn" onclick="showPage('sweet',this)">
+        <span class="nav-icon">🍫</span>
+        Doce
+    </button>
+
+    <button class="nav-btn" onclick="showPage('progress',this)">
+        <span class="nav-icon">📈</span>
+        Progresso
+    </button>
+
+</nav>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
 
     <div class="modal-box">
 
-        <h2>🔔 Lembretes</h2>
+        <h2 id="modalTitle">Lembrete</h2>
 
-        <p style="color:#a1a1aa; margin-bottom:18px;">
-            Nesta primeira versão vamos deixar seus horários
-            organizados. Depois podemos transformar isso em
-            notificações reais do celular.
-        </p>
+        <p id="modalText"></p>
 
-
-        <div class="input-group">
-            <label>Café da manhã</label>
-            <input class="input" type="time" id="timeBreakfast" value="07:00">
-        </div>
-
-
-        <div class="input-group">
-            <label>Almoço</label>
-            <input class="input" type="time" id="timeLunch" value="12:30">
-        </div>
-
-
-        <div class="input-group">
-            <label>Pré-treino</label>
-            <input class="input" type="time" id="timePre" value="16:00">
-        </div>
-
-
-        <div class="input-group">
-            <label>Jantar</label>
-            <input class="input" type="time" id="timeDinner" value="21:00">
-        </div>
-
-
-        <button
-            class="primary-btn"
-            onclick="saveReminders()">
-
-            💾 Salvar horários
-
-        </button>
-
-
-        <button
-            class="close-btn"
-            onclick="closeReminder()">
-
-            Fechar
-
+        <button class="btn btn-green" onclick="closeModal()">
+            OK
         </button>
 
     </div>
 
 </div>
 
-
-<div class="toast" id="toast"></div>
-
-
 <script>
 
-/* =========================================================
-   CONFIGURAÇÃO DAS REFEIÇÕES
-   =========================================================
-
-   Aqui é onde vamos colocar a dieta definitiva.
-
-   Quando você quiser mudar uma refeição,
-   basta alterar o texto abaixo.
-*/
+const STORAGE_KEY = "projetoDenis2027";
 
 const meals = [
-
     {
-        id: "breakfast",
-        name: "Café da manhã",
-        time: "07:00",
-        content:
-        "1 pão francês + 3 ovos + whey protein."
+        id:"breakfast",
+        time:"07:00",
+        name:"Café da manhã",
+        desc:"1 pão francês + 3 ovos + whey protein."
     },
-
     {
-        id: "snack1",
-        name: "Lanche da manhã",
-        time: "10:00",
-        content:
-        "Opção da dieta conforme seu cardápio."
+        id:"snack1",
+        time:"10:00",
+        name:"Lanche da manhã",
+        desc:"Opção da dieta conforme seu cardápio."
     },
-
     {
-        id: "lunch",
-        name: "Almoço",
-        time: "12:30",
-        content:
-        "Proteína + arroz/feijão + legumes/salada."
+        id:"lunch",
+        time:"12:30",
+        name:"Almoço",
+        desc:"Proteína + arroz/feijão + legumes ou salada."
     },
-
     {
-        id: "pre",
-        name: "Pré-treino",
-        time: "16:00",
-        content:
-        "Opção de carboidrato + proteína conforme o cardápio."
+        id:"pre",
+        time:"16:00",
+        name:"Pré-treino",
+        desc:"Opção de carboidrato + proteína conforme o cardápio."
     },
-
     {
-        id: "post",
-        name: "Pós-treino",
-        time: "19:30",
-        content:
-        "Whey protein + opção de carboidrato/fruta."
+        id:"post",
+        time:"19:30",
+        name:"Pós-treino",
+        desc:"Whey protein + opção de carboidrato ou fruta."
     },
-
     {
-        id: "dinner",
-        name: "Jantar",
-        time: "21:00",
-        content:
-        "Proteína + acompanhamento conforme a dieta."
+        id:"dinner",
+        time:"21:00",
+        name:"Jantar",
+        desc:"Proteína + acompanhamento conforme a dieta."
     }
-
 ];
 
+const sweetOptions = [
+    {
+        id:"coca",
+        title:"Coca-Cola Zero",
+        desc:"1 lata de 350 ml."
+    },
+    {
+        id:"gelatin",
+        title:"Gelatina Zero",
+        desc:"Uma porção de gelatina zero."
+    },
+    {
+        id:"yogurt",
+        title:"Iogurte + fruta",
+        desc:"Iogurte com uma porção de fruta."
+    },
+    {
+        id:"wheybanana",
+        title:"Whey + banana",
+        desc:"Whey protein com banana."
+    },
+    {
+        id:"chocolate",
+        title:"Chocolate",
+        desc:"Pequena porção, encaixada na dieta."
+    }
+];
 
-/* =========================================================
-   ESTADO DO APP
-   ========================================================= */
+const defaultReminders = [
+    {id:"r1",name:"Café da manhã",time:"07:00",on:true},
+    {id:"r2",name:"Almoço",time:"12:30",on:true},
+    {id:"r3",name:"Pré-treino",time:"16:00",on:true},
+    {id:"r4",name:"Jantar",time:"21:00",on:true}
+];
 
-let data = JSON.parse(
-    localStorage.getItem("projetoMassa")
-) || {
+let state = loadState();
 
-    meals: {},
+function loadState(){
 
-    water: 0,
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-    weight: "",
-
-    waist: "",
-
-    cardio: false,
-
-    workout: "",
-
-    sweets: [],
-
-    reminders: {
-
-        breakfast: "07:00",
-        lunch: "12:30",
-        pre: "16:00",
-        dinner: "21:00"
-
+    if(saved){
+        return JSON.parse(saved);
     }
 
-};
-
-
-/* =========================================================
-   DATA
-   ========================================================= */
-
-function getTodayKey() {
-
-    const d = new Date();
-
-    return d.getFullYear()
-        + "-"
-        + String(d.getMonth() + 1).padStart(2, "0")
-        + "-"
-        + String(d.getDate()).padStart(2, "0");
-
+    return {
+        meals:{},
+        water:0,
+        cardio:false,
+        workout:"",
+        sweet:{},
+        weight:"",
+        waist:"",
+        reminders:JSON.parse(JSON.stringify(defaultReminders)),
+        date:new Date().toDateString()
+    };
 }
 
-
-const today = getTodayKey();
-
-
-/* =========================================================
-   SALVAR
-   ========================================================= */
-
-function saveData() {
-
-    localStorage.setItem(
-        "projetoMassa",
-        JSON.stringify(data)
-    );
-
+function saveState(){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
 }
 
+function resetNewDay(){
 
-/* =========================================================
-   TOAST
-   ========================================================= */
+    const today = new Date().toDateString();
 
-function showToast(message) {
+    if(state.date !== today){
 
-    const toast = document.getElementById("toast");
+        state.meals = {};
+        state.water = 0;
+        state.cardio = false;
+        state.sweet = {};
+        state.workout = "";
+        state.date = today;
 
-    toast.textContent = message;
-
-    toast.classList.add("show");
-
-    setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    }, 2200);
-
+        saveState();
+    }
 }
 
-
-/* =========================================================
-   DATA NO CABEÇALHO
-   ========================================================= */
-
-function updateDate() {
+function formatDate(){
 
     const now = new Date();
 
-    const formatted =
-        now.toLocaleDateString(
-            "pt-BR",
-            {
-                weekday: "long",
-                day: "numeric",
-                month: "long"
-            }
-        );
+    const text = now.toLocaleDateString("pt-BR",{
+        weekday:"long",
+        day:"2-digit",
+        month:"long",
+        year:"numeric"
+    });
 
-    document.getElementById("currentDate")
-        .textContent = formatted;
-
+    document.getElementById("currentDate").textContent =
+        text.charAt(0).toUpperCase() + text.slice(1);
 }
 
+function renderMeals(){
 
-/* =========================================================
-   RENDER REFEIÇÕES
-   ========================================================= */
+    const containers = [
+        document.getElementById("homeMeals"),
+        document.getElementById("dietMeals")
+    ];
 
-function renderMeals() {
+    containers.forEach(container=>{
+
+        container.innerHTML = "";
+
+        meals.forEach(meal=>{
+
+            const done = state.meals[meal.id] === true;
+
+            const card = document.createElement("div");
+
+            card.className = "card";
+
+            card.innerHTML = `
+                <div class="meal">
+
+                    <div class="check ${done ? "done":""}"
+                         onclick="toggleMeal('${meal.id}')">
+                        ${done ? "✓":""}
+                    </div>
+
+                    <div class="meal-content">
+
+                        <div class="meal-time">
+                            ${meal.time}
+                        </div>
+
+                        <div class="meal-name">
+                            ${meal.name}
+                        </div>
+
+                        <div class="meal-desc">
+                            ${meal.desc}
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+
+        });
+
+    });
+
+    updateProgress();
+}
+
+function toggleMeal(id){
+
+    state.meals[id] = !state.meals[id];
+
+    saveState();
+    renderMeals();
+}
+
+function updateProgress(){
+
+    const completed = meals.filter(m=>state.meals[m.id]).length;
+
+    const total = meals.length;
+
+    const percentage = Math.round((completed/total)*100);
+
+    document.getElementById("progressText").textContent =
+        percentage + "%";
+
+    document.getElementById("progressBar").style.width =
+        percentage + "%";
+}
+
+function changeWater(value){
+
+    state.water += value;
+
+    if(state.water < 0){
+        state.water = 0;
+    }
+
+    if(state.water > 8){
+        state.water = 8;
+    }
+
+    document.getElementById("waterCount").textContent =
+        state.water;
+
+    saveState();
+}
+
+function toggleCardio(){
+
+    state.cardio = !state.cardio;
+
+    const check = document.getElementById("cardioCheck");
+
+    check.classList.toggle("done",state.cardio);
+
+    check.textContent = state.cardio ? "✓" : "";
+
+    saveState();
+}
+
+function saveWorkout(){
+
+    const value =
+        document.getElementById("workoutInput").value.trim();
+
+    state.workout = value;
+
+    saveState();
+
+    document.getElementById("workoutResult").textContent =
+        value
+        ? "Treino salvo: " + value
+        : "Nenhum treino informado.";
+}
+
+function renderSweet(){
 
     const container =
-        document.getElementById("mealList");
+        document.getElementById("sweetOptions");
 
     container.innerHTML = "";
 
-    meals.forEach(meal => {
+    sweetOptions.forEach(option=>{
 
-        const done =
-            data.meals[today]
-            &&
-            data.meals[today][meal.id];
+        const used = state.sweet[option.id] === true;
 
-        const div =
-            document.createElement("div");
+        const card = document.createElement("div");
 
-        div.className =
-            "meal " + (done ? "done" : "");
+        card.className = "card";
 
-        div.innerHTML = `
+        card.innerHTML = `
+            <div class="option">
 
-            <div class="meal-header">
+                <div class="option-text">
 
-                <div>
-
-                    <div class="meal-name">
-                        ${meal.name}
+                    <div class="option-title">
+                        ${option.title}
                     </div>
 
-                    <div class="meal-time">
-                        ${meal.time}
+                    <div class="option-desc">
+                        ${option.desc}
                     </div>
 
                 </div>
 
                 <button
-                    class="check-btn"
-                    onclick="toggleMeal('${meal.id}')">
+                    class="btn ${used ? "btn-danger":"btn-green"}"
+                    onclick="toggleSweet('${option.id}')">
 
-                    ✓
+                    ${used ? "Registrado":"Registrar"}
 
                 </button>
 
             </div>
-
-            <div class="meal-content">
-                ${meal.content}
-            </div>
-
         `;
 
-        container.appendChild(div);
+        container.appendChild(card);
 
     });
 
-    updateDayProgress();
-
 }
 
+function toggleSweet(id){
 
-/* =========================================================
-   DIETA
-   ========================================================= */
+    state.sweet[id] = !state.sweet[id];
 
-function renderDiet() {
+    saveState();
+    renderSweet();
+}
+
+function saveProgress(){
+
+    state.weight =
+        document.getElementById("weightInput").value;
+
+    state.waist =
+        document.getElementById("waistInput").value;
+
+    saveState();
+
+    renderProgress();
+
+    showModal(
+        "Progresso salvo",
+        "Suas medidas foram atualizadas."
+    );
+}
+
+function renderProgress(){
+
+    document.getElementById("weightDisplay").textContent =
+        state.weight
+        ? state.weight + " kg"
+        : "-- kg";
+
+    document.getElementById("waistDisplay").textContent =
+        state.waist
+        ? state.waist + " cm"
+        : "-- cm";
+
+    document.getElementById("weightInput").value =
+        state.weight || "";
+
+    document.getElementById("waistInput").value =
+        state.waist || "";
+}
+
+function renderReminders(){
 
     const container =
-        document.getElementById("dietList");
+        document.getElementById("reminderList");
 
     container.innerHTML = "";
 
-    meals.forEach(meal => {
+    state.reminders.forEach(reminder=>{
 
-        const div =
-            document.createElement("div");
+        const div = document.createElement("div");
 
-        div.className = "meal";
+        div.className = "reminder";
 
         div.innerHTML = `
 
-            <div class="meal-name">
-                ${meal.name}
+            <div>
+
+                <div class="reminder-time">
+                    ${reminder.time}
+                </div>
+
+                <div>
+                    ${reminder.name}
+                </div>
+
             </div>
 
-            <div class="meal-time">
-                ${meal.time}
+            <div
+                class="switch ${reminder.on ? "on":""}"
+                onclick="toggleReminder('${reminder.id}')">
             </div>
-
-            <div class="meal-content">
-                ${meal.content}
-            </div>
-
         `;
 
         container.appendChild(div);
@@ -1269,559 +1079,93 @@ function renderDiet() {
 
 }
 
+function toggleReminder(id){
 
-/* =========================================================
-   MARCAR REFEIÇÃO
-   ========================================================= */
+    const reminder =
+        state.reminders.find(r=>r.id===id);
 
-function toggleMeal(id) {
-
-    if (!data.meals[today]) {
-
-        data.meals[today] = {};
-
+    if(reminder){
+        reminder.on = !reminder.on;
     }
 
-    data.meals[today][id] =
-        !data.meals[today][id];
-
-    saveData();
-
-    renderMeals();
-
-    const meal =
-        meals.find(m => m.id === id);
-
-    if (data.meals[today][id]) {
-
-        showToast(
-            "✅ " + meal.name + " concluído!"
-        );
-
-    } else {
-
-        showToast(
-            "Refeição desmarcada."
-        );
-
-    }
-
+    saveState();
+    renderReminders();
 }
 
+function showPage(page,button){
 
-/* =========================================================
-   PROGRESSO DO DIA
-   ========================================================= */
+    document.querySelectorAll(".page")
+        .forEach(p=>p.classList.remove("active"));
 
-function updateDayProgress() {
-
-    let completed = 0;
-
-    meals.forEach(meal => {
-
-        if (
-            data.meals[today]
-            &&
-            data.meals[today][meal.id]
-        ) {
-
-            completed++;
-
-        }
-
-    });
-
-
-    const percent =
-        Math.round(
-            (completed / meals.length) * 100
-        );
-
-
-    document.getElementById("dayPercent")
-        .textContent = percent + "%";
-
-
-    document.getElementById("dayProgress")
-        .style.width = percent + "%";
-
-}
-
-
-/* =========================================================
-   ÁGUA
-   ========================================================= */
-
-function renderWater() {
-
-    document.getElementById("waterCount")
-        .textContent = data.water;
-
-    const percent =
-        Math.min(
-            100,
-            (data.water / 8) * 100
-        );
-
-    document.getElementById("waterProgress")
-        .style.width = percent + "%";
-
-}
-
-
-function addWater() {
-
-    if (data.water < 8) {
-
-        data.water++;
-
-        saveData();
-
-        renderWater();
-
-        showToast("💧 Água registrada!");
-
-    } else {
-
-        showToast(
-            "Meta de 8 copos atingida! 💧"
-        );
-
-    }
-
-}
-
-
-function removeWater() {
-
-    if (data.water > 0) {
-
-        data.water--;
-
-        saveData();
-
-        renderWater();
-
-    }
-
-}
-
-
-/* =========================================================
-   TREINO
-   ========================================================= */
-
-function registerCardio() {
-
-    data.cardio = true;
-
-    saveData();
-
-    updateTrainingStatus();
-
-    showToast(
-        "🏃 Cardio registrado!"
-    );
-
-}
-
-
-function registerWorkout() {
-
-    const workout =
-        document.getElementById(
-            "workoutSelect"
-        ).value;
-
-    data.workout = workout;
-
-    saveData();
-
-    updateTrainingStatus();
-
-    showToast(
-        "💪 Treino registrado!"
-    );
-
-}
-
-
-function updateTrainingStatus() {
-
-    const status =
-        document.getElementById(
-            "trainingStatus"
-        );
-
-
-    let html = "";
-
-
-    if (data.cardio) {
-
-        html +=
-        "🏃 Cardio: <strong>feito</strong><br>";
-
-    } else {
-
-        html +=
-        "🏃 Cardio: ainda não registrado<br>";
-
-    }
-
-
-    if (data.workout) {
-
-        html +=
-        "🏋️ Musculação: <strong>"
-        + data.workout
-        + "</strong>";
-
-    } else {
-
-        html +=
-        "🏋️ Musculação: ainda não registrada";
-
-    }
-
-
-    status.innerHTML = html;
-
-}
-
-
-/* =========================================================
-   DOCE
-   ========================================================= */
-
-function registerSweet(option) {
-
-    data.sweets.push({
-
-        date: today,
-
-        option: option,
-
-        time:
-            new Date().toLocaleTimeString(
-                "pt-BR",
-                {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            )
-
-    });
-
-
-    saveData();
-
-    updateSweetStatus();
-
-    showToast(
-        "🍫 Registrado: " + option
-    );
-
-}
-
-
-function updateSweetStatus() {
-
-    const todaySweets =
-        data.sweets.filter(
-            item => item.date === today
-        );
-
-
-    const element =
-        document.getElementById(
-            "sweetStatus"
-        );
-
-
-    if (!todaySweets.length) {
-
-        element.textContent =
-            "Nenhuma opção registrada hoje.";
-
-        return;
-
-    }
-
-
-    element.innerHTML =
-        todaySweets
-            .map(
-                item =>
-                "• "
-                + item.option
-                + " — "
-                + item.time
-            )
-            .join("<br>");
-
-}
-
-
-/* =========================================================
-   PROGRESSO
-   ========================================================= */
-
-function renderProgress() {
-
-    document.getElementById(
-        "currentWeight"
-    ).textContent =
-        data.weight || "--";
-
-
-    document.getElementById(
-        "currentWaist"
-    ).textContent =
-        data.waist || "--";
-
-}
-
-
-function saveMeasurements() {
-
-    const weight =
-        document.getElementById(
-            "weightInput"
-        ).value;
-
-
-    const waist =
-        document.getElementById(
-            "waistInput"
-        ).value;
-
-
-    if (weight) {
-
-        data.weight = weight;
-
-    }
-
-
-    if (waist) {
-
-        data.waist = waist;
-
-    }
-
-
-    saveData();
-
-    renderProgress();
-
-    showToast(
-        "📊 Medidas salvas!"
-    );
-
-}
-
-
-/* =========================================================
-   NAVEGAÇÃO
-   ========================================================= */
-
-function showPage(pageId) {
-
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.remove("active");
-
-        });
-
-
-    const page =
-        document.getElementById(pageId);
-
-    if (page) {
-
-        page.classList.add("active");
-
-    }
-
-
-    document
-        .querySelectorAll(".nav-btn")
-        .forEach(button => {
-
-            button.classList.remove("active");
-
-        });
-
-
-    const nav =
-        document.querySelector(
-            `.nav-btn[data-page="${pageId}"]`
-        );
-
-
-    if (nav) {
-
-        nav.classList.add("active");
-
-    }
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-
-/* =========================================================
-   LEMBRETES
-   ========================================================= */
-
-function openReminder() {
-
-    document
-        .getElementById("reminderModal")
+    document.getElementById(page)
         .classList.add("active");
 
+    document.querySelectorAll(".nav-btn")
+        .forEach(b=>b.classList.remove("active"));
 
-    document.getElementById(
-        "timeBreakfast"
-    ).value =
-        data.reminders.breakfast;
+    if(button){
+        button.classList.add("active");
+    }
 
-
-    document.getElementById(
-        "timeLunch"
-    ).value =
-        data.reminders.lunch;
-
-
-    document.getElementById(
-        "timePre"
-    ).value =
-        data.reminders.pre;
-
-
-    document.getElementById(
-        "timeDinner"
-    ).value =
-        data.reminders.dinner;
-
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
+function showModal(title,text){
 
-function closeReminder() {
+    document.getElementById("modalTitle").textContent =
+        title;
 
-    document
-        .getElementById("reminderModal")
+    document.getElementById("modalText").textContent =
+        text;
+
+    document.getElementById("modal")
+        .classList.add("active");
+}
+
+function closeModal(){
+
+    document.getElementById("modal")
         .classList.remove("active");
-
 }
 
+function init(){
 
-function saveReminders() {
+    resetNewDay();
 
-    data.reminders = {
-
-        breakfast:
-            document.getElementById(
-                "timeBreakfast"
-            ).value,
-
-        lunch:
-            document.getElementById(
-                "timeLunch"
-            ).value,
-
-        pre:
-            document.getElementById(
-                "timePre"
-            ).value,
-
-        dinner:
-            document.getElementById(
-                "timeDinner"
-            ).value
-
-    };
-
-
-    saveData();
-
-    closeReminder();
-
-    showToast(
-        "🔔 Horários salvos!"
-    );
-
-}
-
-
-/* =========================================================
-   INICIALIZAÇÃO
-   ========================================================= */
-
-function init() {
-
-    updateDate();
+    formatDate();
 
     renderMeals();
 
-    renderDiet();
+    document.getElementById("waterCount").textContent =
+        state.water;
 
-    renderWater();
+    const cardio =
+        document.getElementById("cardioCheck");
+
+    cardio.classList.toggle("done",state.cardio);
+
+    cardio.textContent =
+        state.cardio ? "✓" : "";
+
+    document.getElementById("workoutInput").value =
+        state.workout || "";
+
+    if(state.workout){
+        document.getElementById("workoutResult").textContent =
+            "Treino salvo: " + state.workout;
+    }
+
+    renderSweet();
 
     renderProgress();
 
-    updateTrainingStatus();
-
-    updateSweetStatus();
-
+    renderReminders();
 }
-
 
 init();
-
-
-/* =========================================================
-   VERIFICAÇÃO SIMPLES DE NOVO DIA
-
-   Quando o app for aberto, a água do dia anterior
-   não será automaticamente carregada para o novo dia.
-
-   Aqui fazemos o controle básico.
-   ========================================================= */
-
-const savedDate =
-    localStorage.getItem(
-        "projetoMassaDate"
-    );
-
-
-if (savedDate !== today) {
-
-    data.water = 0;
-
-    data.cardio = false;
-
-    data.workout = "";
-
-    saveData();
-
-    localStorage.setItem(
-        "projetoMassaDate",
-        today
-    );
-
-    renderWater();
-
-    updateTrainingStatus();
-
-}
 
 </script>
 
