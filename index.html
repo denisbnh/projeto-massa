@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>PROJETO DENIS 2027</title>
 
 <style>
@@ -15,7 +14,7 @@
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:#0a0a0c;
+    background:#090a0b;
     color:#fff;
     min-height:100vh;
 }
@@ -24,21 +23,21 @@ body{
     max-width:900px;
     margin:auto;
     min-height:100vh;
-    background:#0d0d0f;
+    background:#0d0e10;
 }
 
 header{
-    padding:22px 18px 16px;
-    border-bottom:1px solid #222;
+    padding:20px 18px 16px;
+    border-bottom:1px solid #25272a;
     position:sticky;
     top:0;
-    background:#0d0d0fee;
-    backdrop-filter:blur(10px);
-    z-index:10;
+    background:#0d0e10ee;
+    backdrop-filter:blur(12px);
+    z-index:20;
 }
 
 .logo{
-    font-size:23px;
+    font-size:22px;
     font-weight:900;
     letter-spacing:1px;
 }
@@ -49,14 +48,14 @@ header{
 
 .date{
     margin-top:5px;
-    color:#999;
+    color:#8e9298;
     font-size:13px;
 }
 
 .page{
     display:none;
     padding:18px;
-    padding-bottom:95px;
+    padding-bottom:100px;
 }
 
 .page.active{
@@ -64,38 +63,44 @@ header{
 }
 
 .hero{
-    background:linear-gradient(135deg,#16191a,#101112);
-    border:1px solid #25282a;
+    background:linear-gradient(135deg,#17191b,#101112);
+    border:1px solid #282b2e;
     border-radius:20px;
     padding:22px;
     margin-bottom:18px;
 }
 
 .hero h1{
-    font-size:27px;
+    font-size:26px;
     margin-bottom:8px;
 }
 
 .hero p{
-    color:#aaa;
+    color:#a1a5aa;
     line-height:1.5;
 }
 
+.section-title{
+    font-size:19px;
+    margin:23px 0 12px;
+}
+
 .progress-box{
-    margin-top:18px;
+    margin-top:20px;
 }
 
 .progress-info{
     display:flex;
     justify-content:space-between;
-    margin-bottom:8px;
+    color:#999;
     font-size:13px;
-    color:#aaa;
+    margin-bottom:8px;
 }
 
 .progress{
+    width:100%;
     height:10px;
-    background:#242629;
+    background:#27292c;
     border-radius:20px;
     overflow:hidden;
 }
@@ -104,18 +109,12 @@ header{
     height:100%;
     width:0%;
     background:#39d353;
-    border-radius:20px;
     transition:.3s;
 }
 
-.section-title{
-    font-size:19px;
-    margin:22px 0 12px;
-}
-
 .card{
-    background:#151618;
-    border:1px solid #25272a;
+    background:#151719;
+    border:1px solid #282b2e;
     border-radius:16px;
     padding:16px;
     margin-bottom:12px;
@@ -123,26 +122,28 @@ header{
 
 .meal{
     display:flex;
-    align-items:center;
-    gap:14px;
+    align-items:flex-start;
+    gap:13px;
 }
 
 .check{
-    width:28px;
-    height:28px;
-    border:2px solid #444;
+    width:29px;
+    height:29px;
+    border:2px solid #44484d;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    flex-shrink:0;
     cursor:pointer;
+    flex-shrink:0;
+    margin-top:2px;
 }
 
 .check.done{
     background:#39d353;
     border-color:#39d353;
     color:#000;
+    font-weight:bold;
 }
 
 .meal-content{
@@ -153,25 +154,64 @@ header{
     color:#39d353;
     font-size:12px;
     font-weight:bold;
-    margin-bottom:3px;
+    margin-bottom:4px;
 }
 
 .meal-name{
+    font-size:17px;
     font-weight:bold;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
 .meal-desc{
-    color:#999;
+    color:#92969b;
     font-size:13px;
-    line-height:1.4;
+    line-height:1.45;
+}
+
+.options{
+    margin-top:14px;
+    border-top:1px solid #292c2f;
+    padding-top:12px;
+}
+
+.options-title{
+    color:#aaa;
+    font-size:12px;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+.option{
+    background:#101113;
+    border:1px solid #25282b;
+    border-radius:10px;
+    padding:10px 11px;
+    margin-bottom:7px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.option:hover{
+    border-color:#39d353;
+}
+
+.option.selected{
+    border-color:#39d353;
+    background:#112016;
+}
+
+.option-number{
+    color:#39d353;
+    font-weight:bold;
+    margin-right:6px;
 }
 
 .water{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:12px;
+    align-items:center;
+    gap:15px;
 }
 
 .water-count{
@@ -179,23 +219,24 @@ header{
     font-weight:bold;
 }
 
+.water-sub{
+    color:#888;
+    font-size:12px;
+}
+
 .water-buttons{
     display:flex;
     gap:8px;
 }
 
-button{
-    border:none;
-    cursor:pointer;
-    font-family:inherit;
-}
-
 .btn{
-    background:#24272a;
-    color:#fff;
-    padding:11px 16px;
+    border:0;
     border-radius:10px;
+    padding:11px 15px;
+    cursor:pointer;
     font-weight:bold;
+    background:#282b2e;
+    color:#fff;
 }
 
 .btn-green{
@@ -203,54 +244,64 @@ button{
     color:#000;
 }
 
-.btn-danger{
-    background:#392020;
+.btn-red{
+    background:#3a2020;
     color:#ff7777;
 }
 
 .quick-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr 1fr;
     gap:12px;
 }
 
 .quick{
-    background:#151618;
-    border:1px solid #25272a;
-    padding:18px;
+    background:#151719;
+    border:1px solid #282b2e;
     border-radius:16px;
+    padding:17px;
     cursor:pointer;
 }
 
 .quick strong{
     display:block;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
 .quick span{
-    color:#888;
+    color:#85898e;
     font-size:12px;
 }
 
-.option{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-}
-
-.option-text{
-    flex:1;
-}
-
-.option-title{
+.training-day{
+    text-align:center;
+    font-size:25px;
     font-weight:bold;
-    margin-bottom:5px;
+    margin-top:10px;
+    color:#39d353;
 }
 
-.option-desc{
+.training-desc{
+    text-align:center;
     color:#999;
-    font-size:13px;
+    margin-top:7px;
+}
+
+.cardio-box{
+    background:#101b13;
+    border:1px solid #2c6337;
+}
+
+.cardio-title{
+    color:#39d353;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.cardio-text{
+    color:#b4b8bb;
+    line-height:1.5;
 }
 
 .input-group{
@@ -259,18 +310,18 @@ button{
 
 .input-group label{
     display:block;
-    color:#aaa;
+    color:#999;
     font-size:13px;
     margin-bottom:7px;
 }
 
 input{
     width:100%;
-    background:#111214;
-    color:#fff;
-    border:1px solid #292b2e;
-    border-radius:10px;
     padding:13px;
+    border-radius:10px;
+    border:1px solid #2a2d30;
+    background:#101113;
+    color:#fff;
     outline:none;
 }
 
@@ -280,13 +331,13 @@ input:focus{
 
 .stat-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr 1fr;
     gap:12px;
 }
 
 .stat{
-    background:#151618;
-    border:1px solid #25272a;
+    background:#151719;
+    border:1px solid #282b2e;
     border-radius:16px;
     padding:18px;
 }
@@ -298,66 +349,35 @@ input:focus{
 .stat strong{
     display:block;
     font-size:25px;
-    margin-top:5px;
-}
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:100%;
-    max-width:900px;
-    background:#111214f5;
-    backdrop-filter:blur(12px);
-    border-top:1px solid #242629;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    z-index:20;
-}
-
-.nav-btn{
-    background:none;
-    color:#777;
-    padding:12px 5px 10px;
-    font-size:11px;
-}
-
-.nav-btn.active{
-    color:#39d353;
-}
-
-.nav-icon{
-    display:block;
-    font-size:20px;
-    margin-bottom:3px;
-}
-
-.reminder-list{
-    margin-top:10px;
+    margin-top:6px;
 }
 
 .reminder{
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    background:#151618;
-    border:1px solid #25272a;
+    justify-content:space-between;
+    background:#151719;
+    border:1px solid #282b2e;
+    border-radius:15px;
     padding:15px;
-    border-radius:14px;
     margin-bottom:10px;
 }
 
 .reminder-time{
     color:#39d353;
     font-weight:bold;
+    font-size:15px;
+}
+
+.reminder-name{
+    margin-top:3px;
 }
 
 .switch{
-    width:45px;
+    width:46px;
     height:25px;
-    background:#333;
     border-radius:20px;
+    background:#34373a;
     position:relative;
     cursor:pointer;
 }
@@ -379,18 +399,200 @@ input:focus{
 }
 
 .switch.on::after{
-    left:23px;
+    left:24px;
+}
+
+.goal-box{
+    background:#151719;
+    border:1px solid #282b2e;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:12px;
+}
+
+.goal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.goal-title{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.goal-percent{
+    color:#39d353;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.goal-sub{
+    color:#999;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.goal-progress{
+    width:100%;
+    height:12px;
+    background:#292c2f;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:13px;
+}
+
+.goal-progress-bar{
+    height:100%;
+    width:0%;
+    background:#39d353;
+    transition:.3s;
+}
+
+.goal-items{
+    margin-top:15px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.goal-item{
+    background:#101113;
+    border:1px solid #292c2f;
+    border-radius:10px;
+    padding:10px;
+    font-size:12px;
+    color:#999;
+}
+
+.goal-item.done{
+    border-color:#39d353;
+    color:#39d353;
+}
+
+.history-card{
+    background:#151719;
+    border:1px solid #282b2e;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:12px;
+}
+
+.history-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid #292c2f;
+}
+
+.history-row:last-child{
+    border-bottom:0;
+}
+
+.history-date{
+    color:#aaa;
+    font-size:12px;
+}
+
+.history-values{
+    text-align:right;
+    font-size:13px;
+}
+
+.history-values strong{
+    color:#39d353;
+}
+
+.chart-box{
+    background:#151719;
+    border:1px solid #282b2e;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:12px;
+    overflow:hidden;
+}
+
+.chart-title{
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+canvas{
+    width:100%;
+    height:260px;
+    display:block;
+    background:#101113;
+    border-radius:12px;
+}
+
+.chart-legend{
+    display:flex;
+    gap:18px;
+    margin-top:10px;
+    color:#999;
+    font-size:12px;
+}
+
+.legend-dot{
+    display:inline-block;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    margin-right:5px;
+    background:#39d353;
+}
+
+.legend-dot.waist{
+    background:#fff;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:900px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    background:#111214f5;
+    border-top:1px solid #292b2e;
+    backdrop-filter:blur(12px);
+    z-index:30;
+}
+
+.nav-btn{
+    background:none;
+    border:0;
+    color:#777;
+    padding:11px 4px 9px;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.nav-btn.active{
+    color:#39d353;
+}
+
+.nav-icon{
+    display:block;
+    font-size:20px;
+    margin-bottom:3px;
 }
 
 .modal{
-    display:none;
     position:fixed;
     inset:0;
     background:#000b;
+    display:none;
     align-items:center;
     justify-content:center;
-    z-index:100;
     padding:20px;
+    z-index:100;
 }
 
 .modal.active{
@@ -398,16 +600,16 @@ input:focus{
 }
 
 .modal-box{
-    background:#17181a;
-    border:1px solid #292b2e;
+    width:100%;
+    max-width:390px;
+    background:#17191b;
+    border:1px solid #303337;
     border-radius:18px;
     padding:22px;
-    width:100%;
-    max-width:400px;
 }
 
 .modal-box h2{
-    margin-bottom:10px;
+    margin-bottom:9px;
 }
 
 .modal-box p{
@@ -416,28 +618,27 @@ input:focus{
     margin-bottom:18px;
 }
 
-.empty{
-    color:#777;
-    text-align:center;
-    padding:20px;
-}
-
 @media(max-width:600px){
-    .app{
-        width:100%;
+
+    .page{
+        padding:15px;
+        padding-bottom:95px;
     }
 
     .hero h1{
-        font-size:24px;
+        font-size:23px;
     }
 
     .quick-grid{
         grid-template-columns:1fr 1fr;
     }
 
-    .page{
-        padding:15px;
-        padding-bottom:90px;
+    .logo{
+        font-size:19px;
+    }
+
+    .goal-items{
+        grid-template-columns:1fr 1fr;
     }
 }
 </style>
@@ -448,568 +649,1992 @@ input:focus{
 <div class="app">
 
 <header>
-    <div class="logo">PROJETO <span>DENIS 2027</span></div>
+
+    <div class="logo">
+        PROJETO <span>DENIS 2027</span>
+    </div>
+
     <div class="date" id="currentDate"></div>
+
 </header>
 
-<!-- HOME -->
+
+<!-- ================= HOME ================= -->
+
 <section class="page active" id="home">
 
     <div class="hero">
+
         <h1>Foco no Projeto Denis 2027 💪</h1>
+
         <p>
             Ganhar massa muscular, reduzir gordura abdominal
             e construir um físico cada vez melhor.
         </p>
 
         <div class="progress-box">
+
             <div class="progress-info">
-                <span>Progresso do dia</span>
+                <span>Progresso das refeições</span>
                 <span id="progressText">0%</span>
             </div>
 
             <div class="progress">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
+
         </div>
+
     </div>
+
+
+    <!-- ================= META DO DIA ================= -->
+
+    <div class="goal-box">
+
+        <div class="goal-header">
+
+            <div class="goal-title">
+                🎯 Meta do dia
+            </div>
+
+            <div class="goal-percent"
+                 id="goalPercent">
+                0%
+            </div>
+
+        </div>
+
+        <div class="goal-sub"
+             id="goalSub">
+            Complete sua alimentação, água, treino e cardio.
+        </div>
+
+        <div class="goal-progress">
+
+            <div class="goal-progress-bar"
+                 id="goalProgressBar">
+            </div>
+
+        </div>
+
+        <div class="goal-items">
+
+            <div class="goal-item"
+                 id="goalMeal1">
+                ⭕ Café da manhã
+            </div>
+
+            <div class="goal-item"
+                 id="goalMeal2">
+                ⭕ Almoço
+            </div>
+
+            <div class="goal-item"
+                 id="goalMeal3">
+                ⭕ Lanche da tarde
+            </div>
+
+            <div class="goal-item"
+                 id="goalMeal4">
+                ⭕ Jantar
+            </div>
+
+            <div class="goal-item"
+                 id="goalMeal5">
+                ⭕ Lanche da noite
+            </div>
+
+            <div class="goal-item"
+                 id="goalWater">
+                ⭕ Água 2 L
+            </div>
+
+            <div class="goal-item"
+                 id="goalTraining">
+                ⭕ Treino
+            </div>
+
+            <div class="goal-item"
+                 id="goalCardio">
+                ⭕ Cardio
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title">Rotina de hoje</h2>
+
+    <div class="card">
+
+        <div class="meal">
+
+            <div class="check"
+                 id="trainingCheck"
+                 onclick="toggleTraining()">
+            </div>
+
+            <div class="meal-content">
+
+                <div class="meal-time">
+                    07:00
+                </div>
+
+                <div class="meal-name">
+                    🏋️ Treino
+                </div>
+
+                <div class="training-day"
+                     id="todayTraining">
+                </div>
+
+                <div style="
+                    color:#777;
+                    font-size:12px;
+                    margin-top:7px;
+                "
+                id="trainingStatus">
+                    Toque no círculo para marcar o treino.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
     <h2 class="section-title">Refeições de hoje</h2>
 
     <div id="homeMeals"></div>
 
-    <h2 class="section-title">Água</h2>
+
+    <h2 class="section-title">Água 💧</h2>
 
     <div class="card water">
+
         <div>
+
             <div class="water-count">
-                <span id="waterCount">0</span>/8
+                <span id="waterCount">0</span>/4
             </div>
-            <small style="color:#888">copos de água</small>
+
+            <div class="water-sub">
+                garrafinhas de 500 ml •
+                <span id="waterLiters">0</span> L
+            </div>
+
         </div>
 
         <div class="water-buttons">
-            <button class="btn" onclick="changeWater(-1)">−</button>
-            <button class="btn btn-green" onclick="changeWater(1)">+</button>
+
+            <button class="btn"
+                    onclick="changeWater(-1)">
+                −
+            </button>
+
+            <button class="btn btn-green"
+                    onclick="changeWater(1)">
+                +
+            </button>
+
         </div>
+
     </div>
+
 
     <h2 class="section-title">Acesso rápido</h2>
 
     <div class="quick-grid">
-        <div class="quick" onclick="showPage('training')">
+
+        <div class="quick"
+             onclick="showPage('diet')">
+
+            <strong>🥗 Minha dieta</strong>
+
+            <span>
+                Ver todas as refeições
+            </span>
+
+        </div>
+
+        <div class="quick"
+             onclick="showPage('training')">
+
             <strong>🏋️ Treino</strong>
-            <span>Registrar treino e cardio</span>
+
+            <span>
+                Ver divisão e cardio
+            </span>
+
         </div>
 
-        <div class="quick" onclick="showPage('sweet')">
+        <div class="quick"
+             onclick="showPage('sweet')">
+
             <strong>🍫 Vontade de doce</strong>
-            <span>Registrar opção consumida</span>
+
+            <span>
+                Registrar opção
+            </span>
+
         </div>
 
-        <div class="quick" onclick="showPage('progress')">
+        <div class="quick"
+             onclick="showPage('progress')">
+
             <strong>📈 Progresso</strong>
-            <span>Peso e cintura</span>
+
+            <span>
+                Peso, cintura e evolução
+            </span>
+
         </div>
 
-        <div class="quick" onclick="showPage('reminders')">
-            <strong>⏰ Lembretes</strong>
-            <span>Organizar horários</span>
-        </div>
     </div>
 
 </section>
 
-<!-- DIETA -->
+
+<!-- ================= DIETA ================= -->
+
 <section class="page" id="diet">
 
-    <h2 class="section-title">Minha dieta</h2>
+    <div class="hero">
+
+        <h1>Minha dieta 🥗</h1>
+
+        <p>
+            Escolha a opção que você consumiu
+            em cada refeição.
+        </p>
+
+    </div>
 
     <div id="dietMeals"></div>
 
 </section>
 
-<!-- TREINO -->
+
+<!-- ================= TREINO ================= -->
+
 <section class="page" id="training">
 
     <div class="hero">
-        <h1>Treino 💪</h1>
-        <p>Registre seu treino e seu cardio diário.</p>
+
+        <h1>Treino da semana 🏋️</h1>
+
+        <p>
+            Sua divisão semanal do Projeto Denis 2027.
+        </p>
+
     </div>
 
-    <div class="card">
-        <div class="meal">
-            <div class="check" id="cardioCheck" onclick="toggleCardio()">✓</div>
+    <div id="weeklyTraining"></div>
 
-            <div class="meal-content">
-                <div class="meal-name">Cardio</div>
-                <div class="meal-desc">
-                    2 km caminhando + 1 km correndo na esteira.
-                </div>
-            </div>
+
+    <h2 class="section-title">
+        Cardio
+    </h2>
+
+    <div class="card cardio-box">
+
+        <div class="cardio-title">
+            🏃 Cardio diário
         </div>
+
+        <div class="cardio-text">
+            <strong>2 km caminhando</strong>
+            + <strong>1 km correndo</strong>
+            na esteira.
+        </div>
+
+        <br>
+
+        <div style="color:#999;font-size:13px;">
+            Marque abaixo quando concluir:
+        </div>
+
+        <br>
+
+        <button
+            id="cardioButton"
+            class="btn btn-green"
+            onclick="toggleCardio()">
+
+            Marcar cardio como concluído
+
+        </button>
+
     </div>
+
 
     <div class="card">
 
         <div class="input-group">
-            <label>Treino realizado</label>
-            <input id="workoutInput" placeholder="Ex.: Peito + Tríceps">
+
+            <label>
+                Registrar treino realizado
+            </label>
+
+            <input
+                id="workoutInput"
+                placeholder="Ex.: Treino completo">
+
         </div>
 
-        <button class="btn btn-green" onclick="saveWorkout()">
+        <button
+            class="btn btn-green"
+            onclick="saveWorkout()">
+
             Salvar treino
+
         </button>
 
-        <div id="workoutResult" style="margin-top:15px;color:#aaa"></div>
+        <div
+            id="workoutResult"
+            style="margin-top:14px;color:#999">
+        </div>
 
     </div>
 
 </section>
 
-<!-- DOCE -->
+
+<!-- ================= DOCE ================= -->
+
 <section class="page" id="sweet">
 
     <div class="hero">
+
         <h1>Vontade de doce 🍫</h1>
+
         <p>
-            Escolha uma opção que encaixe na sua dieta
-            sem transformar uma vontade em exagero.
+            Registre a opção que você escolheu.
         </p>
+
     </div>
 
     <div id="sweetOptions"></div>
 
 </section>
 
-<!-- PROGRESSO -->
+
+<!-- ================= PROGRESSO ================= -->
+
 <section class="page" id="progress">
 
     <div class="hero">
+
         <h1>Meu progresso 📈</h1>
-        <p>Acompanhe peso e medida da cintura.</p>
+
+        <p>
+            Acompanhe seu peso, sua cintura
+            e sua evolução ao longo do tempo.
+        </p>
+
     </div>
+
 
     <div class="stat-grid">
 
         <div class="stat">
-            <small>Peso atual</small>
-            <strong id="weightDisplay">-- kg</strong>
+
+            <small>
+                Peso atual
+            </small>
+
+            <strong id="weightDisplay">
+                -- kg
+            </strong>
+
         </div>
 
+
         <div class="stat">
-            <small>Cintura</small>
-            <strong id="waistDisplay">-- cm</strong>
+
+            <small>
+                Cintura
+            </small>
+
+            <strong id="waistDisplay">
+                -- cm
+            </strong>
+
         </div>
 
     </div>
 
-    <h2 class="section-title">Atualizar medidas</h2>
+
+    <h2 class="section-title">
+        Atualizar medidas
+    </h2>
+
 
     <div class="card">
 
         <div class="input-group">
-            <label>Peso (kg)</label>
-            <input type="number" step="0.1" id="weightInput">
+
+            <label>
+                Peso (kg)
+            </label>
+
+            <input
+                type="number"
+                step="0.1"
+                id="weightInput">
+
         </div>
+
 
         <div class="input-group">
-            <label>Cintura (cm)</label>
-            <input type="number" step="0.1" id="waistInput">
+
+            <label>
+                Cintura (cm)
+            </label>
+
+            <input
+                type="number"
+                step="0.1"
+                id="waistInput">
+
         </div>
 
-        <button class="btn btn-green" onclick="saveProgress()">
+
+        <button
+            class="btn btn-green"
+            onclick="saveProgress()">
+
             Salvar progresso
+
         </button>
 
     </div>
 
+
+    <!-- ================= GRÁFICO ================= -->
+
+    <h2 class="section-title">
+        📊 Evolução
+    </h2>
+
+    <div class="chart-box">
+
+        <div class="chart-title">
+            Peso e cintura
+        </div>
+
+        <canvas id="progressChart"
+                width="800"
+                height="260">
+        </canvas>
+
+        <div class="chart-legend">
+
+            <span>
+                <span class="legend-dot"></span>
+                Peso
+            </span>
+
+            <span>
+                <span class="legend-dot waist"></span>
+                Cintura
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= HISTÓRICO ================= -->
+
+    <h2 class="section-title">
+        📅 Histórico
+    </h2>
+
+    <div class="history-card">
+
+        <div id="progressHistory">
+
+            <div style="
+                color:#888;
+                font-size:13px;
+            ">
+                Nenhuma medição registrada ainda.
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
-<!-- LEMBRETES -->
+
+<!-- ================= LEMBRETES ================= -->
+
 <section class="page" id="reminders">
 
     <div class="hero">
+
         <h1>Lembretes ⏰</h1>
-        <p>Ative os horários que você quer acompanhar.</p>
+
+        <p>
+            Sua rotina diária.
+        </p>
+
     </div>
 
-    <div class="reminder-list" id="reminderList"></div>
+    <div id="reminderList"></div>
 
 </section>
 
+
 </div>
 
-<!-- NAVEGAÇÃO -->
+
+<!-- ================= NAVEGAÇÃO ================= -->
+
 <nav class="bottom-nav">
 
-    <button class="nav-btn active" onclick="showPage('home',this)">
+    <button
+        class="nav-btn active"
+        onclick="showPage('home',this)">
+
         <span class="nav-icon">🏠</span>
+
         Início
+
     </button>
 
-    <button class="nav-btn" onclick="showPage('diet',this)">
+
+    <button
+        class="nav-btn"
+        onclick="showPage('diet',this)">
+
         <span class="nav-icon">🥗</span>
+
         Dieta
+
     </button>
 
-    <button class="nav-btn" onclick="showPage('training',this)">
+
+    <button
+        class="nav-btn"
+        onclick="showPage('training',this)">
+
         <span class="nav-icon">🏋️</span>
+
         Treino
+
     </button>
 
-    <button class="nav-btn" onclick="showPage('sweet',this)">
+
+    <button
+        class="nav-btn"
+        onclick="showPage('sweet',this)">
+
         <span class="nav-icon">🍫</span>
+
         Doce
+
     </button>
 
-    <button class="nav-btn" onclick="showPage('progress',this)">
+
+    <button
+        class="nav-btn"
+        onclick="showPage('progress',this)">
+
         <span class="nav-icon">📈</span>
+
         Progresso
+
     </button>
 
 </nav>
 
-<!-- MODAL -->
+
+<!-- ================= MODAL ================= -->
+
 <div class="modal" id="modal">
 
     <div class="modal-box">
 
-        <h2 id="modalTitle">Lembrete</h2>
+        <h2 id="modalTitle">
+            Lembrete
+        </h2>
 
         <p id="modalText"></p>
 
-        <button class="btn btn-green" onclick="closeModal()">
+        <button
+            class="btn btn-green"
+            onclick="closeModal()">
+
             OK
+
         </button>
 
     </div>
 
 </div>
 
+
 <script>
 
-const STORAGE_KEY = "projetoDenis2027";
+/* =========================================
+   CONFIGURAÇÕES
+========================================= */
+
+const STORAGE_KEY =
+    "projetoDenis2027";
+
+const WATER_BOTTLE_ML =
+    500;
+
+const WATER_GOAL =
+    4;
+
+
+/* =========================================
+   REFEIÇÕES
+========================================= */
 
 const meals = [
+
     {
         id:"breakfast",
-        time:"07:00",
-        name:"Café da manhã",
-        desc:"1 pão francês + 3 ovos + whey protein."
+        time:"09:00",
+        name:"Café da manhã / Pós-treino",
+        desc:"Escolha uma das opções abaixo.",
+        options:[
+
+            "Pão francês + 3 ovos + whey protein",
+
+            "Pão integral + 3 ovos + whey protein",
+
+            "Tapioca com coco + 3 ovos + whey protein",
+
+            "Iogurte + banana + whey protein",
+
+            "Omelete + pão",
+
+            "Fruta para aumentar a saciedade: banana, maçã ou mamão"
+
+        ]
+
     },
-    {
-        id:"snack1",
-        time:"10:00",
-        name:"Lanche da manhã",
-        desc:"Opção da dieta conforme seu cardápio."
-    },
+
+
     {
         id:"lunch",
-        time:"12:30",
+        time:"12:00",
         name:"Almoço",
-        desc:"Proteína + arroz/feijão + legumes ou salada."
+        desc:"Escolha uma das opções abaixo.",
+        options:[
+
+            "Arroz + feijão + frango + salada",
+
+            "Arroz + feijão + carne + legumes",
+
+            "Arroz + frango + feijão + salada",
+
+            "Arroz + carne + legumes",
+
+            "Frango + batata + salada",
+
+            "Adicionar fruta após a refeição: maçã, laranja, mamão ou melancia"
+
+        ]
+
     },
+
+
     {
-        id:"pre",
-        time:"16:00",
-        name:"Pré-treino",
-        desc:"Opção de carboidrato + proteína conforme o cardápio."
+        id:"snack",
+        time:"17:00",
+        name:"Lanche da tarde",
+        desc:"Escolha uma das opções abaixo.",
+        options:[
+
+            "Pão integral + ovos",
+
+            "Tapioca + ovos",
+
+            "Iogurte + fruta + whey",
+
+            "Banana + whey",
+
+            "Pão + frango desfiado",
+
+            "Fruta para saciedade: maçã, banana, mamão ou pera"
+
+        ]
+
     },
-    {
-        id:"post",
-        time:"19:30",
-        name:"Pós-treino",
-        desc:"Whey protein + opção de carboidrato ou fruta."
-    },
+
+
     {
         id:"dinner",
-        time:"21:00",
+        time:"19:00",
         name:"Jantar",
-        desc:"Proteína + acompanhamento conforme a dieta."
+        desc:"Escolha uma das opções abaixo.",
+        options:[
+
+            "Arroz + feijão + frango + salada",
+
+            "Arroz + carne + legumes",
+
+            "Frango + batata + salada",
+
+            "Omelete + arroz + salada",
+
+            "Carne + legumes + arroz",
+
+            "Fruta após o jantar: mamão, maçã, melancia ou laranja"
+
+        ]
+
+    },
+
+
+    {
+        id:"night",
+        time:"21:00",
+        name:"Lanche da noite",
+        desc:"Opções leves para ajudar na saciedade.",
+        options:[
+
+            "Iogurte + fruta",
+
+            "Whey + banana",
+
+            "Iogurte + whey",
+
+            "2–3 ovos",
+
+            "Tapioca + ovos",
+
+            "Mamão ou maçã + iogurte"
+
+        ]
+
     }
+
 ];
 
+
+/* =========================================
+   TREINOS
+========================================= */
+
+const weeklyTraining = {
+
+    0:{
+        name:"Domingo",
+        workout:"Descanso"
+    },
+
+    1:{
+        name:"Segunda-feira",
+        workout:"Costas + Bíceps"
+    },
+
+    2:{
+        name:"Terça-feira",
+        workout:"Peito + Tríceps"
+    },
+
+    3:{
+        name:"Quarta-feira",
+        workout:"Core + Abdômen"
+    },
+
+    4:{
+        name:"Quinta-feira",
+        workout:"Ombro"
+    },
+
+    5:{
+        name:"Sexta-feira",
+        workout:"Perna"
+    },
+
+    6:{
+        name:"Sábado",
+        workout:"Full Body"
+    }
+
+};
+
+
+/* =========================================
+   DOCES
+========================================= */
+
 const sweetOptions = [
+
     {
         id:"coca",
         title:"Coca-Cola Zero",
         desc:"1 lata de 350 ml."
     },
+
     {
         id:"gelatin",
         title:"Gelatina Zero",
-        desc:"Uma porção de gelatina zero."
+        desc:"Uma porção."
     },
+
     {
         id:"yogurt",
         title:"Iogurte + fruta",
         desc:"Iogurte com uma porção de fruta."
     },
+
     {
         id:"wheybanana",
         title:"Whey + banana",
         desc:"Whey protein com banana."
     },
+
     {
         id:"chocolate",
         title:"Chocolate",
-        desc:"Pequena porção, encaixada na dieta."
+        desc:"Pequena porção encaixada na dieta."
     }
+
 ];
+
+
+/* =========================================
+   LEMBRETES
+========================================= */
 
 const defaultReminders = [
-    {id:"r1",name:"Café da manhã",time:"07:00",on:true},
-    {id:"r2",name:"Almoço",time:"12:30",on:true},
-    {id:"r3",name:"Pré-treino",time:"16:00",on:true},
-    {id:"r4",name:"Jantar",time:"21:00",on:true}
+
+    {
+        id:"creatine",
+        name:"Creatina",
+        time:"06:50",
+        on:true
+    },
+
+    {
+        id:"training",
+        name:"Treino",
+        time:"07:00",
+        on:true
+    },
+
+    {
+        id:"breakfast",
+        name:"Café da manhã / Pós-treino",
+        time:"09:00",
+        on:true
+    },
+
+    {
+        id:"lunch",
+        name:"Almoço",
+        time:"12:00",
+        on:true
+    },
+
+    {
+        id:"snack",
+        name:"Lanche da tarde",
+        time:"17:00",
+        on:true
+    },
+
+    {
+        id:"dinner",
+        name:"Jantar",
+        time:"19:00",
+        on:true
+    },
+
+    {
+        id:"night",
+        name:"Lanche da noite",
+        time:"21:00",
+        on:true
+    }
+
 ];
 
-let state = loadState();
+
+/* =========================================
+   ESTADO
+========================================= */
+
+let state =
+    loadState();
+
 
 function loadState(){
 
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved =
+        localStorage.getItem(
+            STORAGE_KEY
+        );
 
     if(saved){
-        return JSON.parse(saved);
+
+        const loaded =
+            JSON.parse(saved);
+
+        loaded.meals =
+            loaded.meals || {};
+
+        loaded.selectedOptions =
+            loaded.selectedOptions || {};
+
+        loaded.water =
+            loaded.water || 0;
+
+        loaded.training =
+            loaded.training || false;
+
+        loaded.cardio =
+            loaded.cardio || false;
+
+        loaded.sweet =
+            loaded.sweet || {};
+
+        loaded.workout =
+            loaded.workout || "";
+
+        loaded.weight =
+            loaded.weight || "";
+
+        loaded.waist =
+            loaded.waist || "";
+
+        loaded.progressHistory =
+            loaded.progressHistory || [];
+
+        loaded.reminders =
+            loaded.reminders ||
+            JSON.parse(
+                JSON.stringify(
+                    defaultReminders
+                )
+            );
+
+        return loaded;
+
     }
 
     return {
+
+        date:
+            new Date().toDateString(),
+
         meals:{},
+
+        selectedOptions:{},
+
         water:0,
+
+        training:false,
+
         cardio:false,
+
         workout:"",
+
         sweet:{},
+
         weight:"",
+
         waist:"",
-        reminders:JSON.parse(JSON.stringify(defaultReminders)),
-        date:new Date().toDateString()
+
+        progressHistory:[],
+
+        reminders:
+            JSON.parse(
+                JSON.stringify(
+                    defaultReminders
+                )
+            )
+
     };
+
 }
 
+
 function saveState(){
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+    );
+
 }
+
+
+/* =========================================
+   NOVO DIA
+========================================= */
 
 function resetNewDay(){
 
-    const today = new Date().toDateString();
+    const today =
+        new Date().toDateString();
 
     if(state.date !== today){
 
+        state.date =
+            today;
+
         state.meals = {};
+
+        state.selectedOptions = {};
+
         state.water = 0;
+
+        state.training = false;
+
         state.cardio = false;
-        state.sweet = {};
+
         state.workout = "";
-        state.date = today;
+
+        state.sweet = {};
 
         saveState();
+
     }
+
 }
+
+
+/* =========================================
+   DATA
+========================================= */
 
 function formatDate(){
 
-    const now = new Date();
+    const now =
+        new Date();
 
-    const text = now.toLocaleDateString("pt-BR",{
-        weekday:"long",
-        day:"2-digit",
-        month:"long",
-        year:"numeric"
-    });
+    let text =
+        now.toLocaleDateString(
+            "pt-BR",
+            {
+                weekday:"long",
+                day:"2-digit",
+                month:"long",
+                year:"numeric"
+            }
+        );
 
-    document.getElementById("currentDate").textContent =
-        text.charAt(0).toUpperCase() + text.slice(1);
+    text =
+        text.charAt(0).toUpperCase()
+        + text.slice(1);
+
+    document.getElementById(
+        "currentDate"
+    ).textContent =
+        text;
+
 }
+
+
+/* =========================================
+   TREINO DO DIA
+========================================= */
+
+function getTodayWorkout(){
+
+    return weeklyTraining[
+        new Date().getDay()
+    ];
+
+}
+
+
+function renderTodayTraining(){
+
+    const training =
+        getTodayWorkout();
+
+    document.getElementById(
+        "todayTraining"
+    ).textContent =
+        training.workout;
+
+    const check =
+        document.getElementById(
+            "trainingCheck"
+        );
+
+    check.classList.toggle(
+        "done",
+        state.training
+    );
+
+    check.textContent =
+        state.training
+        ? "✓"
+        : "";
+
+    document.getElementById(
+        "trainingStatus"
+    ).textContent =
+        state.training
+        ? "✓ Treino concluído hoje!"
+        : "Toque no círculo para marcar o treino.";
+
+}
+
+
+function toggleTraining(){
+
+    state.training =
+        !state.training;
+
+    saveState();
+
+    renderTodayTraining();
+
+    updateDailyGoal();
+
+}
+
+
+/* =========================================
+   TREINOS DA SEMANA
+========================================= */
+
+function renderWeeklyTraining(){
+
+    const container =
+        document.getElementById(
+            "weeklyTraining"
+        );
+
+    container.innerHTML = "";
+
+    const today =
+        new Date().getDay();
+
+    for(let day=1;day<=6;day++){
+
+        const training =
+            weeklyTraining[day];
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "card";
+
+        const isToday =
+            day === today;
+
+        card.innerHTML = `
+
+            <div style="
+                color:${
+                    isToday
+                    ? "#39d353"
+                    : "#888"
+                };
+                font-size:12px;
+                font-weight:bold;
+                margin-bottom:5px;
+            ">
+
+                ${training.name}
+                ${
+                    isToday
+                    ? " • HOJE"
+                    : ""
+                }
+
+            </div>
+
+            <div style="
+                font-size:18px;
+                font-weight:bold;
+            ">
+
+                ${training.workout}
+
+            </div>
+
+        `;
+
+        container.appendChild(
+            card
+        );
+
+    }
+
+    const sunday =
+        document.createElement(
+            "div"
+        );
+
+    sunday.className =
+        "card";
+
+    sunday.innerHTML = `
+
+        <div style="
+            color:#888;
+            font-size:12px;
+            font-weight:bold;
+            margin-bottom:5px;
+        ">
+            Domingo
+        </div>
+
+        <div style="
+            font-size:18px;
+            font-weight:bold;
+        ">
+            Descanso
+        </div>
+
+    `;
+
+    container.appendChild(
+        sunday
+    );
+
+}
+
+
+/* =========================================
+   CARDIO
+========================================= */
+
+function renderCardio(){
+
+    const button =
+        document.getElementById(
+            "cardioButton"
+        );
+
+    if(!button){
+        return;
+    }
+
+    if(state.cardio){
+
+        button.textContent =
+            "✓ Cardio concluído";
+
+        button.className =
+            "btn btn-green";
+
+    }else{
+
+        button.textContent =
+            "Marcar cardio como concluído";
+
+        button.className =
+            "btn btn-green";
+
+    }
+
+}
+
+
+function toggleCardio(){
+
+    state.cardio =
+        !state.cardio;
+
+    saveState();
+
+    renderCardio();
+
+    updateDailyGoal();
+
+}
+
+
+/* =========================================
+   REFEIÇÕES
+========================================= */
 
 function renderMeals(){
 
     const containers = [
-        document.getElementById("homeMeals"),
-        document.getElementById("dietMeals")
+
+        document.getElementById(
+            "homeMeals"
+        ),
+
+        document.getElementById(
+            "dietMeals"
+        )
+
     ];
 
-    containers.forEach(container=>{
+    containers.forEach(
+        container=>{
 
-        container.innerHTML = "";
+            container.innerHTML =
+                "";
 
-        meals.forEach(meal=>{
+            meals.forEach(
+                meal=>{
 
-            const done = state.meals[meal.id] === true;
+                    const done =
+                        state.meals[
+                            meal.id
+                        ] === true;
 
-            const card = document.createElement("div");
+                    const selected =
+                        state.selectedOptions[
+                            meal.id
+                        ];
 
-            card.className = "card";
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
 
-            card.innerHTML = `
-                <div class="meal">
+                    card.className =
+                        "card";
 
-                    <div class="check ${done ? "done":""}"
-                         onclick="toggleMeal('${meal.id}')">
-                        ${done ? "✓":""}
-                    </div>
+                    let optionsHTML =
+                        "";
 
-                    <div class="meal-content">
+                    meal.options.forEach(
+                        (
+                            option,
+                            index
+                        )=>{
 
-                        <div class="meal-time">
-                            ${meal.time}
+                            optionsHTML += `
+
+                                <div
+                                    class="
+                                        option
+                                        ${
+                                            selected
+                                            === index
+                                            ? "selected"
+                                            : ""
+                                        }
+                                    "
+                                    onclick="
+                                        selectMealOption(
+                                            '${meal.id}',
+                                            ${index}
+                                        )
+                                    "
+                                >
+
+                                    <span class="option-number">
+                                        ${index+1}.
+                                    </span>
+
+                                    ${option}
+
+                                </div>
+
+                            `;
+
+                        }
+                    );
+
+
+                    card.innerHTML = `
+
+                        <div class="meal">
+
+                            <div
+                                class="
+                                    check
+                                    ${
+                                        done
+                                        ? "done"
+                                        : ""
+                                    }
+                                "
+                                onclick="
+                                    toggleMeal(
+                                        '${meal.id}'
+                                    )
+                                "
+                            >
+
+                                ${
+                                    done
+                                    ? "✓"
+                                    : ""
+                                }
+
+                            </div>
+
+
+                            <div class="meal-content">
+
+                                <div class="meal-time">
+                                    ${meal.time}
+                                </div>
+
+                                <div class="meal-name">
+                                    ${meal.name}
+                                </div>
+
+                                <div class="meal-desc">
+                                    ${meal.desc}
+                                </div>
+
+
+                                <div class="options">
+
+                                    <div class="options-title">
+                                        OPÇÕES
+                                    </div>
+
+                                    ${optionsHTML}
+
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div class="meal-name">
-                            ${meal.name}
-                        </div>
+                    `;
 
-                        <div class="meal-desc">
-                            ${meal.desc}
-                        </div>
+                    container.appendChild(
+                        card
+                    );
 
-                    </div>
+                }
+            );
 
-                </div>
-            `;
-
-            container.appendChild(card);
-
-        });
-
-    });
+        }
+    );
 
     updateProgress();
+
+    updateDailyGoal();
+
 }
+
 
 function toggleMeal(id){
 
-    state.meals[id] = !state.meals[id];
+    state.meals[id] =
+        !state.meals[id];
 
     saveState();
+
     renderMeals();
+
 }
+
+
+function selectMealOption(
+    mealId,
+    optionIndex
+){
+
+    state.selectedOptions[
+        mealId
+    ] = optionIndex;
+
+    state.meals[
+        mealId
+    ] = true;
+
+    saveState();
+
+    renderMeals();
+
+}
+
+
+/* =========================================
+   PROGRESSO DAS REFEIÇÕES
+========================================= */
 
 function updateProgress(){
 
-    const completed = meals.filter(m=>state.meals[m.id]).length;
+    const completed =
+        meals.filter(
+            meal =>
+                state.meals[
+                    meal.id
+                ]
+        ).length;
 
-    const total = meals.length;
+    const total =
+        meals.length;
 
-    const percentage = Math.round((completed/total)*100);
+    const percentage =
+        Math.round(
+            completed /
+            total *
+            100
+        );
 
-    document.getElementById("progressText").textContent =
+    document.getElementById(
+        "progressText"
+    ).textContent =
         percentage + "%";
 
-    document.getElementById("progressBar").style.width =
+    document.getElementById(
+        "progressBar"
+    ).style.width =
         percentage + "%";
+
 }
+
+
+/* =========================================
+   META DO DIA
+========================================= */
+
+function updateDailyGoal(){
+
+    const mealStatus =
+        meals.map(
+            meal =>
+                state.meals[
+                    meal.id
+                ] === true
+        );
+
+    const waterDone =
+        state.water >= WATER_GOAL;
+
+    /*
+     * No domingo não existe treino.
+     * Portanto, o descanso é considerado
+     * cumprimento da parte do treino.
+     */
+
+    const today =
+        new Date().getDay();
+
+    const trainingDone =
+        today === 0
+        ? true
+        : state.training;
+
+    const items = [
+
+        mealStatus[0],
+
+        mealStatus[1],
+
+        mealStatus[2],
+
+        mealStatus[3],
+
+        mealStatus[4],
+
+        waterDone,
+
+        trainingDone,
+
+        state.cardio
+
+    ];
+
+    const completed =
+        items.filter(Boolean).length;
+
+    const total =
+        items.length;
+
+    const percentage =
+        Math.round(
+            completed /
+            total *
+            100
+        );
+
+    document.getElementById(
+        "goalPercent"
+    ).textContent =
+        percentage + "%";
+
+    document.getElementById(
+        "goalProgressBar"
+    ).style.width =
+        percentage + "%";
+
+
+    const ids = [
+
+        "goalMeal1",
+
+        "goalMeal2",
+
+        "goalMeal3",
+
+        "goalMeal4",
+
+        "goalMeal5",
+
+        "goalWater",
+
+        "goalTraining",
+
+        "goalCardio"
+
+    ];
+
+
+    const names = [
+
+        "Café da manhã",
+
+        "Almoço",
+
+        "Lanche da tarde",
+
+        "Jantar",
+
+        "Lanche da noite",
+
+        "Água 2 L",
+
+        today === 0
+        ? "Descanso"
+        : "Treino",
+
+        "Cardio"
+
+    ];
+
+
+    items.forEach(
+        (done,index)=>{
+
+            const element =
+                document.getElementById(
+                    ids[index]
+                );
+
+            element.classList.toggle(
+                "done",
+                done
+            );
+
+            element.textContent =
+                done
+                ? "✓ " + names[index]
+                : "⭕ " + names[index];
+
+        }
+    );
+
+
+    document.getElementById(
+        "goalSub"
+    ).textContent =
+        percentage === 100
+        ? "🔥 Meta do dia concluída! Mandou bem."
+        : completed
+          + " de "
+          + total
+          + " metas concluídas hoje.";
+
+}
+
+
+/* =========================================
+   ÁGUA
+========================================= */
 
 function changeWater(value){
 
-    state.water += value;
+    state.water +=
+        value;
 
     if(state.water < 0){
         state.water = 0;
     }
 
-    if(state.water > 8){
-        state.water = 8;
+    if(
+        state.water >
+        WATER_GOAL
+    ){
+        state.water =
+            WATER_GOAL;
     }
 
-    document.getElementById("waterCount").textContent =
+    updateWaterDisplay();
+
+    updateDailyGoal();
+
+    saveState();
+
+}
+
+
+function updateWaterDisplay(){
+
+    const liters =
+        (
+            state.water *
+            WATER_BOTTLE_ML
+        ) / 1000;
+
+    document.getElementById(
+        "waterCount"
+    ).textContent =
         state.water;
 
-    saveState();
+    document.getElementById(
+        "waterLiters"
+    ).textContent =
+        liters.toFixed(1);
+
 }
 
-function toggleCardio(){
 
-    state.cardio = !state.cardio;
-
-    const check = document.getElementById("cardioCheck");
-
-    check.classList.toggle("done",state.cardio);
-
-    check.textContent = state.cardio ? "✓" : "";
-
-    saveState();
-}
-
-function saveWorkout(){
-
-    const value =
-        document.getElementById("workoutInput").value.trim();
-
-    state.workout = value;
-
-    saveState();
-
-    document.getElementById("workoutResult").textContent =
-        value
-        ? "Treino salvo: " + value
-        : "Nenhum treino informado.";
-}
+/* =========================================
+   DOCES
+========================================= */
 
 function renderSweet(){
 
     const container =
-        document.getElementById("sweetOptions");
+        document.getElementById(
+            "sweetOptions"
+        );
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
-    sweetOptions.forEach(option=>{
+    sweetOptions.forEach(
+        option=>{
 
-        const used = state.sweet[option.id] === true;
+            const used =
+                state.sweet[
+                    option.id
+                ] === true;
 
-        const card = document.createElement("div");
+            const card =
+                document.createElement(
+                    "div"
+                );
 
-        card.className = "card";
+            card.className =
+                "card";
 
-        card.innerHTML = `
-            <div class="option">
+            card.innerHTML = `
 
-                <div class="option-text">
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+                    gap:12px;
+                ">
 
-                    <div class="option-title">
-                        ${option.title}
+                    <div>
+
+                        <div style="
+                            font-weight:bold;
+                            margin-bottom:5px;
+                        ">
+
+                            ${option.title}
+
+                        </div>
+
+                        <div style="
+                            color:#92969b;
+                            font-size:13px;
+                        ">
+
+                            ${option.desc}
+
+                        </div>
+
                     </div>
 
-                    <div class="option-desc">
-                        ${option.desc}
-                    </div>
+                    <button
+                        class="
+                            btn
+                            ${
+                                used
+                                ? "btn-red"
+                                : "btn-green"
+                            }
+                        "
+                        onclick="
+                            toggleSweet(
+                                '${option.id}'
+                            )
+                        "
+                    >
+
+                        ${
+                            used
+                            ? "Registrado"
+                            : "Registrar"
+                        }
+
+                    </button>
 
                 </div>
 
-                <button
-                    class="btn ${used ? "btn-danger":"btn-green"}"
-                    onclick="toggleSweet('${option.id}')">
+            `;
 
-                    ${used ? "Registrado":"Registrar"}
+            container.appendChild(
+                card
+            );
 
-                </button>
-
-            </div>
-        `;
-
-        container.appendChild(card);
-
-    });
+        }
+    );
 
 }
+
 
 function toggleSweet(id){
 
-    state.sweet[id] = !state.sweet[id];
+    state.sweet[id] =
+        !state.sweet[id];
 
     saveState();
+
     renderSweet();
+
 }
+
+
+/* =========================================
+   PESO E CINTURA
+========================================= */
+
+function renderProgress(){
+
+    document.getElementById(
+        "weightDisplay"
+    ).textContent =
+        state.weight
+        ? state.weight + " kg"
+        : "-- kg";
+
+    document.getElementById(
+        "waistDisplay"
+    ).textContent =
+        state.waist
+        ? state.waist + " cm"
+        : "-- cm";
+
+    document.getElementById(
+        "weightInput"
+    ).value =
+        state.weight || "";
+
+    document.getElementById(
+        "waistInput"
+    ).value =
+        state.waist || "";
+
+    renderProgressHistory();
+
+    drawProgressChart();
+
+}
+
 
 function saveProgress(){
 
+    const weight =
+        document.getElementById(
+            "weightInput"
+        ).value;
+
+    const waist =
+        document.getElementById(
+            "waistInput"
+        ).value;
+
+
+    if(!weight && !waist){
+
+        showModal(
+            "Atenção",
+            "Informe pelo menos o peso ou a cintura."
+        );
+
+        return;
+
+    }
+
+
     state.weight =
-        document.getElementById("weightInput").value;
+        weight;
 
     state.waist =
-        document.getElementById("waistInput").value;
+        waist;
+
+
+    /*
+     * Salva uma medição no histórico.
+     * Se já existir uma medição no mesmo
+     * dia, ela é atualizada.
+     */
+
+    const today =
+        new Date().toLocaleDateString(
+            "pt-BR"
+        );
+
+
+    const existing =
+        state.progressHistory.find(
+            item =>
+                item.date === today
+        );
+
+
+    if(existing){
+
+        existing.weight =
+            weight;
+
+        existing.waist =
+            waist;
+
+    }else{
+
+        state.progressHistory.push({
+
+            date:today,
+
+            weight:weight,
+
+            waist:waist
+
+        });
+
+    }
+
+
+    /*
+     * Mantém as medições mais recentes.
+     */
+
+    if(
+        state.progressHistory.length > 30
+    ){
+
+        state.progressHistory =
+            state.progressHistory.slice(
+                -30
+            );
+
+    }
+
 
     saveState();
 
@@ -1017,119 +2642,781 @@ function saveProgress(){
 
     showModal(
         "Progresso salvo",
-        "Suas medidas foram atualizadas."
+        "Peso e cintura foram registrados no seu histórico."
     );
+
 }
 
-function renderProgress(){
 
-    document.getElementById("weightDisplay").textContent =
-        state.weight
-        ? state.weight + " kg"
-        : "-- kg";
+/* =========================================
+   HISTÓRICO
+========================================= */
 
-    document.getElementById("waistDisplay").textContent =
-        state.waist
-        ? state.waist + " cm"
-        : "-- cm";
+function renderProgressHistory(){
 
-    document.getElementById("weightInput").value =
-        state.weight || "";
+    const container =
+        document.getElementById(
+            "progressHistory"
+        );
 
-    document.getElementById("waistInput").value =
-        state.waist || "";
+    if(
+        !state.progressHistory ||
+        state.progressHistory.length === 0
+    ){
+
+        container.innerHTML = `
+
+            <div style="
+                color:#888;
+                font-size:13px;
+            ">
+                Nenhuma medição registrada ainda.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const history =
+        [...state.progressHistory]
+        .reverse();
+
+
+    container.innerHTML =
+        "";
+
+
+    history.forEach(
+        item=>{
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "history-row";
+
+            row.innerHTML = `
+
+                <div class="history-date">
+
+                    ${item.date}
+
+                </div>
+
+                <div class="history-values">
+
+                    ${
+                        item.weight
+                        ? "<strong>"
+                          + item.weight
+                          + " kg</strong>"
+                        : "-- kg"
+                    }
+
+                    &nbsp; • &nbsp;
+
+                    ${
+                        item.waist
+                        ? item.waist
+                          + " cm"
+                        : "-- cm"
+                    }
+
+                </div>
+
+            `;
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
+
 }
+
+
+/* =========================================
+   GRÁFICO DE EVOLUÇÃO
+========================================= */
+
+function drawProgressChart(){
+
+    const canvas =
+        document.getElementById(
+            "progressChart"
+        );
+
+    if(!canvas){
+        return;
+    }
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const width =
+        canvas.width;
+
+    const height =
+        canvas.height;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const history =
+        state.progressHistory || [];
+
+
+    if(history.length === 0){
+
+        ctx.fillStyle =
+            "#777";
+
+        ctx.font =
+            "16px Arial";
+
+        ctx.textAlign =
+            "center";
+
+        ctx.fillText(
+            "Registre seu primeiro peso e cintura",
+            width / 2,
+            height / 2
+        );
+
+        return;
+
+    }
+
+
+    const values = [];
+
+
+    history.forEach(
+        item=>{
+
+            if(item.weight){
+
+                values.push(
+                    Number(item.weight)
+                );
+
+            }
+
+            if(item.waist){
+
+                values.push(
+                    Number(item.waist)
+                );
+
+            }
+
+        }
+    );
+
+
+    if(values.length === 0){
+        return;
+    }
+
+
+    let min =
+        Math.min(...values);
+
+    let max =
+        Math.max(...values);
+
+
+    if(min === max){
+
+        min -= 1;
+
+        max += 1;
+
+    }
+
+
+    const paddingLeft =
+        45;
+
+    const paddingRight =
+        20;
+
+    const paddingTop =
+        25;
+
+    const paddingBottom =
+        35;
+
+
+    const chartWidth =
+        width -
+        paddingLeft -
+        paddingRight;
+
+    const chartHeight =
+        height -
+        paddingTop -
+        paddingBottom;
+
+
+    /*
+     * Grade horizontal
+     */
+
+    ctx.strokeStyle =
+        "#292c2f";
+
+    ctx.lineWidth =
+        1;
+
+
+    for(let i=0;i<=4;i++){
+
+        const y =
+            paddingTop +
+            (
+                chartHeight /
+                4
+            ) * i;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            paddingLeft,
+            y
+        );
+
+        ctx.lineTo(
+            width -
+            paddingRight,
+            y
+        );
+
+        ctx.stroke();
+
+
+        const value =
+            max -
+            (
+                max -
+                min
+            ) / 4 * i;
+
+        ctx.fillStyle =
+            "#777";
+
+        ctx.font =
+            "10px Arial";
+
+        ctx.textAlign =
+            "right";
+
+        ctx.fillText(
+            value.toFixed(1),
+            paddingLeft - 6,
+            y + 3
+        );
+
+    }
+
+
+    function getX(index){
+
+        if(history.length === 1){
+
+            return (
+                paddingLeft +
+                chartWidth / 2
+            );
+
+        }
+
+        return (
+            paddingLeft +
+            (
+                index /
+                (
+                    history.length - 1
+                )
+            ) *
+            chartWidth
+        );
+
+    }
+
+
+    function getY(value){
+
+        return (
+            paddingTop +
+            (
+                max - value
+            ) /
+            (
+                max - min
+            ) *
+            chartHeight
+        );
+
+    }
+
+
+    /*
+     * Linha do peso
+     */
+
+    ctx.strokeStyle =
+        "#39d353";
+
+    ctx.lineWidth =
+        3;
+
+    ctx.beginPath();
+
+    let firstWeight =
+        true;
+
+
+    history.forEach(
+        (item,index)=>{
+
+            if(!item.weight){
+                return;
+            }
+
+            const x =
+                getX(index);
+
+            const y =
+                getY(
+                    Number(item.weight)
+                );
+
+
+            if(firstWeight){
+
+                ctx.moveTo(
+                    x,
+                    y
+                );
+
+                firstWeight =
+                    false;
+
+            }else{
+
+                ctx.lineTo(
+                    x,
+                    y
+                );
+
+            }
+
+        }
+    );
+
+    ctx.stroke();
+
+
+    /*
+     * Pontos do peso
+     */
+
+    history.forEach(
+        (item,index)=>{
+
+            if(!item.weight){
+                return;
+            }
+
+            const x =
+                getX(index);
+
+            const y =
+                getY(
+                    Number(item.weight)
+                );
+
+
+            ctx.fillStyle =
+                "#39d353";
+
+            ctx.beginPath();
+
+            ctx.arc(
+                x,
+                y,
+                4,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+        }
+    );
+
+
+    /*
+     * Linha da cintura
+     */
+
+    ctx.strokeStyle =
+        "#ffffff";
+
+    ctx.lineWidth =
+        2;
+
+    ctx.beginPath();
+
+    let firstWaist =
+        true;
+
+
+    history.forEach(
+        (item,index)=>{
+
+            if(!item.waist){
+                return;
+            }
+
+            const x =
+                getX(index);
+
+            const y =
+                getY(
+                    Number(item.waist)
+                );
+
+
+            if(firstWaist){
+
+                ctx.moveTo(
+                    x,
+                    y
+                );
+
+                firstWaist =
+                    false;
+
+            }else{
+
+                ctx.lineTo(
+                    x,
+                    y
+                );
+
+            }
+
+        }
+    );
+
+    ctx.stroke();
+
+
+    /*
+     * Pontos da cintura
+     */
+
+    history.forEach(
+        (item,index)=>{
+
+            if(!item.waist){
+                return;
+            }
+
+            const x =
+                getX(index);
+
+            const y =
+                getY(
+                    Number(item.waist)
+                );
+
+
+            ctx.fillStyle =
+                "#ffffff";
+
+            ctx.beginPath();
+
+            ctx.arc(
+                x,
+                y,
+                4,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+        }
+    );
+
+
+    /*
+     * Datas no eixo inferior
+     */
+
+    ctx.fillStyle =
+        "#777";
+
+    ctx.font =
+        "9px Arial";
+
+    ctx.textAlign =
+        "center";
+
+
+    history.forEach(
+        (item,index)=>{
+
+            const x =
+                getX(index);
+
+            ctx.fillText(
+                item.date,
+                x,
+                height - 12
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   TREINO MANUAL
+========================================= */
+
+function saveWorkout(){
+
+    state.workout =
+        document.getElementById(
+            "workoutInput"
+        ).value.trim();
+
+    saveState();
+
+    document.getElementById(
+        "workoutResult"
+    ).textContent =
+        state.workout
+        ? "Treino salvo: "
+          + state.workout
+        : "Nenhum treino informado.";
+
+}
+
+
+/* =========================================
+   LEMBRETES
+========================================= */
 
 function renderReminders(){
 
     const container =
-        document.getElementById("reminderList");
+        document.getElementById(
+            "reminderList"
+        );
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
-    state.reminders.forEach(reminder=>{
+    state.reminders.forEach(
+        reminder=>{
 
-        const div = document.createElement("div");
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-        div.className = "reminder";
+            div.className =
+                "reminder";
 
-        div.innerHTML = `
-
-            <div>
-
-                <div class="reminder-time">
-                    ${reminder.time}
-                </div>
+            div.innerHTML = `
 
                 <div>
-                    ${reminder.name}
+
+                    <div class="reminder-time">
+                        ${reminder.time}
+                    </div>
+
+                    <div class="reminder-name">
+                        ${reminder.name}
+                    </div>
+
                 </div>
 
-            </div>
+                <div
+                    class="
+                        switch
+                        ${
+                            reminder.on
+                            ? "on"
+                            : ""
+                        }
+                    "
+                    onclick="
+                        toggleReminder(
+                            '${reminder.id}'
+                        )
+                    "
+                >
+                </div>
 
-            <div
-                class="switch ${reminder.on ? "on":""}"
-                onclick="toggleReminder('${reminder.id}')">
-            </div>
-        `;
+            `;
 
-        container.appendChild(div);
+            container.appendChild(
+                div
+            );
 
-    });
+        }
+    );
 
 }
+
 
 function toggleReminder(id){
 
     const reminder =
-        state.reminders.find(r=>r.id===id);
+        state.reminders.find(
+            item =>
+                item.id === id
+        );
 
     if(reminder){
-        reminder.on = !reminder.on;
+
+        reminder.on =
+            !reminder.on;
+
     }
 
     saveState();
+
     renderReminders();
+
 }
 
-function showPage(page,button){
 
-    document.querySelectorAll(".page")
-        .forEach(p=>p.classList.remove("active"));
+/* =========================================
+   NAVEGAÇÃO
+========================================= */
 
-    document.getElementById(page)
-        .classList.add("active");
+function showPage(
+    page,
+    button
+){
 
-    document.querySelectorAll(".nav-btn")
-        .forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(
+        ".page"
+    ).forEach(
+        p =>
+            p.classList.remove(
+                "active"
+            )
+    );
+
+    document.getElementById(
+        page
+    ).classList.add(
+        "active"
+    );
+
+
+    document.querySelectorAll(
+        ".nav-btn"
+    ).forEach(
+        b =>
+            b.classList.remove(
+                "active"
+            )
+    );
+
 
     if(button){
-        button.classList.add("active");
+
+        button.classList.add(
+            "active"
+        );
+
     }
+
+
+    if(page === "progress"){
+
+        setTimeout(
+            drawProgressChart,
+            100
+        );
+
+    }
+
 
     window.scrollTo({
         top:0,
         behavior:"smooth"
     });
+
 }
 
-function showModal(title,text){
 
-    document.getElementById("modalTitle").textContent =
+/* =========================================
+   MODAL
+========================================= */
+
+function showModal(
+    title,
+    text
+){
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
         title;
 
-    document.getElementById("modalText").textContent =
+    document.getElementById(
+        "modalText"
+    ).textContent =
         text;
 
-    document.getElementById("modal")
-        .classList.add("active");
+    document.getElementById(
+        "modal"
+    ).classList.add(
+        "active"
+    );
+
 }
+
 
 function closeModal(){
 
-    document.getElementById("modal")
-        .classList.remove("active");
+    document.getElementById(
+        "modal"
+    ).classList.remove(
+        "active"
+    );
+
 }
+
+
+/* =========================================
+   INICIALIZAÇÃO
+========================================= */
 
 function init(){
 
@@ -1137,33 +3424,43 @@ function init(){
 
     formatDate();
 
+    renderTodayTraining();
+
+    renderWeeklyTraining();
+
+    renderCardio();
+
     renderMeals();
 
-    document.getElementById("waterCount").textContent =
-        state.water;
-
-    const cardio =
-        document.getElementById("cardioCheck");
-
-    cardio.classList.toggle("done",state.cardio);
-
-    cardio.textContent =
-        state.cardio ? "✓" : "";
-
-    document.getElementById("workoutInput").value =
-        state.workout || "";
-
-    if(state.workout){
-        document.getElementById("workoutResult").textContent =
-            "Treino salvo: " + state.workout;
-    }
+    updateWaterDisplay();
 
     renderSweet();
 
     renderProgress();
 
     renderReminders();
+
+    updateDailyGoal();
+
+
+    document.getElementById(
+        "workoutInput"
+    ).value =
+        state.workout || "";
+
+
+    if(state.workout){
+
+        document.getElementById(
+            "workoutResult"
+        ).textContent =
+            "Treino salvo: "
+            + state.workout;
+
+    }
+
 }
+
 
 init();
 
