@@ -880,8 +880,15 @@ canvas{
   background:none;
   color:#888;
   border-radius:0;
-  padding:12px 5px;
-  font-size:11px;
+  padding:8px 5px;
+  font-size:12px;
+  line-height:1.2;
+}
+
+.nav button span.nav-icon{
+  font-size:24px;
+  display:block;
+  margin-bottom:2px;
 }
 
 .nav button.active{
@@ -1768,7 +1775,7 @@ canvas{
     id="nav-home"
     class="active">
 
-    🏠<br>Início
+    <span class="nav-icon">🏠</span>Início
 
   </button>
 
@@ -1776,7 +1783,7 @@ canvas{
     onclick="showPage('diet')"
     id="nav-diet">
 
-    🍽️<br>Dieta
+    <span class="nav-icon">🍽️</span>Dieta
 
   </button>
 
@@ -1784,7 +1791,7 @@ canvas{
     onclick="showPage('training')"
     id="nav-training">
 
-    🏋️<br>Treino
+    <span class="nav-icon">🏋️</span>Treino
 
   </button>
 
@@ -1792,7 +1799,7 @@ canvas{
     onclick="showPage('sweet')"
     id="nav-sweet">
 
-    🍫<br>Doce
+    <span class="nav-icon">🍫</span>Doce
 
   </button>
 
@@ -1800,7 +1807,7 @@ canvas{
     onclick="showPage('progress')"
     id="nav-progress">
 
-    📈<br>Progresso
+    <span class="nav-icon">📈</span>Progresso
 
   </button>
 
