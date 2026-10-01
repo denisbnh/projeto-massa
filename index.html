@@ -1904,7 +1904,7 @@ const mealsData = {
   },
 
   lunch: {
-    title: "🍛 Almoço",
+    title: "🌇 Almoço",
     time: "12:00",
     options: [
       "Arroz + feijão + frango grelhado + salada",
@@ -1917,7 +1917,7 @@ const mealsData = {
   },
 
   snack: {
-    title: "🥪 Lanche da Tarde",
+    title: "🌇 Lanche da Tarde",
     time: "17:00",
     options: [
       "Pão integral + frango desfiado + tomate",
@@ -1930,7 +1930,7 @@ const mealsData = {
   },
 
   dinner: {
-    title: "🍽️ Jantar",
+    title: "🌙 Jantar",
     time: "19:00",
     options: [
       "Arroz + frango grelhado + salada",
@@ -2511,17 +2511,7 @@ let state = {
 
   weeklyCardioChecks:{},
 
-  /*
-    Registros diários utilizados
-    pela Dashboard Semanal.
-  */
-
   weeklyDailyRecords:{},
-
-  /*
-    Semana atual no formato da
-    segunda-feira correspondente.
-  */
 
   weeklyPeriod:""
 
@@ -2583,11 +2573,6 @@ function getWeekStart(){
 
   const day =
     today.getDay();
-
-  /*
-    Domingo = 0.
-    Segunda = 1.
-  */
 
   const diff =
     day === 0
@@ -2665,11 +2650,6 @@ function syncTodayWeeklyRecord(){
     getDailyRecord(today);
 
 
-  /*
-    Dieta completa =
-    todas as 5 refeições concluídas.
-  */
-
   const mealDone =
     meals.filter(
       meal=>state.meals[meal.id]
@@ -2680,12 +2660,6 @@ function syncTodayWeeklyRecord(){
     mealDone === meals.length;
 
 
-  /*
-    Água:
-    registra as garrafinhas
-    efetivamente tomadas hoje.
-  */
-
   record.water =
     Math.max(
       0,
@@ -2695,11 +2669,6 @@ function syncTodayWeeklyRecord(){
       )
     );
 
-
-  /*
-    Treino e cardio:
-    somente segunda a sábado.
-  */
 
   if(key !== "sunday"){
 
@@ -2735,11 +2704,6 @@ function updateWeeklyDashboard(){
   const currentWeek =
     getWeekStart();
 
-
-  /*
-    Garante que os registros exibidos
-    pertençam somente à semana atual.
-  */
 
   let dietDays=0;
   let waterBottles=0;
@@ -2782,10 +2746,6 @@ function updateWeeklyDashboard(){
   });
 
 
-  /*
-    Limites das metas.
-  */
-
   dietDays =
     Math.min(dietDays,6);
 
@@ -2798,10 +2758,6 @@ function updateWeeklyDashboard(){
   cardioDays =
     Math.min(cardioDays,6);
 
-
-  /*
-    Atualiza números.
-  */
 
   document.getElementById(
     "weeklyDietCount"
@@ -2827,1120 +2783,237 @@ function updateWeeklyDashboard(){
     `${cardioDays}/6`;
 
 
-  /*
-    Barras individuais.
-  */
+  const dietPercent =
+    (dietDays / 6) * 100;
+
+  const waterPercent =
+    (waterBottles / 24) * 100;
+
+  const trainingPercent =
+    (trainingDaysCount / 6) * 100;
+
+  const cardioPercent =
+    (cardioDays / 6) * 100;
+
 
   document.getElementById(
     "weeklyDietBar"
   ).style.width =
-    `${(dietDays/6)*100}%`;
+    `${dietPercent}%`;
 
 
   document.getElementById(
     "weeklyWaterBar"
   ).style.width =
-    `${(waterBottles/24)*100}%`;
+    `${waterPercent}%`;
 
 
   document.getElementById(
     "weeklyTrainingBar"
   ).style.width =
-    `${(trainingDaysCount/6)*100}%`;
+    `${trainingPercent}%`;
 
 
   document.getElementById(
     "weeklyCardioBar"
   ).style.width =
-    `${(cardioDays/6)*100}%`;
+    `${cardioPercent}%`;
 
 
-  /*
-    Textos de status.
-  */
-
-  document.getElementById(
-    "weeklyDietStatus"
-  ).textContent =
-    dietDays === 6
-      ? "✓ Meta semanal concluída"
-      : `${6-dietDays} dia(s) restante(s)`;
-
-
-  document.getElementById(
-    "weeklyWaterStatus"
-  ).textContent =
-    waterBottles === 24
-      ? "✓ Meta semanal concluída"
-      : `${24-waterBottles} garrafinha(s) restante(s)`;
-
-
-  document.getElementById(
-    "weeklyTrainingStatus"
-  ).textContent =
-    trainingDaysCount === 6
-      ? "✓ Meta semanal concluída"
-      : `${6-trainingDaysCount} treino(s) restante(s)`;
-
-
-  document.getElementById(
-    "weeklyCardioStatus"
-  ).textContent =
-    cardioDays === 6
-      ? "✓ Meta semanal concluída"
-      : `${6-cardioDays} cardio(s) restante(s)`;
-
-
-  /*
-    Percentual geral:
-    cada uma das quatro metas
-    possui o mesmo peso.
-  */
-
-  const dietPercent =
-    (dietDays/6)*100;
-
-  const waterPercent =
-    (waterBottles/24)*100;
-
-  const trainingPercent =
-    (trainingDaysCount/6)*100;
-
-  const cardioPercent =
-    (cardioDays/6)*100;
-
-
-  const overall =
+  const overallPercent =
     Math.round(
-      (
-        dietPercent +
+      (dietPercent +
         waterPercent +
         trainingPercent +
-        cardioPercent
-      ) / 4
+        cardioPercent) / 4
     );
 
 
   document.getElementById(
     "weeklyDashboardPercent"
   ).textContent =
-    `${overall}%`;
+    `${overallPercent}%`;
 
 
-  /*
-    Mensagem final da dashboard.
-  */
-
-  const total =
-    dietDays +
-    waterBottles +
-    trainingDaysCount +
-    cardioDays;
-
-
-  const totalGoal =
-    6 + 24 + 6 + 6;
-
-
-  const totalElement =
+  const totalText =
     document.getElementById(
       "weeklyDashboardTotal"
     );
 
 
-  if(overall === 100){
+  if(overallPercent === 100){
 
-    totalElement.innerHTML =
-      "🔥 <strong>SEMANA COMPLETA!</strong> Você bateu todas as metas.";
+    totalText.innerHTML =
+      "🔥 <strong>Semana perfeita!</strong> Todos os 4 objetivos batidos!";
+
+  }else if(overallPercent >= 75){
+
+    totalText.innerHTML =
+      "⚡ <strong>Excelente progresso!</strong> Faltam poucos detalhes para fechar a semana perfeita.";
+
+  }else if(overallPercent >= 50){
+
+    totalText.innerHTML =
+      "💪 <strong>A caminho do objetivo.</strong> Mantenha a constância para fechar forte.";
 
   }else{
 
-    totalElement.innerHTML =
-      `Progresso da semana: <strong>${overall}%</strong> — ${total}/${totalGoal} unidades de meta concluídas.`;
+    totalText.innerHTML =
+      "Semana iniciada. Vamos buscar os <strong>4 objetivos!</strong>";
 
   }
 
 }
 
 
-/* =========================
-   DATA DE CADA DIA DA SEMANA
-========================= */
+function getDateForTrainingDay(weekStart, dayKey){
 
-function getDateForTrainingDay(
-  weekStart,
-  dayKey
-){
-
-  const indexes = {
-
-    monday:0,
-
-    tuesday:1,
-
-    wednesday:2,
-
-    thursday:3,
-
-    friday:4,
-
-    saturday:5
-
+  const daysOffset = {
+    monday: 0,
+    tuesday: 1,
+    wednesday: 2,
+    thursday: 3,
+    friday: 4,
+    saturday: 5
   };
 
+  const offset = daysOffset[dayKey] || 0;
 
-  const offset =
-    indexes[dayKey];
+  const [y, m, d] = weekStart.split("-").map(Number);
+  const date = new Date(y, m - 1, d + offset);
 
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const dayStr = String(date.getDate()).padStart(2, "0");
 
-  const base =
-    new Date(
-      weekStart+"T12:00:00"
-    );
-
-
-  base.setDate(
-    base.getDate() + offset
-  );
-
-
-  const year =
-    base.getFullYear();
-
-  const month =
-    String(base.getMonth()+1)
-      .padStart(2,"0");
-
-  const day =
-    String(base.getDate())
-      .padStart(2,"0");
-
-
-  return `${year}-${month}-${day}`;
+  return `${year}-${month}-${dayStr}`;
 
 }
 
 
 /* =========================
-   MENSAGEM DO DIA
+   MENSAGEM MOTIVACIONAL DO DIA
 ========================= */
 
 function renderDailyMotivation(){
 
   const container =
-    document.getElementById(
-      "dailyMotivation"
-    );
+    document.getElementById("dailyMotivation");
 
-  if(!container)
-    return;
+  if(!container) return;
 
 
-  const now =
-    new Date();
+  const now = new Date();
+  const currentHour = now.getHours();
 
-  const currentHour =
-    now.getHours();
 
-  let greeting = "Bom dia";
+  // SAUDAÇÃO COM ÍCONES ATUALIZADOS: SOL, PRÉDIOS ENTARDECER E LUA
+  let greeting = "☀️ Bom dia";
 
   if(currentHour >= 12 && currentHour < 18){
-    greeting = "Boa tarde";
+    greeting = "🌇 Boa tarde";
   }else if(currentHour >= 18 || currentHour < 5){
-    greeting = "Boa noite";
+    greeting = "🌙 Boa noite";
   }
 
-  const start =
-    new Date(
-      now.getFullYear(),
-      0,
-      0
-    );
 
-  const diff =
-    now - start;
+  const dayOfYear = Math.floor(
+    (now - new Date(now.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24
+  );
 
-  const oneDay =
-    1000 * 60 * 60 * 24;
-
-  const dayOfYear =
-    Math.floor(
-      diff / oneDay
-    );
-
-  const index =
-    dayOfYear %
-    motivationMessages.length;
+  const messageIndex = dayOfYear % motivationMessages.length;
+  const message = motivationMessages[messageIndex];
 
 
   container.innerHTML = `
-
     <div class="motivation">
-
       <div class="motivation-title">
-        ${greeting}, Dênis! ☀️
+        ${greeting}, Denis!
       </div>
-
       <div class="motivation-text">
-        "${motivationMessages[index]}"
+        "${message}"
       </div>
-
     </div>
-
   `;
 
 }
 
 
 /* =========================
-   CARREGAR ESTADO
+   NAVEGAÇÃO
+========================= */
+
+function showPage(pageId){
+
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+  document.querySelectorAll(".nav button").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  const targetPage = document.getElementById(pageId);
+  if(targetPage) targetPage.classList.add("active");
+
+  const targetNav = document.getElementById(`nav-${pageId}`);
+  if(targetNav) targetNav.classList.add("active");
+
+  window.scrollTo(0, 0);
+
+}
+
+
+/* =========================
+   CARREGAR / SALVAR ESTADO
 ========================= */
 
 function loadState(){
 
-  const saved =
-    localStorage.getItem(
-      STORAGE_KEY
-    );
-
-
+  const saved = localStorage.getItem(STORAGE_KEY);
   if(saved){
-
     try{
-
-      state =
-        JSON.parse(saved);
-
-    }catch(e){}
-
-  }
-
-
-  if(!state.progressHistory)
-    state.progressHistory=[];
-
-
-  if(!state.progressPhotos)
-    state.progressPhotos=[];
-
-
-  if(!state.selectedOptions)
-    state.selectedOptions={};
-
-
-  if(!state.meals)
-    state.meals={};
-
-
-  if(!state.sweet)
-    state.sweet={};
-
-
-  if(!state.reminders)
-    state.reminders={};
-
-
-  if(!state.exerciseChecks)
-    state.exerciseChecks={};
-
-
-  if(!state.weeklyTrainingChecks)
-    state.weeklyTrainingChecks={};
-
-
-  if(!state.weeklyCardioChecks)
-    state.weeklyCardioChecks={};
-
-
-  if(!state.weeklyDailyRecords)
-    state.weeklyDailyRecords={};
-
-
-  if(typeof state.weeklyPeriod === "undefined")
-    state.weeklyPeriod="";
-
-
-  /*
-    Compatibilidade com versões anteriores.
-  */
-
-  if(typeof state.height === "undefined")
-    state.height="";
-
-
-  if(typeof state.chest === "undefined")
-    state.chest="";
-
-
-  if(typeof state.biceps === "undefined")
-    state.biceps="";
-
-
-  /*
-    Adiciona os novos campos aos registros
-    antigos do histórico.
-  */
-
-  state.progressHistory =
-    state.progressHistory.map(item=>({
-
-      date:item.date,
-
-      weight:
-        typeof item.weight !== "undefined"
-          ? item.weight
-          : null,
-
-      height:
-        typeof item.height !== "undefined"
-          ? item.height
-          : null,
-
-      waist:
-        typeof item.waist !== "undefined"
-          ? item.waist
-          : null,
-
-      chest:
-        typeof item.chest !== "undefined"
-          ? item.chest
-          : null,
-
-      biceps:
-        typeof item.biceps !== "undefined"
-          ? item.biceps
-          : null
-
-    }));
-
-
-  defaultReminders.forEach(item=>{
-
-    const id =
-      item[0];
-
-
-    if(
-      typeof state.reminders[id]
-      === "undefined"
-    ){
-
-      state.reminders[id]=true;
-
+      state = JSON.parse(saved);
+    }catch(e){
+      console.error("Erro ao carregar os dados:", e);
     }
-
-  });
-
-
-  const today =
-    getToday();
-
-
-  const currentWeek =
-    getWeekStart();
-
-
-  /*
-    Detecta mudança de semana.
-
-    Quando uma nova semana começa,
-    os registros da dashboard começam
-    novamente do zero.
-  */
-
-  if(
-    state.weeklyPeriod !==
-    currentWeek
-  ){
-
-    state.weeklyPeriod =
-      currentWeek;
-
-
-    state.weeklyTrainingChecks={};
-
-    state.weeklyCardioChecks={};
-
-    state.weeklyDailyRecords={};
-
   }
 
-
-  /*
-    Detecta mudança de dia.
-  */
+  const today = getToday();
+  const currentWeek = getWeekStart();
 
   if(state.date !== today){
-
-    state.date =
-      today;
-
-    state.meals={};
-
-    state.selectedOptions={};
-
-    state.water=0;
-
-    state.training =
-      !!state.weeklyTrainingChecks[
-        getDayKey()
-      ];
-
-    state.cardio =
-      !!state.weeklyCardioChecks[
-        getDayKey()
-      ];
-
-    state.workout="";
-
-    state.sweet={};
-
-    state.exerciseChecks={};
-
-    saveState();
-
-  }else{
-
-    state.training =
-      !!state.weeklyTrainingChecks[
-        getDayKey()
-      ];
-
-    state.cardio =
-      !!state.weeklyCardioChecks[
-        getDayKey()
-      ];
-
+    state.date = today;
+    state.meals = {};
+    state.selectedOptions = {};
+    state.water = 0;
+    state.training = false;
+    state.cardio = false;
   }
 
+  if(state.weeklyPeriod !== currentWeek){
+    state.weeklyPeriod = currentWeek;
+    state.weeklyTrainingChecks = {};
+    state.weeklyCardioChecks = {};
+  }
 
-  /*
-    Sincroniza o registro diário atual.
-  */
+  renderDailyMotivation();
+  renderMeals();
+  renderWater();
+  renderWeeklyTraining();
+  renderHomeTraining();
+  renderSweet();
+  renderProgress();
+  renderReminders();
 
   syncTodayWeeklyRecord();
+  updateWeeklyDashboard();
 
 }
 
-
-/* =========================
-   SALVAR
-========================= */
 
 function saveState(){
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(state)
-  );
-
-}
-
-
-/* =========================
-   DATA NO HEADER
-========================= */
-
-function renderDate(){
-
-  const date =
-    new Date();
-
-
-  const formatted =
-    date.toLocaleDateString(
-      "pt-BR",
-      {
-        weekday:"long",
-        day:"2-digit",
-        month:"long",
-        year:"numeric"
-      }
-    );
-
-
-  document.getElementById(
-    "todayDate"
-  ).textContent =
-    formatted.charAt(0).toUpperCase()
-    + formatted.slice(1);
-
-}
-
-
-/* =========================
-   TREINO DO DIA NA HOME
-========================= */
-
-function renderTodayTraining(){
-
-  const key =
-    getDayKey();
-
-
-  const training =
-    weeklyTraining[key];
-
-
-  const home =
-    document.getElementById(
-      "homeTraining"
-    );
-
-
-  if(key === "sunday"){
-
-    const html = `
-
-      <div class="card">
-
-        <div class="training-header">
-
-          <h2>
-            😴 Treino de hoje
-          </h2>
-
-          <span class="day-badge">
-            DOMINGO
-          </span>
-
-        </div>
-
-        <p style="color:#aaa;margin-top:10px;">
-
-          Dia de descanso e recuperação.
-
-        </p>
-
-      </div>
-
-    `;
-
-
-    home.innerHTML =
-      html;
-
-
-    return;
-
-  }
-
-
-  const trainingDone =
-    !!state.weeklyTrainingChecks[key];
-
-
-  const cardioDone =
-    !!state.weeklyCardioChecks[key];
-
-
-  const html = `
-
-    <div class="card">
-
-      <div class="training-header">
-
-        <h2>
-          🏋️ Treino de hoje
-        </h2>
-
-        <span class="day-badge">
-          ${training.name}
-        </span>
-
-      </div>
-
-      <h3>
-        ${training.title}
-      </h3>
-
-      <p style="color:#aaa;font-size:13px;">
-
-        Veja todos os treinos na aba Treino.
-
-      </p>
-
-      <div class="check-big">
-
-        <input
-          type="checkbox"
-          ${trainingDone ? "checked" : ""}
-          onchange="toggleTodayTraining()">
-
-        <span>
-
-          ${
-            trainingDone
-              ? "✓ Treino de hoje realizado"
-              : "Marcar treino de hoje como completo"
-          }
-
-        </span>
-
-      </div>
-
-      <div class="check-big">
-
-        <input
-          type="checkbox"
-          ${cardioDone ? "checked" : ""}
-          onchange="toggleTodayCardio()">
-
-        <span>
-
-          ${
-            cardioDone
-              ? "✓ Cardio realizado"
-              : "Marcar cardio: 2 km caminhada + 1 km corrida"
-          }
-
-        </span>
-
-      </div>
-
-    </div>
-
-  `;
-
-
-  home.innerHTML =
-    html;
-
-}
-
-
-/* =========================
-   TREINOS DA SEMANA
-========================= */
-
-function renderWeeklyTraining(){
-
-  const container =
-    document.getElementById(
-      "weeklyTrainingContainer"
-    );
-
-
-  if(!container)
-    return;
-
-
-  let html="";
-
-
-  trainingDays.forEach(key=>{
-
-    const training =
-      weeklyTraining[key];
-
-
-    const trainingDone =
-      !!state.weeklyTrainingChecks[key];
-
-
-    const cardioDone =
-      !!state.weeklyCardioChecks[key];
-
-
-    let totalExercises=0;
-
-    let doneExercises=0;
-
-
-    training.groups.forEach(
-      (group,groupIndex)=>{
-
-        group.exercises.forEach(
-          (exercise,exerciseIndex)=>{
-
-            totalExercises++;
-
-
-            const id =
-              `${key}_${groupIndex}_${exerciseIndex}`;
-
-
-            if(
-              state.exerciseChecks[id]
-            ){
-
-              doneExercises++;
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-
-    const exercisePercentage =
-      totalExercises
-        ? Math.round(
-            (doneExercises /
-              totalExercises) *
-            100
-          )
-        : 0;
-
-
-    html += `
-
-      <div class="week-day-card">
-
-        <div class="week-day-header">
-
-          <div class="week-day-title">
-
-            <h2>
-              🏋️️ ${training.name}
-            </h2>
-
-            <span>
-              ${training.title}
-            </span>
-
-          </div>
-
-        </div>
-
-        <div class="week-day-content">
-
-          <div
-            class="week-training-check
-            ${trainingDone ? "done":""}">
-
-            <input
-              type="checkbox"
-              ${trainingDone ? "checked":""}
-              onchange="toggleWeeklyTraining('${key}')">
-
-            <span>
-
-              ${
-                trainingDone
-                  ? "✓ Treino realizado"
-                  : "Marcar treino completo"
-              }
-
-            </span>
-
-          </div>
-
-          <div class="section-count">
-
-            ${doneExercises}/${totalExercises}
-            exercícios realizados
-
-          </div>
-
-          <div class="progress-wrap">
-
-            <div
-              class="progress-bar"
-              style="width:${exercisePercentage}%">
-            </div>
-
-          </div>
-
-    `;
-
-
-    training.groups.forEach(
-      (group,groupIndex)=>{
-
-        html += `
-
-          <h3>
-            ${group.name}
-          </h3>
-
-        `;
-
-
-        group.exercises.forEach(
-          (exercise,exerciseIndex)=>{
-
-            const id =
-              `${key}_${groupIndex}_${exerciseIndex}`;
-
-
-            const checked =
-              !!state.exerciseChecks[id];
-
-
-            html += `
-
-              <label
-                class="exercise
-                ${checked ? "done":""}">
-
-                <input
-                  type="checkbox"
-                  ${checked ? "checked":""}
-                  onchange="toggleExercise('${id}')">
-
-                <div class="exercise-info">
-
-                  <div class="exercise-name">
-                    ${exercise[0]}
-                  </div>
-
-                  <div class="exercise-reps">
-                    ${exercise[1]}
-                  </div>
-
-                </div>
-
-              </label>
-
-            `;
-
-          }
-        );
-
-      }
-    );
-
-
-    /*
-      CARDIO DENTRO DE CADA DIA
-    */
-
-    html += `
-
-      <div
-        class="cardio-box
-        ${cardioDone ? "done":""}">
-
-        <input
-          type="checkbox"
-          ${cardioDone ? "checked":""}
-          onchange="toggleWeeklyCardio('${key}')">
-
-        <div>
-
-          <div class="cardio-title">
-
-            ${
-              cardioDone
-                ? "✓ Cardio realizado"
-                : "Cardio do dia"
-            }
-
-          </div>
-
-          <div class="cardio-subtitle">
-
-            🏃 2 km caminhada + 1 km corrida
-            — 3 km total
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-
-    html += `
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-
-  container.innerHTML =
-    html;
-
-}
-
-
-/* =========================
-   EXERCÍCIO
-========================= */
-
-function toggleExercise(id){
-
-  if(!state.exerciseChecks)
-    state.exerciseChecks={};
-
-
-  state.exerciseChecks[id] =
-    !state.exerciseChecks[id];
-
-
-  saveState();
-
-
-  renderWeeklyTraining();
-
-}
-
-
-/* =========================
-   TREINO DA SEMANA
-========================= */
-
-function toggleWeeklyTraining(key){
-
-  if(!state.weeklyTrainingChecks)
-    state.weeklyTrainingChecks={};
-
-
-  state.weeklyTrainingChecks[key] =
-    !state.weeklyTrainingChecks[key];
-
-
-  if(key === getDayKey()){
-
-    state.training =
-      !!state.weeklyTrainingChecks[key];
-
-  }
-
-
-  syncTodayWeeklyRecord();
-
-
-  saveState();
-
-
-  renderWeeklyTraining();
-
-  renderTodayTraining();
-
-  updateWeeklyDashboard();
-
-}
-
-
-/* =========================
-   TREINO DE HOJE
-========================= */
-
-function toggleTodayTraining(){
-
-  const key =
-    getDayKey();
-
-
-  if(!state.weeklyTrainingChecks)
-    state.weeklyTrainingChecks={};
-
-
-  state.weeklyTrainingChecks[key] =
-    !state.weeklyTrainingChecks[key];
-
-
-  state.training =
-    !!state.weeklyTrainingChecks[key];
-
-
-  syncTodayWeeklyRecord();
-
-
-  saveState();
-
-
-  renderWeeklyTraining();
-
-  renderTodayTraining();
-
-  updateWeeklyDashboard();
-
-}
-
-
-/* =========================
-   CARDIO DA SEMANA
-========================= */
-
-function toggleWeeklyCardio(key){
-
-  if(!state.weeklyCardioChecks)
-    state.weeklyCardioChecks={};
-
-
-  state.weeklyCardioChecks[key] =
-    !state.weeklyCardioChecks[key];
-
-
-  if(key === getDayKey()){
-
-    state.cardio =
-      !!state.weeklyCardioChecks[key];
-
-  }
-
-
-  syncTodayWeeklyRecord();
-
-
-  saveState();
-
-
-  renderWeeklyTraining();
-
-  renderTodayTraining();
-
-  updateWeeklyDashboard();
-
-}
-
-
-/* =========================
-   CARDIO DE HOJE
-========================= */
-
-function toggleTodayCardio(){
-
-  const key =
-    getDayKey();
-
-
-  if(!state.weeklyCardioChecks)
-    state.weeklyCardioChecks={};
-
-
-  state.weeklyCardioChecks[key] =
-    !state.weeklyCardioChecks[key];
-
-
-  state.cardio =
-    !!state.weeklyCardioChecks[key];
-
-
-  syncTodayWeeklyRecord();
-
-
-  saveState();
-
-
-  renderWeeklyTraining();
-
-  renderTodayTraining();
-
-  updateWeeklyDashboard();
-
-}
-
-
-/*
-  Mantida para compatibilidade
-  com versões anteriores do app.
-*/
-
-function renderCardio(){
-
-  renderWeeklyTraining();
-
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
 
@@ -3950,172 +3023,82 @@ function renderCardio(){
 
 function renderMeals(){
 
-  const container =
-    document.getElementById(
-      "mealsContainer"
-    );
+  const container = document.getElementById("mealsContainer");
+  if(!container) return;
 
-
-  let html="";
-
+  container.innerHTML = "";
 
   meals.forEach(meal=>{
 
-    const done =
-      !!state.meals[meal.id];
+    const mealCard = document.createElement("div");
+    mealCard.className = "meal";
 
+    const isDone = !!state.meals[meal.id];
 
-    const selected =
-      state.selectedOptions[meal.id];
+    let optionsHtml = "";
 
+    meal.options.forEach((opt, idx)=>{
+      const isSelected = state.selectedOptions[meal.id] === idx;
 
-    html += `
-
-      <div class="meal">
-
-        <div class="meal-header">
-
-          <div class="meal-title">
-
-            ${done ? "☑️":"⬜"}
-            ${meal.name}
-
-          </div>
-
-          <div class="meal-time">
-
-            ${meal.time}
-
-          </div>
-
+      optionsHtml += `
+        <div class="option ${isSelected ? 'selected' : ''}" onclick="selectOption('${meal.id}', ${idx})">
+          ${opt}
         </div>
+      `;
+    });
 
-        <div class="options">
-
-    `;
-
-
-    meal.options.forEach(
-      (option,optIndex)=>{
-
-        const isSelected =
-          selected === optIndex;
-
-
-        html += `
-
-          <div
-            class="option
-            ${isSelected ? "selected":""}"
-            onclick="selectMealOption('${meal.id}',${optIndex})">
-
-            ${isSelected ? "✓ ":""}
-
-            ${option}
-
-          </div>
-
-        `;
-
-      }
-    );
-
-
-    html += `
-
-        </div>
-
-        <button
-          class="${done ? "secondary":""}"
-          style="margin-top:10px;"
-          onclick="toggleMeal('${meal.id}')">
-
-          ${
-            done
-              ? "Desmarcar refeição"
-              : "Marcar como feita"
-          }
-
-        </button>
-
+    mealCard.innerHTML = `
+      <div class="meal-header">
+        <div class="meal-title">${meal.name}</div>
+        <div class="meal-time">${meal.time}</div>
       </div>
 
+      <div class="options">
+        ${optionsHtml}
+      </div>
+
+      <div class="check-big">
+        <input type="checkbox" id="check-${meal.id}" ${isDone ? 'checked' : ''} onchange="toggleMeal('${meal.id}')">
+        <label for="check-${meal.id}">Concluído</label>
+      </div>
     `;
 
+    container.appendChild(mealCard);
+
   });
-
-
-  container.innerHTML =
-    html;
-
 
   updateMealProgress();
 
 }
 
 
-function selectMealOption(
-  id,
-  index
-){
-
-  state.selectedOptions[id] =
-    index;
-
-
+function selectOption(mealId, index){
+  state.selectedOptions[mealId] = index;
   saveState();
-
-
   renderMeals();
-
 }
 
 
-function toggleMeal(id){
-
-  state.meals[id] =
-    !state.meals[id];
-
-
+function toggleMeal(mealId){
+  state.meals[mealId] = !state.meals[mealId];
   syncTodayWeeklyRecord();
-
-
-  saveState();
-
-
-  renderMeals();
-
+  updateMealProgress();
   updateWeeklyDashboard();
-
 }
 
 
 function updateMealProgress(){
 
-  const completed =
-    meals.filter(
-      meal=>state.meals[meal.id]
-    ).length;
+  const total = meals.length;
+  const done = meals.filter(m => state.meals[m.id]).length;
 
+  const percent = (done / total) * 100;
 
-  const total =
-    meals.length;
+  const bar = document.getElementById("mealProgressBar");
+  const text = document.getElementById("mealProgressText");
 
-
-  const percentage =
-    (completed/total)*100;
-
-
-  document.getElementById(
-    "mealProgressBar"
-  ).style.width =
-    percentage+"%";
-
-
-  document.getElementById(
-    "mealProgressText"
-  ).textContent =
-    `${completed}/${total} refeições concluídas`;
+  if(bar) bar.style.width = `${percent}%`;
+  if(text) text.textContent = `${done}/${total} refeições concluídas`;
 
 }
 
@@ -4126,369 +3109,557 @@ function updateMealProgress(){
 
 function changeWater(amount){
 
-  state.water +=
-    amount;
+  let current = Number(state.water) || 0;
+  current += amount;
 
+  if(current < 0) current = 0;
+  if(current > WATER_GOAL) current = WATER_GOAL;
 
-  if(state.water < 0)
-    state.water=0;
+  state.water = current;
 
-
-  if(state.water > WATER_GOAL)
-    state.water=WATER_GOAL;
-
-
+  renderWater();
   syncTodayWeeklyRecord();
-
-
-  saveState();
-
-
-  updateWaterDisplay();
-
   updateWeeklyDashboard();
 
 }
 
 
-function updateWaterDisplay(){
+function renderWater(){
 
-  const ml =
-    state.water *
-    WATER_BOTTLE;
+  const count = Number(state.water) || 0;
+  const ml = count * WATER_BOTTLE;
+  const totalMl = WATER_GOAL * WATER_BOTTLE;
+  const percent = (count / WATER_GOAL) * 100;
 
+  const countEl = document.getElementById("waterCount");
+  const barEl = document.getElementById("waterProgressBar");
+  const textEl = document.getElementById("waterText");
 
-  document.getElementById(
-    "waterCount"
-  ).textContent =
-    `${state.water}/${WATER_GOAL}`;
-
-
-  document.getElementById(
-    "waterText"
-  ).textContent =
-    `${ml.toLocaleString("pt-BR")} ml de 2.000 ml`;
-
-
-  document.getElementById(
-    "waterProgressBar"
-  ).style.width =
-    `${(state.water/WATER_GOAL)*100}%`;
+  if(countEl) countEl.textContent = `${count}/${WATER_GOAL}`;
+  if(barEl) barEl.style.width = `${percent}%`;
+  if(textEl) textEl.textContent = `${ml} ml de ${totalMl} ml`;
 
 }
 
 
 /* =========================
-   DOCE
+   TREINO
+========================= */
+
+function renderHomeTraining(){
+
+  const container = document.getElementById("homeTraining");
+  if(!container) return;
+
+  const dayKey = getDayKey();
+  const todayWorkout = weeklyTraining[dayKey];
+
+  if(!todayWorkout || dayKey === "sunday"){
+    container.innerHTML = `
+      <div class="card">
+        <h2>🏋️ Treino de hoje</h2>
+        <p style="color:#aaa;font-size:14px;margin-top:8px;">
+          Hoje é dia de descanso e recuperação muscular! 🛌
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="training-header">
+        <h2>🏋️ Treino de hoje</h2>
+        <span class="day-badge">${todayWorkout.name}</span>
+      </div>
+
+      <h3 style="margin-top:8px;">${todayWorkout.title}</h3>
+
+      <button onclick="showPage('training')" style="margin-top:12px;width:100%;">
+        Ver treino completo e registrar exercícios
+      </button>
+    </div>
+  `;
+
+}
+
+
+function renderWeeklyTraining(){
+
+  const container = document.getElementById("weeklyTrainingContainer");
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  trainingDays.forEach(dayKey=>{
+
+    const workout = weeklyTraining[dayKey];
+    if(!workout) return;
+
+    const dayCard = document.createElement("div");
+    dayCard.className = "week-day-card";
+
+    const isTrainingDone = !!state.weeklyTrainingChecks[dayKey];
+    const isCardioDone = !!state.weeklyCardioChecks[dayKey];
+
+    let groupsHtml = "";
+
+    workout.groups.forEach(group=>{
+
+      let exercisesHtml = "";
+
+      group.exercises.forEach(([exName, reps], exIdx)=>{
+
+        const exKey = `${dayKey}_${group.name}_${exIdx}`;
+        const isExDone = !!state.exerciseChecks[exKey];
+
+        exercisesHtml += `
+          <div class="exercise ${isExDone ? 'done' : ''}" onclick="toggleExercise('${exKey}')">
+            <input type="checkbox" ${isExDone ? 'checked' : ''} onclick="event.stopPropagation(); toggleExercise('${exKey}')">
+            <div class="exercise-info">
+              <div class="exercise-name">${exName}</div>
+              <div class="exercise-reps">${reps}</div>
+            </div>
+          </div>
+        `;
+
+      });
+
+      groupsHtml += `
+        <h3>${group.name}</h3>
+        ${exercisesHtml}
+      `;
+
+    });
+
+    dayCard.innerHTML = `
+      <div class="week-day-header">
+        <div class="week-day-title">
+          <h2>${workout.name}</h2>
+          <span>${workout.title}</span>
+        </div>
+      </div>
+
+      <div class="week-day-content">
+
+        <div class="week-training-check ${isTrainingDone ? 'done' : ''}">
+          <input type="checkbox" id="tr-check-${dayKey}" ${isTrainingDone ? 'checked' : ''} onchange="toggleWeeklyTraining('${dayKey}')">
+          <label for="tr-check-${dayKey}"><span>Treino de ${workout.title} Concluído</span></label>
+        </div>
+
+        ${groupsHtml}
+
+        <div class="cardio-box ${isCardioDone ? 'done' : ''}">
+          <input type="checkbox" id="cardio-check-${dayKey}" ${isCardioDone ? 'checked' : ''} onchange="toggleWeeklyCardio('${dayKey}')">
+          <div>
+            <div class="cardio-title">Cardio de 3 km</div>
+            <div class="cardio-subtitle">Caminhada ou corrida contínua</div>
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    container.appendChild(dayCard);
+
+  });
+
+  const workoutInput = document.getElementById("workoutText");
+  if(workoutInput && state.workout) workoutInput.value = state.workout;
+
+}
+
+
+function toggleExercise(exKey){
+  state.exerciseChecks[exKey] = !state.exerciseChecks[exKey];
+  saveState();
+  renderWeeklyTraining();
+}
+
+
+function toggleWeeklyTraining(dayKey){
+  state.weeklyTrainingChecks[dayKey] = !state.weeklyTrainingChecks[dayKey];
+  syncTodayWeeklyRecord();
+  updateWeeklyDashboard();
+  renderWeeklyTraining();
+}
+
+
+function toggleWeeklyCardio(dayKey){
+  state.weeklyCardioChecks[dayKey] = !state.weeklyCardioChecks[dayKey];
+  syncTodayWeeklyRecord();
+  updateWeeklyDashboard();
+  renderWeeklyTraining();
+}
+
+
+function saveWorkout(){
+  const workoutInput = document.getElementById("workoutText");
+  if(workoutInput){
+    state.workout = workoutInput.value;
+    saveState();
+    alert("Observação salva com sucesso!");
+  }
+}
+
+
+/* =========================
+   CRONÔMETRO DE DESCANSO
+========================= */
+
+let restTimerInterval = null;
+let restTimeLeft = 90;
+let restTimeInitial = 90;
+let isRestRunning = false;
+
+
+function updateRestDisplay(){
+
+  const display = document.getElementById("restTimerDisplay");
+  if(!display) return;
+
+  const minutes = Math.floor(restTimeLeft / 60);
+  const seconds = restTimeLeft % 60;
+
+  display.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+}
+
+
+function setRestTime(seconds){
+
+  stopRestTimer();
+  restTimeLeft = seconds;
+  restTimeInitial = seconds;
+
+  const display = document.getElementById("restTimerDisplay");
+  if(display) display.classList.remove("finished");
+
+  updateRestDisplay();
+
+  const status = document.getElementById("restTimerStatus");
+  if(status) status.textContent = `Tempo definido para ${seconds}s. Clique em iniciar.`;
+
+}
+
+
+function toggleRestTimer(){
+
+  if(isRestRunning){
+    pauseRestTimer();
+  }else{
+    startRestTimer();
+  }
+
+}
+
+
+function startRestTimer(){
+
+  if(restTimeLeft <= 0) restTimeLeft = restTimeInitial;
+
+  isRestRunning = true;
+
+  const btn = document.getElementById("restStartButton");
+  if(btn) btn.textContent = "⏸️ Pausar";
+
+  const display = document.getElementById("restTimerDisplay");
+  if(display) display.classList.remove("finished");
+
+  const status = document.getElementById("restTimerStatus");
+  if(status) status.textContent = "Descanso em andamento...";
+
+  restTimerInterval = setInterval(()=>{
+
+    restTimeLeft--;
+    updateRestDisplay();
+
+    if(restTimeLeft <= 0){
+      clearInterval(restTimerInterval);
+      isRestRunning = false;
+
+      if(btn) btn.textContent = "▶️ Iniciar";
+      if(display) display.classList.add("finished");
+      if(status) status.textContent = "⏱️ Descanso finalizado! Hora da próxima série!";
+    }
+
+  }, 1000);
+
+}
+
+
+function pauseRestTimer(){
+
+  clearInterval(restTimerInterval);
+  isRestRunning = false;
+
+  const btn = document.getElementById("restStartButton");
+  if(btn) btn.textContent = "▶️ Continuar";
+
+  const status = document.getElementById("restTimerStatus");
+  if(status) status.textContent = "Cronômetro pausado.";
+
+}
+
+
+function resetRestTimer(){
+
+  stopRestTimer();
+  restTimeLeft = restTimeInitial;
+  updateRestDisplay();
+
+  const display = document.getElementById("restTimerDisplay");
+  if(display) display.classList.remove("finished");
+
+  const status = document.getElementById("restTimerStatus");
+  if(status) status.textContent = "Cronômetro reiniciado.";
+
+}
+
+
+function stopRestTimer(){
+
+  clearInterval(restTimerInterval);
+  isRestRunning = false;
+
+  const btn = document.getElementById("restStartButton");
+  if(btn) btn.textContent = "▶️ Iniciar";
+
+  const status = document.getElementById("restTimerStatus");
+  if(status) status.textContent = "Cronômetro parado.";
+
+}
+
+
+/* =========================
+   VONTADE DE DOCE
 ========================= */
 
 function renderSweet(){
 
-  const container =
-    document.getElementById(
-      "sweetContainer"
-    );
+  const container = document.getElementById("sweetContainer");
+  if(!container) return;
 
+  let html = "";
 
-  let html="";
+  sweetOptions.forEach((option, idx)=>{
 
+    const isChecked = !!state.sweet[idx];
 
-  sweetOptions.forEach(
-    (option,index)=>{
+    html += `
+      <div class="exercise ${isChecked ? 'done' : ''}" onclick="toggleSweet(${idx})">
+        <input type="checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleSweet(${idx})">
+        <div class="exercise-info">
+          <div class="exercise-name">${option}</div>
+        </div>
+      </div>
+    `;
 
-      const checked =
-        !!state.sweet[index];
+  });
 
-
-      html += `
-
-        <label
-          class="exercise
-          ${checked ? "done":""}">
-
-          <input
-            type="checkbox"
-            ${checked ? "checked":""}
-            onchange="toggleSweet(${index})">
-
-          <div class="exercise-info">
-
-            <div class="exercise-name">
-              ${option}
-            </div>
-
-          </div>
-
-        </label>
-
-      `;
-
-    }
-  );
-
-
-  container.innerHTML =
-    html;
+  container.innerHTML = html;
 
 }
 
 
 function toggleSweet(index){
-
-  state.sweet[index] =
-    !state.sweet[index];
-
-
+  state.sweet[index] = !state.sweet[index];
   saveState();
-
-
   renderSweet();
-
 }
 
 
 /* =========================
-   PROGRESSO
+   PROGRESSO & GRÁFICOS
 ========================= */
 
 function renderProgress(){
 
-  document.getElementById(
-    "weightInput"
-  ).value =
-    state.weight || "";
+  document.getElementById("currentWeight").textContent = state.weight || "--";
+  document.getElementById("currentHeight").textContent = state.height || "--";
+  document.getElementById("currentWaist").textContent = state.waist || "--";
+  document.getElementById("currentChest").textContent = state.chest || "--";
+  document.getElementById("currentBiceps").textContent = state.biceps || "--";
 
+  const historyContainer = document.getElementById("progressHistory");
 
-  document.getElementById(
-    "heightInput"
-  ).value =
-    state.height || "";
+  if(historyContainer){
 
+    if(!state.progressHistory || state.progressHistory.length === 0){
+      historyContainer.innerHTML = "<p style='color:#888;font-size:13px;'>Nenhum registro ainda.</p>";
+    }else{
 
-  document.getElementById(
-    "waistInput"
-  ).value =
-    state.waist || "";
+      let html = "";
 
+      [...state.progressHistory].reverse().forEach(item=>{
 
-  document.getElementById(
-    "chestInput"
-  ).value =
-    state.chest || "";
+        html += `
+          <div class="history-item">
+            <div class="history-date">📅 ${item.date}</div>
+            <div class="history-measures">
+              <div>Peso: <strong>${item.weight || '--'} kg</strong></div>
+              <div>Cintura: <strong>${item.waist || '--'} cm</strong></div>
+              <div>Peitoral: <strong>${item.chest || '--'} cm</strong></div>
+              <div>Bíceps: <strong>${item.biceps || '--'} cm</strong></div>
+            </div>
+          </div>
+        `;
 
+      });
 
-  document.getElementById(
-    "bicepsInput"
-  ).value =
-    state.biceps || "";
+      historyContainer.innerHTML = html;
 
+    }
 
-  document.getElementById(
-    "currentWeight"
-  ).textContent =
-    state.weight
-      ? state.weight
-      : "--";
+  }
 
-
-  document.getElementById(
-    "currentHeight"
-  ).textContent =
-    state.height
-      ? state.height
-      : "--";
-
-
-  document.getElementById(
-    "currentWaist"
-  ).textContent =
-    state.waist
-      ? state.waist
-      : "--";
-
-
-  document.getElementById(
-    "currentChest"
-  ).textContent =
-    state.chest
-      ? state.chest
-      : "--";
-
-
-  document.getElementById(
-    "currentBiceps"
-  ).textContent =
-    state.biceps
-      ? state.biceps
-      : "--";
-
-
-  renderProgressHistory();
-
-  renderProgressPhotos();
-
-
-  setTimeout(
-    drawProgressCharts,
-    100
-  );
+  renderCharts();
+  renderPhotoHistory();
 
 }
 
 
-/* =========================
-   SALVAR PROGRESSO
-========================= */
-
 function saveProgress(){
 
-  const weight =
-    parseFloat(
-      document.getElementById(
-        "weightInput"
-      ).value
-    );
+  const weight = document.getElementById("weightInput").value;
+  const height = document.getElementById("heightInput").value;
+  const waist = document.getElementById("waistInput").value;
+  const chest = document.getElementById("chestInput").value;
+  const biceps = document.getElementById("bicepsInput").value;
 
-
-  const height =
-    parseFloat(
-      document.getElementById(
-        "heightInput"
-      ).value
-    );
-
-
-  const waist =
-    parseFloat(
-      document.getElementById(
-        "waistInput"
-      ).value
-    );
-
-
-  const chest =
-    parseFloat(
-      document.getElementById(
-        "chestInput"
-      ).value
-    );
-
-
-  const biceps =
-    parseFloat(
-      document.getElementById(
-        "bicepsInput"
-      ).value
-    );
-
-
-  if(
-    isNaN(weight) &&
-    isNaN(height) &&
-    isNaN(waist) &&
-    isNaN(chest) &&
-    isNaN(biceps)
-  ){
-
-    alert(
-      "Informe pelo menos uma medida."
-    );
-
-
+  if(!weight && !waist && !chest && !biceps){
+    alert("Preencha ao menos uma medida!");
     return;
-
   }
 
+  if(weight) state.weight = weight;
+  if(height) state.height = height;
+  if(waist) state.waist = waist;
+  if(chest) state.chest = chest;
+  if(biceps) state.biceps = biceps;
 
-  if(!isNaN(weight))
-    state.weight=weight;
+  if(!state.progressHistory) state.progressHistory = [];
 
-
-  if(!isNaN(height))
-    state.height=height;
-
-
-  if(!isNaN(waist))
-    state.waist=waist;
-
-
-  if(!isNaN(chest))
-    state.chest=chest;
-
-
-  if(!isNaN(biceps))
-    state.biceps=biceps;
-
-
-  const today =
-    getToday();
-
-
-  let existing =
-    state.progressHistory.find(
-      item=>item.date===today
-    );
-
-
-  if(!existing){
-
-    existing={
-
-      date:today,
-
-      weight:null,
-
-      height:null,
-
-      waist:null,
-
-      chest:null,
-
-      biceps:null
-
-    };
-
-
-    state.progressHistory.push(
-      existing
-    );
-
-  }
-
-
-  if(!isNaN(weight))
-    existing.weight=weight;
-
-
-  if(!isNaN(height))
-    existing.height=height;
-
-
-  if(!isNaN(waist))
-    existing.waist=waist;
-
-
-  if(!isNaN(chest))
-    existing.chest=chest;
-
-
-  if(!isNaN(biceps))
-    existing.biceps=biceps;
-
-
-  state.progressHistory =
-    state.progressHistory.slice(-30);
-
+  state.progressHistory.push({
+    date: getToday(),
+    weight: weight || state.weight,
+    height: height || state.height,
+    waist: waist || state.waist,
+    chest: chest || state.chest,
+    biceps: biceps || state.biceps
+  });
 
   saveState();
 
+  document.getElementById("weightInput").value = "";
+  document.getElementById("waistInput").value = "";
+  document.getElementById("chestInput").value = "";
+  document.getElementById("bicepsInput").value = "";
 
   renderProgress();
+  alert("Progresso salvo com sucesso!");
+
+}
 
 
-  alert(
-    "Medição salva!"
-  );
+function renderCharts(){
+
+  const weightCanvas = document.getElementById("weightChart");
+  const bodyCanvas = document.getElementById("bodyChart");
+
+  if(!weightCanvas || !bodyCanvas) return;
+
+  const wCtx = weightCanvas.getContext("2d");
+  const bCtx = bodyCanvas.getContext("2d");
+
+  wCtx.clearRect(0, 0, weightCanvas.width, weightCanvas.height);
+  bCtx.clearRect(0, 0, bodyCanvas.width, bodyCanvas.height);
+
+  const history = state.progressHistory || [];
+
+  if(history.length === 0){
+    wCtx.fillStyle = "#666";
+    wCtx.font = "14px Arial";
+    wCtx.fillText("Adicione registros para ver o gráfico de peso", 20, 150);
+
+    bCtx.fillStyle = "#666";
+    bCtx.font = "14px Arial";
+    bCtx.fillText("Adicione registros para ver o gráfico de medidas", 20, 150);
+    return;
+  }
+
+  // Gráfico de Peso
+  const weights = history.map(h => Number(h.weight) || 0).filter(w => w > 0);
+  if(weights.length > 0){
+    drawSimpleChart(wCtx, weights, "#55e06f", weightCanvas.width, weightCanvas.height);
+  }
+
+  // Gráfico de Medidas (Cintura)
+  const waists = history.map(h => Number(h.waist) || 0).filter(w => w > 0);
+  if(waists.length > 0){
+    drawSimpleChart(bCtx, waists, "#ffffff", bodyCanvas.width, bodyCanvas.height);
+  }
+
+}
+
+
+function drawSimpleChart(ctx, data, color, width, height){
+
+  const padding = 40;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
+
+  const max = Math.max(...data) + 2;
+  const min = Math.min(...data) - 2;
+
+  ctx.strokeStyle = "#303630";
+  ctx.lineWidth = 1;
+
+  ctx.beginPath();
+  ctx.moveTo(padding, padding);
+  ctx.lineTo(padding, height - padding);
+  ctx.lineTo(width - padding, height - padding);
+  ctx.stroke();
+
+  if(data.length === 1){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(width / 2, height / 2, 6, 0, Math.PI * 2);
+    ctx.fill();
+    return;
+  }
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+
+  data.forEach((val, idx)=>{
+
+    const x = padding + (idx / (data.length - 1)) * chartWidth;
+    const y = height - padding - ((val - min) / (max - min || 1)) * chartHeight;
+
+    if(idx === 0){
+      ctx.moveTo(x, y);
+    }else{
+      ctx.lineTo(x, y);
+    }
+
+  });
+
+  ctx.stroke();
+
+  // Desenhar pontos
+  data.forEach((val, idx)=>{
+
+    const x = padding + (idx / (data.length - 1)) * chartWidth;
+    const y = height - padding - ((val - min) / (max - min || 1)) * chartHeight;
+
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+  });
 
 }
 
@@ -4497,891 +3668,138 @@ function saveProgress(){
    FOTOS DE PROGRESSO
 ========================= */
 
-function setDefaultPhotoDate(){
-
-  const input =
-    document.getElementById(
-      "photoDateInput"
-    );
-
-
-  if(!input)
-    return;
-
-
-  if(!input.value)
-    input.value =
-      getToday();
-
-}
-
-
-/* =========================
-   PRÉ-VISUALIZAÇÃO DA FOTO
-========================= */
-
 function previewPhoto(){
 
-  const input =
-    document.getElementById(
-      "photoInput"
-    );
+  const input = document.getElementById("photoInput");
+  const preview = document.getElementById("photoPreview");
+  const previewImg = document.getElementById("photoPreviewImage");
 
+  if(input.files && input.files[0]){
 
-  const preview =
-    document.getElementById(
-      "photoPreview"
-    );
+    const reader = new FileReader();
 
-
-  const image =
-    document.getElementById(
-      "photoPreviewImage"
-    );
-
-
-  if(
-    !input.files ||
-    !input.files[0]
-  ){
-
-    preview.style.display="none";
-
-    image.src="";
-
-    return;
-
-  }
-
-
-  const file =
-    input.files[0];
-
-
-  if(
-    !file.type.startsWith("image/")
-  ){
-
-    alert(
-      "Selecione uma imagem válida."
-    );
-
-
-    input.value="";
-
-    preview.style.display="none";
-
-    return;
-
-  }
-
-
-  const reader =
-    new FileReader();
-
-
-  reader.onload =
-    function(e){
-
-      image.src =
-        e.target.result;
-
-      preview.style.display =
-        "block";
-
+    reader.onload = function(e){
+      previewImg.src = e.target.result;
+      preview.style.display = "block";
     };
 
-
-  reader.readAsDataURL(
-    file
-  );
-
-}
-
-
-/* =========================
-   COMPRIMIR FOTO
-========================= */
-
-function compressImage(file){
-
-  return new Promise(
-    (resolve,reject)=>{
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        function(event){
-
-          const image =
-            new Image();
-
-
-          image.onload =
-            function(){
-
-              const maxSize =
-                1200;
-
-
-              let width =
-                image.width;
-
-
-              let height =
-                image.height;
-
-
-              if(width > height){
-
-                if(width > maxSize){
-
-                  height =
-                    Math.round(
-                      height *
-                      maxSize /
-                      width
-                    );
-
-                  width =
-                    maxSize;
-
-                }
-
-              }else{
-
-                if(height > maxSize){
-
-                  width =
-                    Math.round(
-                      width *
-                      maxSize /
-                      height
-                    );
-
-                  height =
-                    maxSize;
-
-                }
-
-              }
-
-
-              const canvas =
-                document.createElement(
-                  "canvas"
-                );
-
-
-              canvas.width =
-                width;
-
-              canvas.height =
-                height;
-
-
-              const ctx =
-                canvas.getContext(
-                  "2d"
-                );
-
-
-              ctx.drawImage(
-                image,
-                0,
-                0,
-                width,
-                height
-              );
-
-
-              const compressed =
-                canvas.toDataURL(
-                  "image/jpeg",
-                  0.82
-                );
-
-
-              resolve(
-                compressed
-              );
-
-            };
-
-
-          image.onerror =
-            reject;
-
-
-          image.src =
-            event.target.result;
-
-        };
-
-
-      reader.onerror =
-        reject;
-
-
-      reader.readAsDataURL(
-        file
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================
-   SALVAR FOTO
-========================= */
-
-async function saveProgressPhoto(){
-
-  const dateInput =
-    document.getElementById(
-      "photoDateInput"
-    );
-
-
-  const fileInput =
-    document.getElementById(
-      "photoInput"
-    );
-
-
-  const date =
-    dateInput.value;
-
-
-  if(!date){
-
-    alert(
-      "Escolha a data da foto."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    !fileInput.files ||
-    !fileInput.files[0]
-  ){
-
-    alert(
-      "Escolha uma foto."
-    );
-
-    return;
-
-  }
-
-
-  const file =
-    fileInput.files[0];
-
-
-  if(
-    !file.type.startsWith("image/")
-  ){
-
-    alert(
-      "Selecione uma imagem válida."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    const imageData =
-      await compressImage(
-        file
-      );
-
-
-    if(!state.progressPhotos)
-      state.progressPhotos=[];
-
-
-    state.progressPhotos.push({
-
-      id:
-        Date.now(),
-
-      date:
-        date,
-
-      image:
-        imageData
-
-    });
-
-
-    state.progressPhotos =
-      state.progressPhotos.slice(-30);
-
-
-    saveState();
-
-
-    fileInput.value="";
-
-
-    document.getElementById(
-      "photoPreview"
-    ).style.display =
-      "none";
-
-
-    document.getElementById(
-      "photoPreviewImage"
-    ).src="";
-
-
-    renderProgressPhotos();
-
-
-    alert(
-      "Foto de progresso salva!"
-    );
-
-  }catch(error){
-
-    alert(
-      "Não foi possível salvar a foto."
-    );
+    reader.readAsDataURL(input.files[0]);
 
   }
 
 }
 
 
-/* =========================
-   HISTÓRICO DE FOTOS
-========================= */
+function saveProgressPhoto(){
 
-function renderProgressPhotos(){
+  const dateInput = document.getElementById("photoDateInput").value;
+  const previewImg = document.getElementById("photoPreviewImage");
 
-  const container =
-    document.getElementById(
-      "photoHistory"
-    );
-
-
-  if(!container)
+  if(!previewImg.src || previewImg.src === ""){
+    alert("Selecione uma imagem!");
     return;
+  }
+
+  const date = dateInput || getToday();
+
+  if(!state.progressPhotos) state.progressPhotos = [];
+
+  state.progressPhotos.push({
+    id: Date.now(),
+    date: date,
+    image: previewImg.src
+  });
+
+  saveState();
+
+  document.getElementById("photoInput").value = "";
+  document.getElementById("photoPreview").style.display = "none";
+  previewImg.src = "";
+
+  renderPhotoHistory();
+  alert("Foto salva com sucesso!");
+
+}
 
 
-  if(
-    !state.progressPhotos ||
-    !state.progressPhotos.length
-  ){
+function renderPhotoHistory(){
 
-    container.innerHTML = `
+  const container = document.getElementById("photoHistory");
+  if(!container) return;
 
-      <p style="color:#888;margin-top:15px;">
+  if(!state.progressPhotos || state.progressPhotos.length === 0){
+    container.innerHTML = "<p style='color:#888;font-size:13px;'>Nenhuma foto cadastrada ainda.</p>";
+    return;
+  }
 
-        Nenhuma foto de progresso registrada.
+  let html = "";
 
-      </p>
+  [...state.progressPhotos].reverse().forEach(photo=>{
 
+    html += `
+      <div class="photo-item">
+        <div class="photo-item-date">📸 ${photo.date}</div>
+        <img src="${photo.image}" alt="Foto de progresso - ${photo.date}">
+        <button class="danger photo-delete" onclick="deletePhoto(${photo.id})">Excluir foto</button>
+      </div>
     `;
 
-
-    return;
-
-  }
-
-
-  const photos =
-    [...state.progressPhotos]
-      .sort(
-        (a,b)=>
-          new Date(b.date) -
-          new Date(a.date)
-      );
-
-
-  let html="";
-
-
-  photos.forEach(
-    photo=>{
-
-      const date =
-        new Date(
-          photo.date+"T12:00:00"
-        )
-        .toLocaleDateString(
-          "pt-BR"
-        );
-
-
-      html += `
-
-        <div class="photo-item">
-
-          <div class="photo-item-date">
-
-            📅 ${date}
-
-          </div>
-
-          <img
-            src="${photo.image}"
-            alt="Foto de progresso de ${date}">
-
-          <button
-            class="danger photo-delete"
-            onclick="deleteProgressPhoto(${photo.id})">
-
-            🗑️ Excluir foto
-
-          </button>
-
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  container.innerHTML =
-    html;
-
-}
-
-
-/* =========================
-   EXCLUIR FOTO
-========================= */
-
-function deleteProgressPhoto(id){
-
-  if(
-    !confirm(
-      "Deseja realmente excluir esta foto?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  state.progressPhotos =
-    state.progressPhotos.filter(
-      photo=>photo.id !== id
-    );
-
-
-  saveState();
-
-
-  renderProgressPhotos();
-
-}
-
-
-/* =========================
-   HISTÓRICO
-========================= */
-
-function renderProgressHistory(){
-
-  const container =
-    document.getElementById(
-      "progressHistory"
-    );
-
-
-  if(
-    !state.progressHistory.length
-  ){
-
-    container.innerHTML =
-      `<p style="color:#888;">
-        Nenhuma medição registrada.
-      </p>`;
-
-
-    return;
-
-  }
-
-
-  const history =
-    [...state.progressHistory]
-      .reverse();
-
-
-  let html="";
-
-
-  history.forEach(
-    item=>{
-
-      const date =
-        new Date(
-          item.date+"T12:00:00"
-        )
-        .toLocaleDateString(
-          "pt-BR"
-        );
-
-
-      html += `
-
-        <div class="history-item">
-
-          <div class="history-date">
-
-            ${date}
-
-          </div>
-
-          <div class="history-measures">
-
-            <span>
-
-              ⚖️ Peso:
-              ${
-                item.weight != null
-                  ? item.weight+" kg"
-                  : "--"
-              }
-
-            </span>
-
-            <span>
-
-              📏 Altura:
-              ${
-                item.height != null
-                  ? item.height+" cm"
-                  : "--"
-              }
-
-            </span>
-
-            <span>
-
-              🟠 Cintura:
-              ${
-                item.waist != null
-                  ? item.waist+" cm"
-                  : "--"
-              }
-
-            </span>
-
-            <span>
-
-              🫁 Peitoral:
-              ${
-                item.chest != null
-                  ? item.chest+" cm"
-                  : "--"
-              }
-
-            </span>
-
-            <span>
-
-              💪 Bíceps:
-              ${
-                item.biceps != null
-                  ? item.biceps+" cm"
-                  : "--"
-              }
-
-            </span>
-
-          </div>
-
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  container.innerHTML =
-    html;
-
-}
-
-
-/* =========================
-   GRÁFICOS
-========================= */
-
-function drawProgressCharts(){
-
-  drawWeightChart();
-
-  drawBodyChart();
-
-}
-
-
-/* =========================
-   GRÁFICO DE PESO
-========================= */
-
-function drawWeightChart(){
-
-  const canvas =
-    document.getElementById(
-      "weightChart"
-    );
-
-
-  if(!canvas)
-    return;
-
-
-  const ctx =
-    canvas.getContext(
-      "2d"
-    );
-
-
-  const width =
-    canvas.width;
-
-
-  const height =
-    canvas.height;
-
-
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-
-  const data =
-    state.progressHistory.filter(
-      item=>item.weight != null
-    );
-
-
-  if(data.length < 2){
-
-    ctx.fillStyle="#777";
-
-    ctx.font="14px Arial";
-
-    ctx.fillText(
-      "Registre pelo menos 2 medições de peso para visualizar a evolução.",
-      30,
-      height/2
-    );
-
-    return;
-
-  }
-
-
-  const values =
-    data.map(
-      item=>Number(item.weight)
-    );
-
-
-  let min =
-    Math.min(...values);
-
-
-  let max =
-    Math.max(...values);
-
-
-  if(min === max){
-    min -= 1;
-    max += 1;
-  }
-
-  const padding = 40;
-  const chartWidth = width - padding * 2;
-  const chartHeight = height - padding * 2;
-
-  ctx.strokeStyle = "#292f29";
-  ctx.lineWidth = 1;
-
-  for(let i=0; i<=4; i++){
-    const y = padding + (chartHeight/4)*i;
-    ctx.beginPath();
-    ctx.moveTo(padding, y);
-    ctx.lineTo(width - padding, y);
-    ctx.stroke();
-  }
-
-  ctx.strokeStyle = "#55e06f";
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-
-  data.forEach((item, index) => {
-    const x = padding + (chartWidth / (data.length - 1)) * index;
-    const y = height - padding - ((item.weight - min) / (max - min)) * chartHeight;
-    if(index === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
   });
-  ctx.stroke();
 
-  data.forEach((item, index) => {
-    const x = padding + (chartWidth / (data.length - 1)) * index;
-    const y = height - padding - ((item.weight - min) / (max - min)) * chartHeight;
-    ctx.fillStyle = "#55e06f";
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fill();
+  container.innerHTML = html;
+
+}
+
+
+function deletePhoto(id){
+
+  if(confirm("Deseja realmente excluir esta foto?")){
+    state.progressPhotos = state.progressPhotos.filter(p => p.id !== id);
+    saveState();
+    renderPhotoHistory();
+  }
+
+}
+
+
+/* =========================
+   LEMBRETES
+========================= */
+
+function renderReminders(){
+
+  const container = document.getElementById("remindersContainer");
+  if(!container) return;
+
+  let html = "";
+
+  defaultReminders.forEach(([id, label, time])=>{
+
+    const isEnabled = state.reminders[id] !== false;
+
+    html += `
+      <div class="reminder">
+        <div class="reminder-info">
+          <strong>${label}</strong>
+          <span>${time}</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" ${isEnabled ? 'checked' : ''} onchange="toggleReminder('${id}')">
+          <span class="slider"></span>
+        </label>
+      </div>
+    `;
+
   });
+
+  container.innerHTML = html;
+
 }
 
 
-/* =========================
-   GRÁFICO DE MEDIDAS
-========================= */
-
-function drawBodyChart(){
-  const canvas = document.getElementById("bodyChart");
-  if(!canvas) return;
-
-  const ctx = canvas.getContext("2d");
-  const width = canvas.width;
-  const height = canvas.height;
-
-  ctx.clearRect(0, 0, width, height);
-
-  const data = state.progressHistory.filter(
-    item => item.waist != null || item.chest != null || item.biceps != null
-  );
-
-  if(data.length < 2){
-    ctx.fillStyle = "#777";
-    ctx.font = "14px Arial";
-    ctx.fillText("Registre pelo menos 2 medições de medidas corporais para visualizar a evolução.", 30, height/2);
-    return;
-  }
-
-  const padding = 40;
-  const chartWidth = width - padding * 2;
-  const chartHeight = height - padding * 2;
-
-  ctx.strokeStyle = "#292f29";
-  ctx.lineWidth = 1;
-  for(let i=0; i<=4; i++){
-    const y = padding + (chartHeight/4)*i;
-    ctx.beginPath();
-    ctx.moveTo(padding, y);
-    ctx.lineTo(width - padding, y);
-    ctx.stroke();
-  }
-}
-
-
-/* =========================
-   ROTEAMENTO E NAVEGAÇÃO
-========================= */
-
-function showPage(pageId){
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
-
-  const targetPage = document.getElementById(pageId);
-  const targetNav = document.getElementById(`nav-${pageId}`);
-
-  if(targetPage) targetPage.classList.add("active");
-  if(targetNav) targetNav.classList.add("active");
-
-  if(pageId === "home"){
-    renderTodayTraining();
-    updateWaterDisplay();
-  } else if(pageId === "diet"){
-    renderMeals();
-  } else if(pageId === "training"){
-    renderWeeklyTraining();
-  } else if(pageId === "sweet"){
-    renderSweet();
-  } else if(pageId === "progress"){
-    renderProgress();
-    setDefaultPhotoDate();
-  }
-}
-
-
-/* =========================
-   CRONÔMETRO
-========================= */
-
-let restTimerInterval = null;
-let restTimeLeft = 90;
-let restTimerRunning = false;
-
-function setRestTime(seconds){
-  stopRestTimer();
-  restTimeLeft = seconds;
-  updateRestTimerDisplay();
-}
-
-function updateRestTimerDisplay(){
-  const display = document.getElementById("restTimerDisplay");
-  const minutes = Math.floor(restTimeLeft / 60);
-  const seconds = restTimeLeft % 60;
-  display.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-  display.classList.remove("finished");
-}
-
-function toggleRestTimer(){
-  if(restTimerRunning){
-    stopRestTimer();
-  } else {
-    restTimerRunning = true;
-    document.getElementById("restStartButton").textContent = "⏸ Pausar";
-    restTimerInterval = setInterval(() => {
-      restTimeLeft--;
-      updateRestTimerDisplay();
-      if(restTimeLeft <= 0){
-        stopRestTimer();
-        document.getElementById("restTimerDisplay").classList.add("finished");
-        document.getElementById("restTimerStatus").textContent = "🔔 Tempo de descanso encerrado!";
-      }
-    }, 1000);
-  }
-}
-
-function stopRestTimer(){
-  clearInterval(restTimerInterval);
-  restTimerRunning = false;
-  const btn = document.getElementById("restStartButton");
-  if(btn) btn.textContent = "▶️ Iniciar";
-}
-
-function resetRestTimer(){
-  stopRestTimer();
-  restTimeLeft = 90;
-  updateRestTimerDisplay();
-}
-
-function saveWorkout(){
-  const text = document.getElementById("workoutText").value;
-  state.workout = text;
+function toggleReminder(id){
+  state.reminders[id] = state.reminders[id] === false ? true : false;
   saveState();
-  alert("Observação salva com sucesso!");
 }
 
 
@@ -5389,15 +3807,22 @@ function saveWorkout(){
    INICIALIZAÇÃO
 ========================= */
 
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", ()=>{
+
+  const dateEl = document.getElementById("todayDate");
+  if(dateEl){
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateEl.textContent = new Date().toLocaleDateString('pt-BR', options);
+  }
+
+  const photoDate = document.getElementById("photoDateInput");
+  if(photoDate) photoDate.value = getToday();
+
   loadState();
-  renderDate();
-  renderDailyMotivation();
-  renderTodayTraining();
-  updateWaterDisplay();
-  updateWeeklyDashboard();
-};
+
+});
 
 </script>
+
 </body>
 </html>
