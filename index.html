@@ -1,986 +1,5385 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plano Alimentar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROJETO DENIS 2027</title>
 
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --card-border: #334155;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent: #22c55e;
-      --accent-hover: #16a34a;
-      --accent-soft: rgba(34, 197, 94, 0.15);
-      --danger: #ef4444;
-      --primary: #3b82f6;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0d0f0e;
+  color:#fff;
+  padding-bottom:90px;
+}
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      padding: 16px;
-      padding-bottom: 40px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+header{
+  background:#111411;
+  padding:22px 18px;
+  text-align:center;
+  border-bottom:1px solid #242824;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
 
-    header {
-      margin-bottom: 20px;
-      text-align: center;
-    }
+header h1{
+  color:#55e06f;
+  font-size:23px;
+  letter-spacing:1px;
+}
 
-    h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
+header p{
+  color:#aaa;
+  font-size:13px;
+  margin-top:5px;
+}
 
-    p.subtitle {
-      color: var(--text-muted);
-      font-size: 0.875rem;
-    }
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
 
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
+.page{
+  display:none;
+}
 
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+.page.active{
+  display:block;
+}
 
-    .time-badge {
-      font-size: 0.75rem;
-      background-color: var(--card-border);
-      color: var(--text-muted);
-      padding: 2px 8px;
-      border-radius: 12px;
-    }
+.card{
+  background:#151915;
+  border:1px solid #272d27;
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:15px;
+}
 
-    .day-selector {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 16px;
-      scrollbar-width: none;
-    }
+.card h2{
+  font-size:19px;
+  margin-bottom:12px;
+}
 
-    .day-selector::-webkit-scrollbar {
-      display: none;
-    }
+.card h3{
+  font-size:16px;
+  color:#55e06f;
+  margin:15px 0 10px;
+}
 
-    .day-btn {
-      background-color: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-muted);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      white-space: nowrap;
-      cursor: pointer;
-    }
+.hero{
+  background:linear-gradient(135deg,#142018,#101310);
+  border:1px solid #29402d;
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:15px;
+}
 
-    .day-btn.active {
-      background-color: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-      font-weight: 600;
-    }
+.hero h2{
+  color:#55e06f;
+  margin-bottom:8px;
+}
 
-    .meal-option {
-      background-color: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
-    }
+.hero p{
+  color:#ccc;
+  line-height:1.5;
+}
 
-    .meal-option:last-child {
-      margin-bottom: 0;
-    }
 
-    .meal-option.selected {
-      background-color: var(--accent-soft);
-      border-color: var(--accent);
-      color: #fff;
-    }
+/* =========================
+   DASHBOARD SEMANAL
+========================= */
 
-    .checkbox {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      border: 2px solid var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+.weekly-dashboard{
+  margin-top:18px;
+  background:#0f140f;
+  border:1px solid #315237;
+  border-radius:15px;
+  padding:16px;
+}
 
-    .meal-option.selected .checkbox {
-      background-color: var(--accent);
-      border-color: var(--accent);
-    }
+.weekly-dashboard-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
 
-    .meal-option.selected .checkbox::after {
-      content: "✓";
-      color: #000;
-      font-size: 12px;
-      font-weight: bold;
-    }
+.weekly-dashboard-title{
+  color:#55e06f;
+  font-size:16px;
+  font-weight:bold;
+}
 
-    .progress-wrap {
-      background-color: var(--card-border);
-      height: 8px;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 8px;
-      margin-bottom: 8px;
-    }
+.weekly-dashboard-subtitle{
+  color:#888;
+  font-size:11px;
+  margin-top:3px;
+}
 
-    .progress-bar {
-      background-color: var(--accent);
-      height: 100%;
-      width: 0%;
-      transition: width 0.3s ease;
-    }
+.weekly-dashboard-percent{
+  color:#55e06f;
+  font-size:20px;
+  font-weight:bold;
+}
 
-    .progress-text {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-align: right;
-    }
+.weekly-goals{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
 
-    .sweet-item {
-      background-color: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 8px 12px;
-      margin-bottom: 6px;
-      font-size: 0.875rem;
-    }
+.weekly-goal{
+  background:#151915;
+  border:1px solid #292f29;
+  border-radius:12px;
+  padding:13px;
+}
 
-    .weekly-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      margin-top: 10px;
-    }
+.weekly-goal-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:7px;
+}
 
-    .weekly-day-col {
-      text-align: center;
-    }
+.weekly-goal-name{
+  font-size:13px;
+  font-weight:bold;
+  color:#ddd;
+}
 
-    .weekly-day-name {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-      text-transform: uppercase;
-    }
+.weekly-goal-count{
+  color:#55e06f;
+  font-size:14px;
+  font-weight:bold;
+}
 
-    .weekly-dot-container {
-      background-color: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
-      padding: 6px 2px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      align-items: center;
-    }
+.weekly-goal-bar{
+  background:#252a25;
+  height:7px;
+  border-radius:20px;
+  overflow:hidden;
+}
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--card-border);
-    }
+.weekly-goal-bar-fill{
+  height:100%;
+  background:#55e06f;
+  width:0%;
+  transition:.3s;
+}
 
-    .dot.done {
-      background-color: var(--accent);
-    }
-  </style>
+.weekly-goal-status{
+  color:#888;
+  font-size:10px;
+  margin-top:6px;
+}
+
+.weekly-dashboard-total{
+  margin-top:13px;
+  color:#aaa;
+  font-size:12px;
+  text-align:center;
+}
+
+.weekly-dashboard-total strong{
+  color:#55e06f;
+}
+
+
+.motivation{
+  background:#18251a;
+  border:1px solid #315237;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:15px;
+}
+
+.motivation-title{
+  color:#55e06f;
+  font-size:15px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.motivation-text{
+  color:#ddd;
+  font-size:14px;
+  line-height:1.5;
+  font-style:italic;
+}
+
+.progress-wrap{
+  background:#252a25;
+  height:10px;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.progress-bar{
+  height:100%;
+  background:#55e06f;
+  width:0%;
+  transition:.3s;
+}
+
+.progress-text{
+  font-size:13px;
+  color:#aaa;
+  margin-top:7px;
+}
+
+.meal{
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.meal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.meal-title{
+  font-weight:bold;
+}
+
+.meal-time{
+  color:#55e06f;
+  font-size:12px;
+}
+
+.options{
+  margin-top:12px;
+}
+
+.option{
+  background:#191d19;
+  border:1px solid #2b302b;
+  border-radius:9px;
+  padding:10px;
+  margin-top:7px;
+  cursor:pointer;
+  color:#ccc;
+  font-size:14px;
+}
+
+.option.selected{
+  border-color:#55e06f;
+  background:#18251a;
+  color:#fff;
+}
+
+.exercise{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#101310;
+  border:1px solid #292f29;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:7px;
+  cursor:pointer;
+}
+
+.exercise input{
+  width:20px;
+  height:20px;
+  accent-color:#55e06f;
+  flex-shrink:0;
+}
+
+.exercise.done{
+  border-color:#3f8e4c;
+  background:#162018;
+}
+
+.exercise.done .exercise-name{
+  text-decoration:line-through;
+  color:#777;
+}
+
+.exercise-info{
+  flex:1;
+}
+
+.exercise-name{
+  font-size:14px;
+  font-weight:bold;
+}
+
+.exercise-reps{
+  color:#999;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.training-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.day-badge{
+  background:#55e06f;
+  color:#071008;
+  font-size:12px;
+  font-weight:bold;
+  padding:6px 9px;
+  border-radius:20px;
+}
+
+.check-big{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#192019;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+}
+
+.check-big input{
+  width:22px;
+  height:22px;
+  accent-color:#55e06f;
+}
+
+.section-count{
+  color:#aaa;
+  font-size:13px;
+  margin-bottom:9px;
+}
+
+.week-day-card{
+  border:1px solid #272d27;
+  border-radius:15px;
+  margin-bottom:15px;
+  overflow:hidden;
+  background:#151915;
+}
+
+.week-day-header{
+  padding:16px 18px;
+  background:#111511;
+  border-bottom:1px solid #292f29;
+}
+
+.week-day-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.week-day-title h2{
+  font-size:18px;
+}
+
+.week-day-title span{
+  color:#55e06f;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.week-day-content{
+  padding:16px 18px;
+}
+
+.week-day-content h3{
+  color:#55e06f;
+  font-size:15px;
+  margin:12px 0 9px;
+}
+
+.week-training-check{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#192019;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:14px;
+}
+
+.week-training-check input{
+  width:22px;
+  height:22px;
+  accent-color:#55e06f;
+  flex-shrink:0;
+}
+
+.week-training-check span{
+  font-weight:bold;
+  font-size:14px;
+}
+
+.week-training-check.done{
+  background:#18251a;
+  border:1px solid #3f8e4c;
+}
+
+.week-training-check.done span{
+  color:#55e06f;
+}
+
+.cardio-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#111711;
+  border:1px solid #2e382e;
+  border-radius:10px;
+  padding:13px;
+  margin:15px 0 5px;
+}
+
+.cardio-box input{
+  width:22px;
+  height:22px;
+  accent-color:#55e06f;
+  flex-shrink:0;
+}
+
+.cardio-box.done{
+  border-color:#3f8e4c;
+  background:#18251a;
+}
+
+.cardio-title{
+  font-size:14px;
+  font-weight:bold;
+}
+
+.cardio-subtitle{
+  color:#999;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.cardio-box.done .cardio-title{
+  color:#55e06f;
+}
+
+button{
+  border:none;
+  border-radius:10px;
+  padding:11px 15px;
+  background:#55e06f;
+  color:#071008;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button.secondary{
+  background:#252a25;
+  color:#fff;
+}
+
+button.danger{
+  background:#532222;
+  color:#fff;
+}
+
+.water{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.water-count{
+  font-size:22px;
+  font-weight:bold;
+  color:#55e06f;
+}
+
+.water-buttons{
+  display:flex;
+  gap:7px;
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.quick{
+  background:#151915;
+  border:1px solid #292f29;
+  border-radius:13px;
+  padding:18px;
+  cursor:pointer;
+}
+
+.quick strong{
+  display:block;
+  color:#55e06f;
+  margin-bottom:5px;
+}
+
+.quick span{
+  color:#aaa;
+  font-size:12px;
+}
+
+textarea,
+input[type="number"],
+input[type="text"],
+input[type="date"]{
+  width:100%;
+  background:#101310;
+  color:#fff;
+  border:1px solid #303630;
+  border-radius:9px;
+  padding:11px;
+  margin-top:7px;
+  outline:none;
+}
+
+input[type="file"]{
+  width:100%;
+  background:#101310;
+  color:#bbb;
+  border:1px solid #303630;
+  border-radius:9px;
+  padding:10px;
+  margin-top:7px;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+label{
+  color:#bbb;
+  font-size:13px;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.form-row-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.measure-title{
+  color:#55e06f;
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.current-measurements{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.measure-box{
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:10px;
+  padding:12px;
+}
+
+.measure-box strong{
+  display:block;
+  color:#55e06f;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.measure-box span{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.measure-box small{
+  color:#888;
+  font-size:11px;
+}
+
+.chart-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-top:10px;
+  font-size:12px;
+  color:#aaa;
+}
+
+.legend-weight{
+  color:#55e06f;
+}
+
+.legend-body{
+  color:#fff;
+}
+
+.reminder{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:10px;
+  padding:13px;
+  margin-bottom:8px;
+}
+
+.reminder-info strong{
+  display:block;
+}
+
+.reminder-info span{
+  color:#55e06f;
+  font-size:12px;
+}
+
+.switch{
+  width:42px;
+  height:24px;
+  position:relative;
+}
+
+.switch input{
+  display:none;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:#333;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:3px;
+  top:3px;
+  background:#fff;
+  border-radius:50%;
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:#55e06f;
+}
+
+.switch input:checked + .slider:before{
+  transform:translateX(18px);
+}
+
+.history-item{
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:7px;
+}
+
+.history-date{
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.history-measures{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:5px;
+  color:#aaa;
+  font-size:13px;
+}
+
+.photo-form{
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:12px;
+  padding:14px;
+  margin-top:15px;
+}
+
+.photo-form h3{
+  margin-top:0;
+}
+
+.photo-preview{
+  display:none;
+  margin-top:12px;
+  text-align:center;
+}
+
+.photo-preview img{
+  width:100%;
+  max-height:350px;
+  object-fit:contain;
+  border-radius:10px;
+  border:1px solid #303630;
+  background:#0d0f0e;
+}
+
+.photo-history{
+  margin-top:15px;
+}
+
+.photo-item{
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+}
+
+.photo-item-date{
+  color:#55e06f;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:9px;
+}
+
+.photo-item img{
+  display:block;
+  width:100%;
+  max-height:400px;
+  object-fit:contain;
+  border-radius:9px;
+  background:#0d0f0e;
+}
+
+.photo-delete{
+  margin-top:8px;
+  width:100%;
+}
+
+canvas{
+  width:100%;
+  max-height:300px;
+  background:#101310;
+  border-radius:10px;
+  margin-top:12px;
+}
+
+
+/* =========================
+   CRONÔMETRO DE DESCANSO
+========================= */
+
+.rest-timer{
+  background:linear-gradient(135deg,#142018,#101310);
+  border:1px solid #315237;
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+.rest-timer-title{
+  color:#55e06f;
+  font-size:15px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.rest-timer-display{
+  font-size:48px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin:8px 0 15px;
+}
+
+.rest-timer-display.finished{
+  color:#55e06f;
+  animation:timerPulse .7s infinite alternate;
+}
+
+@keyframes timerPulse{
+  from{
+    transform:scale(1);
+    opacity:1;
+  }
+
+  to{
+    transform:scale(1.05);
+    opacity:.65;
+  }
+}
+
+.rest-presets{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.rest-presets button{
+  padding:9px 5px;
+  font-size:12px;
+}
+
+.rest-controls{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:7px;
+}
+
+.rest-controls button{
+  padding:10px 5px;
+}
+
+.rest-status{
+  color:#999;
+  font-size:12px;
+  margin-top:10px;
+}
+
+
+.nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#111411;
+  border-top:1px solid #292f29;
+  display:flex;
+  justify-content:center;
+  z-index:20;
+}
+
+.nav button{
+  flex:1;
+  max-width:180px;
+  background:none;
+  color:#888;
+  border-radius:0;
+  padding:12px 5px;
+  font-size:11px;
+}
+
+.nav button.active{
+  color:#55e06f;
+}
+
+
+@media(max-width:600px){
+
+  .quick-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-row,
+  .form-row-3{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .current-measurements{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .week-day-title{
+    align-items:flex-start;
+  }
+
+  .rest-presets{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .weekly-goals{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .weekly-dashboard{
+    padding:13px;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>PROJETO DENIS 2027</h1>
-    <p class="subtitle">Acompanhamento e Metas de Dieta</p>
-  </header>
+<header>
+  <h1>PROJETO DENIS 2027</h1>
+  <p id="todayDate"></p>
+</header>
 
-  <div class="day-selector" id="daySelector">
-    <button class="day-btn active" data-day="segunda">Segunda</button>
-    <button class="day-btn" data-day="terca">Terça</button>
-    <button class="day-btn" data-day="quarta">Quarta</button>
-    <button class="day-btn" data-day="quinta">Quinta</button>
-    <button class="day-btn" data-day="sexta">Sexta</button>
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+  <div id="dailyMotivation"></div>
+
+  <div class="hero">
+
+    <h2>Foco: Massa + Definição 💪</h2>
+
+    <p>
+      Ganhar massa muscular enquanto reduz a gordura abdominal,
+      mantendo alimentação, treino, cardio e hidratação em dia.
+    </p>
+
+
+    <!-- DASHBOARD SEMANAL -->
+
+    <div class="weekly-dashboard">
+
+      <div class="weekly-dashboard-header">
+
+        <div>
+
+          <div class="weekly-dashboard-title">
+            📊 DASHBOARD SEMANAL
+          </div>
+
+          <div class="weekly-dashboard-subtitle">
+            Segunda a sábado
+          </div>
+
+        </div>
+
+        <div
+          id="weeklyDashboardPercent"
+          class="weekly-dashboard-percent">
+          0%
+        </div>
+
+      </div>
+
+
+      <div class="weekly-goals">
+
+
+        <!-- DIETA -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              🍽️ Dieta
+            </div>
+
+            <div
+              id="weeklyDietCount"
+              class="weekly-goal-count">
+              0/6
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyDietBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyDietStatus"
+            class="weekly-goal-status">
+            6 dias completos
+          </div>
+
+        </div>
+
+
+        <!-- ÁGUA -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              💧 Água
+            </div>
+
+            <div
+              id="weeklyWaterCount"
+              class="weekly-goal-count">
+              0/24
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyWaterBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyWaterStatus"
+            class="weekly-goal-status">
+            24 garrafinhas de 500 ml
+          </div>
+
+        </div>
+
+
+        <!-- TREINO -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              🏋️ Treinos
+            </div>
+
+            <div
+              id="weeklyTrainingCount"
+              class="weekly-goal-count">
+              0/6
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyTrainingBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyTrainingStatus"
+            class="weekly-goal-status">
+            6 treinos
+          </div>
+
+        </div>
+
+
+        <!-- CARDIO -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              🏃 Cardios
+            </div>
+
+            <div
+              id="weeklyCardioCount"
+              class="weekly-goal-count">
+              0/6
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyCardioBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyCardioStatus"
+            class="weekly-goal-status">
+            6 cardios de 3 km
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div
+        id="weeklyDashboardTotal"
+        class="weekly-dashboard-total">
+
+        Semana iniciada. Vamos buscar os <strong>4 objetivos!</strong>
+
+      </div>
+
+    </div>
+
   </div>
 
+
   <div class="card">
-    <h2>🍽️ Progresso de Hoje</h2>
+
+    <h2>🍽️ Alimentação de hoje</h2>
 
     <div class="progress-wrap">
-      <div class="progress-bar" id="mealProgressBar"></div>
+
+      <div
+        class="progress-bar"
+        id="mealProgressBar">
+      </div>
+
     </div>
 
-    <div class="progress-text" id="mealProgressText">
-      0/5 refeições concluídas
+    <div
+      class="progress-text"
+      id="mealProgressText">
+
+      0/5 refeições
+
     </div>
+
+  </div>
+
+
+  <div id="homeTraining"></div>
+
+
+  <div class="card">
+
+    <h2>💧 Água</h2>
+
+    <div class="water">
+
+      <div>
+
+        <div
+          class="water-count"
+          id="waterCount">
+
+          0/4
+
+        </div>
+
+        <div class="progress-text">
+          garrafas de 500 ml
+        </div>
+
+      </div>
+
+      <div class="water-buttons">
+
+        <button
+          onclick="changeWater(-1)"
+          class="secondary">
+
+          −
+
+        </button>
+
+        <button onclick="changeWater(1)">
+
+          +
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="progress-wrap">
+
+      <div
+        class="progress-bar"
+        id="waterProgressBar">
+      </div>
+
+    </div>
+
+    <div
+      class="progress-text"
+      id="waterText">
+
+      0 ml de 2.000 ml
+
+    </div>
+
+  </div>
+
+
+  <div class="quick-grid">
+
+    <div
+      class="quick"
+      onclick="showPage('diet')">
+
+      <strong>🍽️ Dieta</strong>
+
+      <span>
+        Opções de refeições
+      </span>
+
+    </div>
+
+    <div
+      class="quick"
+      onclick="showPage('training')">
+
+      <strong>🏋️ Treino</strong>
+
+      <span>
+        Exercícios da semana
+      </span>
+
+    </div>
+
+    <div
+      class="quick"
+      onclick="showPage('sweet')">
+
+      <strong>🍫 Vontade de doce</strong>
+
+      <span>
+        Opções controladas
+      </span>
+
+    </div>
+
+    <div
+      class="quick"
+      onclick="showPage('progress')">
+
+      <strong>📈 Progresso</strong>
+
+      <span>
+        Peso e medidas
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- DIETA -->
+<section id="diet" class="page">
+
+  <div class="card">
+
+    <h2>🍽️ Minha Dieta</h2>
+
+    <p style="color:#aaa;font-size:13px;">
+      Escolha uma opção em cada refeição e marque quando concluir.
+    </p>
+
   </div>
 
   <div id="mealsContainer"></div>
 
-  <div class="card">
-    <div class="card-title">
-      🍰 Vontade de Doce (Opções)
+</section>
+
+
+<!-- TREINO -->
+<section id="training" class="page">
+
+  <!-- CRONÔMETRO DE DESCANSO -->
+
+  <div class="rest-timer">
+
+    <div class="rest-timer-title">
+      ⏱️ CRONÔMETRO DE DESCANSO
     </div>
 
-    <div id="sweetsContainer"></div>
-  </div>
+    <div
+      id="restTimerDisplay"
+      class="rest-timer-display">
 
-  <div class="card">
-    <div class="card-title">
-      📊 Resumo Semanal
+      01:30
+
     </div>
 
-    <div class="weekly-grid" id="weeklyGrid"></div>
+    <div class="rest-presets">
+
+      <button
+        class="secondary"
+        onclick="setRestTime(30)">
+
+        30s
+
+      </button>
+
+      <button
+        class="secondary"
+        onclick="setRestTime(60)">
+
+        60s
+
+      </button>
+
+      <button
+        class="secondary"
+        onclick="setRestTime(90)">
+
+        90s
+
+      </button>
+
+      <button
+        class="secondary"
+        onclick="setRestTime(120)">
+
+        120s
+
+      </button>
+
+    </div>
+
+    <div class="rest-controls">
+
+      <button
+        id="restStartButton"
+        onclick="toggleRestTimer()">
+
+        ▶️ Iniciar
+
+      </button>
+
+      <button
+        class="secondary"
+        onclick="resetRestTimer()">
+
+        🔄 Reiniciar
+
+      </button>
+
+      <button
+        class="danger"
+        onclick="stopRestTimer()">
+
+        ⏹️ Parar
+
+      </button>
+
+    </div>
+
+    <div
+      id="restTimerStatus"
+      class="rest-status">
+
+      Escolha o tempo e inicie o descanso.
+
+    </div>
+
   </div>
 
-  <script>
 
-    // =====================================================
-    // DIETA ATUALIZADA — PROJETO DENIS 2027
-    // =====================================================
+  <div class="card">
 
-    const meals = {
+    <h2>🏋️ Treinos da semana</h2>
 
-      breakfast: {
-        title: "☀️ Café da Manhã",
-        time: "09:00"
-      },
+    <p style="color:#aaa;font-size:13px;line-height:1.5;">
 
-      lunch: {
-        title: "🍛 Almoço",
-        time: "12:00"
-      },
+      Aqui estão todos os treinos da semana. Marque o treino completo,
+      os exercícios realizados e o cardio feito em cada dia.
 
-      snack: {
-        title: "🥪 Lanche da Tarde",
-        time: "17:00"
-      },
+    </p>
 
-      dinner: {
-        title: "🍽️ Jantar",
-        time: "19:00"
-      },
+  </div>
 
-      night: {
-        title: "🌙 Ceia",
-        time: "21:00"
-      }
-
-    };
+  <div id="weeklyTrainingContainer"></div>
 
 
-    // =====================================================
-    // CARDÁPIO DE SEGUNDA A SEXTA
-    // =====================================================
+  <div class="card">
 
-    const weeklyMeals = {
+    <h2>📝 Observações do treino</h2>
 
-      // ===================================================
-      // SEGUNDA
-      // ===================================================
+    <textarea
+      id="workoutText"
+      placeholder="Anote cargas, dificuldades, observações ou evolução..."></textarea>
 
-      segunda: {
+    <button
+      onclick="saveWorkout()"
+      style="margin-top:10px;">
 
-        breakfast: [
-          "Pão francês + 3 ovos mexidos + whey + banana",
-          "Pão integral + 3 ovos + whey + mamão",
-          "Tapioca com coco sem açúcar + 3 ovos + whey",
-          "Iogurte natural/greek + banana + whey + aveia",
-          "Omelete de 3 ovos + pão integral + whey",
-          "Vitamina de banana + whey + aveia + leite ou água"
-        ],
+      Salvar observação
 
-        lunch: [
-          "Arroz + feijão + frango grelhado + salada",
-          "Arroz + feijão + carne bovina magra + legumes",
-          "Frango grelhado + batata + salada + legumes",
-          "Arroz + frango + feijão + brócolis",
-          "Peixe grelhado + arroz + feijão + salada",
-          "Macarrão + frango desfiado + legumes"
-        ],
+    </button>
 
-        snack: [
-          "Pão integral + frango desfiado + tomate",
-          "Tapioca + 2 ovos + fruta",
-          "Iogurte + whey + banana + aveia",
-          "Banana + whey + aveia",
-          "Crepioca + frango desfiado",
-          "Sanduíche integral de atum + fruta"
-        ],
+  </div>
 
-        dinner: [
-          "Arroz + frango grelhado + salada",
-          "Arroz + carne bovina magra + legumes",
-          "Frango grelhado + batata + salada",
-          "Omelete de 3 ovos + arroz + legumes",
-          "Peixe grelhado + batata + salada",
-          "Macarrão + frango + legumes"
-        ],
-
-        night: [
-          "Iogurte natural/greek + whey + canela",
-          "Banana + whey + aveia",
-          "Iogurte + mamão + whey",
-          "2–3 ovos + fruta",
-          "Whey + banana",
-          "Iogurte + whey + aveia"
-        ]
-
-      },
+</section>
 
 
-      // ===================================================
-      // TERÇA
-      // ===================================================
+<!-- DOCE -->
+<section id="sweet" class="page">
 
-      terca: {
+  <div class="card">
 
-        breakfast: [
-          "Pão integral + 3 ovos + whey + banana",
-          "Tapioca + 3 ovos + whey + mamão",
-          "Iogurte natural/greek + banana + whey + aveia",
-          "Omelete de 3 ovos + pão integral + whey",
-          "Tapioca com coco sem açúcar + 3 ovos + whey",
-          "Vitamina de banana + whey + aveia + leite ou água"
-        ],
+    <h2>🍫 Controle da vontade de doce</h2>
 
-        lunch: [
-          "Arroz + feijão + carne bovina magra + salada",
-          "Arroz + frango grelhado + legumes",
-          "Frango + batata-doce + salada",
-          "Peixe + arroz + feijão + legumes",
-          "Arroz + carne magra + brócolis + cenoura",
-          "Macarrão + frango + salada"
-        ],
+    <p style="color:#aaa;font-size:13px;margin-bottom:15px;">
 
-        snack: [
-          "Pão integral + ovos + fruta",
-          "Tapioca + frango desfiado",
-          "Iogurte + whey + banana",
-          "Banana + whey + aveia",
-          "Crepioca + frango",
-          "Sanduíche integral de atum + fruta"
-        ],
+      Escolha uma opção quando bater aquela vontade.
 
-        dinner: [
-          "Arroz + feijão + frango + salada",
-          "Carne magra + arroz + legumes",
-          "Frango + batata + salada",
-          "Omelete de 3 ovos + arroz + salada",
-          "Peixe + arroz + legumes",
-          "Macarrão + carne magra + legumes"
-        ],
+    </p>
 
-        night: [
-          "Iogurte + whey + banana",
-          "Whey + mamão",
-          "Iogurte + aveia + whey",
-          "2–3 ovos + fruta",
-          "Banana + whey",
-          "Iogurte + fruta + whey"
-        ]
+    <div id="sweetContainer"></div>
 
-      },
+  </div>
+
+</section>
 
 
-      // ===================================================
-      // QUARTA
-      // ===================================================
+<!-- PROGRESSO -->
+<section id="progress" class="page">
 
-      quarta: {
+  <div class="card">
 
-        breakfast: [
-          "Pão francês + 3 ovos + whey + banana",
-          "Pão integral + 3 ovos + whey + mamão",
-          "Tapioca com coco sem açúcar + 3 ovos + whey",
-          "Iogurte + banana + whey + aveia",
-          "Omelete de 3 ovos + pão integral + whey",
-          "Vitamina de banana + whey + aveia"
-        ],
+    <h2>📈 Meu progresso</h2>
 
-        lunch: [
-          "Arroz + feijão + frango + salada",
-          "Arroz + carne magra + legumes",
-          "Peixe + arroz + feijão + salada",
-          "Frango + batata + legumes",
-          "Arroz + frango + brócolis",
-          "Macarrão + frango + legumes"
-        ],
+    <p style="color:#aaa;font-size:13px;line-height:1.5;">
 
-        snack: [
-          "Pão integral + frango desfiado",
-          "Tapioca + ovos",
-          "Iogurte + whey + fruta",
-          "Banana + whey + aveia",
-          "Crepioca + frango",
-          "Atum + pão integral + fruta"
-        ],
+      Registre suas medidas para acompanhar a evolução do corpo ao longo do tempo.
 
-        dinner: [
-          "Omelete de 3 ovos + arroz + salada",
-          "Frango + batata + legumes",
-          "Arroz + carne + salada",
-          "Peixe + arroz + legumes",
-          "Arroz + feijão + frango",
-          "Macarrão + frango + legumes"
-        ],
+    </p>
 
-        night: [
-          "Iogurte + whey + mamão",
-          "Banana + whey",
-          "Iogurte + whey + aveia",
-          "2–3 ovos + fruta",
-          "Whey + banana + canela",
-          "Iogurte + fruta + whey"
-        ]
+    <div class="form-row">
 
-      },
+      <div>
+
+        <label>Peso (kg)</label>
+
+        <input
+          type="number"
+          step="0.1"
+          id="weightInput"
+          placeholder="Ex.: 80,5">
+
+      </div>
+
+      <div>
+
+        <label>Altura (cm)</label>
+
+        <input
+          type="number"
+          step="0.1"
+          id="heightInput"
+          placeholder="Ex.: 175">
+
+      </div>
+
+    </div>
 
 
-      // ===================================================
-      // QUINTA
-      // ===================================================
+    <div class="form-row-3">
 
-      quinta: {
+      <div>
 
-        breakfast: [
-          "Pão integral + 3 ovos + whey + banana",
-          "Tapioca + 3 ovos + whey + mamão",
-          "Iogurte + banana + whey + aveia",
-          "Omelete de 3 ovos + pão integral + whey",
-          "Tapioca com coco sem açúcar + 3 ovos + whey",
-          "Vitamina de banana + whey + aveia"
-        ],
+        <label>Cintura (cm)</label>
 
-        lunch: [
-          "Arroz + feijão + frango + salada",
-          "Arroz + carne + legumes",
-          "Peixe + arroz + salada",
-          "Frango + batata + legumes",
-          "Arroz + carne + feijão + salada",
-          "Macarrão + frango + legumes"
-        ],
+        <input
+          type="number"
+          step="0.1"
+          id="waistInput"
+          placeholder="Ex.: 90">
 
-        snack: [
-          "Pão integral + frango + tomate",
-          "Tapioca + ovos",
-          "Iogurte + whey + banana",
-          "Banana + whey + aveia",
-          "Crepioca + frango",
-          "Sanduíche integral de atum + fruta"
-        ],
+      </div>
 
-        dinner: [
-          "Arroz + frango + salada",
-          "Carne + arroz + legumes",
-          "Frango + batata + salada",
-          "Omelete de 3 ovos + arroz + legumes",
-          "Peixe + batata + salada",
-          "Macarrão + frango + legumes"
-        ],
+      <div>
 
-        night: [
-          "Iogurte + whey + fruta",
-          "Banana + whey",
-          "Mamão + whey + iogurte",
-          "2–3 ovos + fruta",
-          "Whey + banana + aveia",
-          "Iogurte + whey + canela"
-        ]
+        <label>Peitoral (cm)</label>
 
-      },
+        <input
+          type="number"
+          step="0.1"
+          id="chestInput"
+          placeholder="Ex.: 105">
+
+      </div>
+
+      <div>
+
+        <label>Bíceps (cm)</label>
+
+        <input
+          type="number"
+          step="0.1"
+          id="bicepsInput"
+          placeholder="Ex.: 36">
+
+      </div>
+
+    </div>
 
 
-      // ===================================================
-      // SEXTA
-      // ===================================================
+    <button
+      onclick="saveProgress()"
+      style="margin-top:12px;">
 
-      sexta: {
+      Salvar medição
 
-        breakfast: [
-          "Pão francês + 3 ovos + whey + banana",
-          "Pão integral + 3 ovos + whey + mamão",
-          "Tapioca com coco sem açúcar + 3 ovos + whey",
-          "Iogurte + banana + whey + aveia",
-          "Omelete de 3 ovos + pão integral + whey",
-          "Vitamina de banana + whey + aveia"
-        ],
+    </button>
 
-        lunch: [
-          "Arroz + feijão + frango + salada",
-          "Arroz + carne + legumes",
-          "Frango + batata + salada",
-          "Peixe + arroz + feijão",
-          "Arroz + carne + brócolis + cenoura",
-          "Macarrão + frango + legumes"
-        ],
-
-        snack: [
-          "Pão integral + frango",
-          "Tapioca + ovos",
-          "Iogurte + whey + banana",
-          "Banana + whey + aveia",
-          "Crepioca + frango",
-          "Sanduíche integral de atum + fruta"
-        ],
-
-        dinner: [
-          "Arroz + frango + salada",
-          "Arroz + carne + legumes",
-          "Frango + batata + salada",
-          "Omelete de 3 ovos + arroz + legumes",
-          "Peixe + arroz + salada",
-          "Macarrão + frango + legumes"
-        ],
-
-        night: [
-          "Iogurte + whey + banana",
-          "Whey + mamão",
-          "Iogurte + whey + aveia",
-          "2–3 ovos + fruta",
-          "Banana + whey + canela",
-          "Iogurte + fruta + whey"
-        ]
-
-      }
-
-    };
+  </div>
 
 
-    // =====================================================
-    // DOCES
-    // =====================================================
+  <!-- FOTOS DE PROGRESSO -->
 
-    const sweetOptions = [
-      "Gelatina zero",
-      "Iogurte natural + fruta",
-      "Banana com canela",
-      "Morango + iogurte",
-      "Pequena porção de chocolate",
+  <div class="card">
+
+    <h2>📸 Fotos de evolução</h2>
+
+    <p style="color:#aaa;font-size:13px;line-height:1.5;">
+
+      Adicione uma foto para acompanhar visualmente sua evolução.
+      Escolha a data correspondente ao registro.
+
+    </p>
+
+    <div class="photo-form">
+
+      <h3>➕ Adicionar foto</h3>
+
+      <div style="margin-top:10px;">
+
+        <label>
+          Data da foto
+        </label>
+
+        <input
+          type="date"
+          id="photoDateInput">
+
+      </div>
+
+      <div style="margin-top:10px;">
+
+        <label>
+          Foto
+        </label>
+
+        <input
+          type="file"
+          id="photoInput"
+          accept="image/*"
+          onchange="previewPhoto()">
+
+      </div>
+
+      <div
+        id="photoPreview"
+        class="photo-preview">
+
+        <img
+          id="photoPreviewImage"
+          alt="Pré-visualização da foto">
+
+      </div>
+
+      <button
+        onclick="saveProgressPhoto()"
+        style="margin-top:12px;width:100%;">
+
+        📸 Salvar foto de progresso
+
+      </button>
+
+    </div>
+
+    <div
+      id="photoHistory"
+      class="photo-history">
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>📌 Medidas atuais</h2>
+
+    <div class="current-measurements">
+
+      <div class="measure-box">
+
+        <strong>PESO</strong>
+
+        <span id="currentWeight">
+          --
+        </span>
+
+        <small>kg</small>
+
+      </div>
+
+      <div class="measure-box">
+
+        <strong>ALTURA</strong>
+
+        <span id="currentHeight">
+          --
+        </span>
+
+        <small>cm</small>
+
+      </div>
+
+      <div class="measure-box">
+
+        <strong>CINTURA</strong>
+
+        <span id="currentWaist">
+          --
+        </span>
+
+        <small>cm</small>
+
+      </div>
+
+      <div class="measure-box">
+
+        <strong>PEITORAL</strong>
+
+        <span id="currentChest">
+          --
+        </span>
+
+        <small>cm</small>
+
+      </div>
+
+      <div class="measure-box">
+
+        <strong>BÍCEPS</strong>
+
+        <span id="currentBiceps">
+          --
+        </span>
+
+        <small>cm</small>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>⚖️ Evolução do peso</h2>
+
+    <canvas
+      id="weightChart"
+      width="800"
+      height="300">
+    </canvas>
+
+    <div class="chart-legend">
+
+      <span class="legend-weight">
+        ● Peso (kg)
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>📏 Evolução das medidas</h2>
+
+    <canvas
+      id="bodyChart"
+      width="800"
+      height="300">
+    </canvas>
+
+    <div class="chart-legend">
+
+      <span class="legend-body">
+        ● Cintura / Peitoral / Bíceps (cm)
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>📋 Histórico</h2>
+
+    <div id="progressHistory"></div>
+
+  </div>
+
+</section>
+
+
+<!-- LEMBRETES -->
+
+<section id="reminders" class="page">
+
+  <div class="card">
+
+    <h2>⏰ Lembretes</h2>
+
+    <div id="remindersContainer"></div>
+
+  </div>
+
+</section>
+
+</div>
+
+
+<!-- NAVEGAÇÃO -->
+
+<nav class="nav">
+
+  <button
+    onclick="showPage('home')"
+    id="nav-home"
+    class="active">
+
+    🏠<br>Início
+
+  </button>
+
+  <button
+    onclick="showPage('diet')"
+    id="nav-diet">
+
+    🍽️<br>Dieta
+
+  </button>
+
+  <button
+    onclick="showPage('training')"
+    id="nav-training">
+
+    🏋️<br>Treino
+
+  </button>
+
+  <button
+    onclick="showPage('sweet')"
+    id="nav-sweet">
+
+    🍫<br>Doce
+
+  </button>
+
+  <button
+    onclick="showPage('progress')"
+    id="nav-progress">
+
+    📈<br>Progresso
+
+  </button>
+
+</nav>
+
+
+<script>
+
+const STORAGE_KEY = "projetoDenis2027";
+
+const WATER_BOTTLE = 500;
+
+const WATER_GOAL = 4;
+
+
+/* =========================
+   MENSAGENS MOTIVACIONAIS
+========================= */
+
+const motivationMessages = [
+
+  "Hoje é mais um passo na direção do corpo que você quer construir.",
+
+  "Não precisa ser perfeito. Precisa ser consistente.",
+
+  "O treino de hoje é um investimento no Denis que você quer ser amanhã.",
+
+  "Faça o básico bem feito e repita. É assim que o resultado aparece.",
+
+  "Disciplina nos dias comuns é o que cria resultados extraordinários.",
+
+  "Você não precisa estar motivado todos os dias. Precisa continuar.",
+
+  "Cada refeição, cada treino e cada litro de água contam.",
+
+  "O resultado não acontece de uma vez. Ele é construído todos os dias.",
+
+  "Hoje você tem mais uma oportunidade de fazer melhor que ontem.",
+
+  "Constância vence a pressa. Continue firme.",
+
+  "Seu objetivo merece o esforço de hoje.",
+
+  "Treino feito, dieta em dia e cabeça no objetivo.",
+
+  "Não abandone o processo só porque o resultado ainda não apareceu.",
+
+  "Pequenas escolhas repetidas todos os dias mudam o corpo.",
+
+  "Você está construindo uma versão mais forte de você.",
+
+  "Um dia de cada vez. Uma refeição de cada vez. Um treino de cada vez.",
+
+  "O importante é não parar.",
+
+  "Faça hoje aquilo que o seu futuro vai agradecer.",
+
+  "Seu corpo acompanha aquilo que você repete.",
+
+  "Consistência é continuar mesmo quando ninguém está vendo.",
+
+  "Mais um treino. Mais uma refeição certa. Mais um passo.",
+
+  "Não compare o seu começo com o resultado de outra pessoa.",
+
+  "Você não precisa correr. Precisa seguir em frente.",
+
+  "O esforço de hoje vira resultado com o tempo.",
+
+  "Mantenha o foco no processo e deixe o resultado aparecer.",
+
+  "A meta é simples: terminar o dia melhor do que começou.",
+
+  "Cada semana consistente aproxima você do objetivo.",
+
+  "Não negocie com a preguiça aquilo que é importante para você.",
+
+  "Você já começou. Agora continue.",
+
+  "2027 começa com as escolhas que você faz hoje."
+
+];
+
+
+// ===============================
+// CARDÁPIO ATUALIZADO — PROJETO DENIS 2027
+// ===============================
+
+const mealsData = {
+  breakfast: {
+    title: "☀️ Café da Manhã",
+    time: "09:00",
+    options: [
+      "Pão francês + 3 ovos mexidos + whey + banana",
+      "Pão integral + 3 ovos + whey + mamão",
+      "Tapioca com coco sem açúcar + 3 ovos + whey",
+      "Iogurte natural/greek + banana + whey + aveia",
+      "Omelete de 3 ovos + pão integral + whey",
+      "Vitamina de banana + whey + aveia + leite ou água"
+    ]
+  },
+
+  lunch: {
+    title: "🍛 Almoço",
+    time: "12:00",
+    options: [
+      "Arroz + feijão + frango grelhado + salada",
+      "Arroz + feijão + carne bovina magra + legumes",
+      "Frango grelhado + batata + salada + legumes",
+      "Arroz + frango + feijão + brócolis",
+      "Peixe grelhado + arroz + feijão + salada",
+      "Macarrão + frango desfiado + legumes"
+    ]
+  },
+
+  snack: {
+    title: "🥪 Lanche da Tarde",
+    time: "17:00",
+    options: [
+      "Pão integral + frango desfiado + tomate",
+      "Tapioca + 2 ovos + fruta",
+      "Iogurte + whey + banana + aveia",
+      "Banana + whey + aveia",
+      "Crepioca + frango desfiado",
+      "Sanduíche integral de atum + fruta"
+    ]
+  },
+
+  dinner: {
+    title: "🍽️ Jantar",
+    time: "19:00",
+    options: [
+      "Arroz + frango grelhado + salada",
+      "Arroz + carne bovina magra + legumes",
+      "Frango grelhado + batata + salada",
+      "Omelete de 3 ovos + arroz + legumes",
+      "Peixe grelhado + batata + salada",
+      "Macarrão + frango + legumes"
+    ]
+  },
+
+  night: {
+    title: "🌙 Ceia",
+    time: "21:00",
+    options: [
+      "Iogurte natural/greek + whey + canela",
+      "Banana + whey + aveia",
+      "Iogurte + mamão + whey",
+      "2–3 ovos + fruta",
       "Whey + banana",
-      "Coca-Cola Zero — 350 ml"
-    ];
+      "Iogurte + whey + aveia"
+    ]
+  }
+};
 
 
-    // =====================================================
-    // ESTADO DA APLICAÇÃO
-    // =====================================================
+// ===============================
+// OPÇÕES ESPECÍFICAS POR DIA
+// ===============================
 
-    let currentDay = "segunda";
+const weeklyMeals = {
 
-    let state = JSON.parse(
-      localStorage.getItem("denis_diet_state")
-    ) || {
+  segunda: {
+    breakfast: [
+      "Pão francês + 3 ovos mexidos + whey + banana",
+      "Pão integral + 3 ovos + whey + mamão",
+      "Tapioca com coco sem açúcar + 3 ovos + whey",
+      "Iogurte natural/greek + banana + whey + aveia",
+      "Omelete de 3 ovos + pão integral + whey",
+      "Vitamina de banana + whey + aveia + leite ou água"
+    ],
 
-      selections: {},
+    lunch: [
+      "Arroz + feijão + frango grelhado + salada",
+      "Arroz + feijão + carne bovina magra + legumes",
+      "Frango grelhado + batata + salada + legumes",
+      "Arroz + frango + feijão + brócolis",
+      "Peixe grelhado + arroz + feijão + salada",
+      "Macarrão + frango desfiado + legumes"
+    ],
 
-      weeklyProgress: {
-        segunda: {},
-        terca: {},
-        quarta: {},
-        quinta: {},
-        sexta: {}
+    snack: [
+      "Pão integral + frango desfiado + tomate",
+      "Tapioca + 2 ovos + fruta",
+      "Iogurte + whey + banana + aveia",
+      "Banana + whey + aveia",
+      "Crepioca + frango desfiado",
+      "Sanduíche integral de atum + fruta"
+    ],
+
+    dinner: [
+      "Arroz + frango grelhado + salada",
+      "Arroz + carne bovina magra + legumes",
+      "Frango grelhado + batata + salada",
+      "Omelete de 3 ovos + arroz + legumes",
+      "Peixe grelhado + batata + salada",
+      "Macarrão + frango + legumes"
+    ],
+
+    night: [
+      "Iogurte natural/greek + whey + canela",
+      "Banana + whey + aveia",
+      "Iogurte + mamão + whey",
+      "2–3 ovos + fruta",
+      "Whey + banana",
+      "Iogurte + whey + aveia"
+    ]
+  },
+
+  terca: {
+    breakfast: [
+      "Pão integral + 3 ovos + whey + banana",
+      "Tapioca + 3 ovos + whey + mamão",
+      "Iogurte natural/greek + banana + whey + aveia",
+      "Omelete de 3 ovos + pão integral + whey",
+      "Tapioca com coco sem açúcar + 3 ovos + whey",
+      "Vitamina de banana + whey + aveia + leite ou água"
+    ],
+
+    lunch: [
+      "Arroz + feijão + carne bovina magra + salada",
+      "Arroz + frango grelhado + legumes",
+      "Frango + batata-doce + salada",
+      "Peixe + arroz + feijão + legumes",
+      "Arroz + carne magra + brócolis + cenoura",
+      "Macarrão + frango + salada"
+    ],
+
+    snack: [
+      "Pão integral + ovos + fruta",
+      "Tapioca + frango desfiado",
+      "Iogurte + whey + banana",
+      "Banana + whey + aveia",
+      "Crepioca + frango",
+      "Sanduíche integral de atum + fruta"
+    ],
+
+    dinner: [
+      "Arroz + feijão + frango + salada",
+      "Carne magra + arroz + legumes",
+      "Frango + batata + salada",
+      "Omelete de 3 ovos + arroz + salada",
+      "Peixe + arroz + legumes",
+      "Macarrão + carne magra + legumes"
+    ],
+
+    night: [
+      "Iogurte + whey + banana",
+      "Whey + mamão",
+      "Iogurte + aveia + whey",
+      "2–3 ovos + fruta",
+      "Banana + whey",
+      "Iogurte + fruta + whey"
+    ]
+  },
+
+  quarta: {
+    breakfast: [
+      "Pão francês + 3 ovos + whey + banana",
+      "Pão integral + 3 ovos + whey + mamão",
+      "Tapioca com coco sem açúcar + 3 ovos + whey",
+      "Iogurte + banana + whey + aveia",
+      "Omelete de 3 ovos + pão integral + whey",
+      "Vitamina de banana + whey + aveia"
+    ],
+
+    lunch: [
+      "Arroz + feijão + frango + salada",
+      "Arroz + carne magra + legumes",
+      "Peixe + arroz + feijão + salada",
+      "Frango + batata + legumes",
+      "Arroz + frango + brócolis",
+      "Macarrão + frango + legumes"
+    ],
+
+    snack: [
+      "Pão integral + frango desfiado",
+      "Tapioca + ovos",
+      "Iogurte + whey + fruta",
+      "Banana + whey + aveia",
+      "Crepioca + frango",
+      "Atum + pão integral + fruta"
+    ],
+
+    dinner: [
+      "Omelete de 3 ovos + arroz + salada",
+      "Frango + batata + legumes",
+      "Arroz + carne + salada",
+      "Peixe + arroz + legumes",
+      "Arroz + feijão + frango",
+      "Macarrão + frango + legumes"
+    ],
+
+    night: [
+      "Iogurte + whey + mamão",
+      "Banana + whey",
+      "Iogurte + whey + aveia",
+      "2–3 ovos + fruta",
+      "Whey + banana + canela",
+      "Iogurte + fruta + whey"
+    ]
+  },
+
+  quinta: {
+    breakfast: [
+      "Pão integral + 3 ovos + whey + banana",
+      "Tapioca + 3 ovos + whey + mamão",
+      "Iogurte + banana + whey + aveia",
+      "Omelete de 3 ovos + pão integral + whey",
+      "Tapioca com coco sem açúcar + 3 ovos + whey",
+      "Vitamina de banana + whey + aveia"
+    ],
+
+    lunch: [
+      "Arroz + feijão + frango + salada",
+      "Arroz + carne + legumes",
+      "Peixe + arroz + salada",
+      "Frango + batata + legumes",
+      "Arroz + carne + feijão + salada",
+      "Macarrão + frango + legumes"
+    ],
+
+    snack: [
+      "Pão integral + frango + tomate",
+      "Tapioca + ovos",
+      "Iogurte + whey + banana",
+      "Banana + whey + aveia",
+      "Crepioca + frango",
+      "Sanduíche integral de atum + fruta"
+    ],
+
+    dinner: [
+      "Arroz + frango + salada",
+      "Carne + arroz + legumes",
+      "Frango + batata + salada",
+      "Omelete de 3 ovos + arroz + legumes",
+      "Peixe + batata + salada",
+      "Macarrão + frango + legumes"
+    ],
+
+    night: [
+      "Iogurte + whey + fruta",
+      "Banana + whey",
+      "Mamão + whey + iogurte",
+      "2–3 ovos + fruta",
+      "Whey + banana + aveia",
+      "Iogurte + whey + canela"
+    ]
+  },
+
+  sexta: {
+    breakfast: [
+      "Pão francês + 3 ovos + whey + banana",
+      "Pão integral + 3 ovos + whey + mamão",
+      "Tapioca com coco sem açúcar + 3 ovos + whey",
+      "Iogurte + banana + whey + aveia",
+      "Omelete de 3 ovos + pão integral + whey",
+      "Vitamina de banana + whey + aveia"
+    ],
+
+    lunch: [
+      "Arroz + feijão + frango + salada",
+      "Arroz + carne + legumes",
+      "Frango + batata + salada",
+      "Peixe + arroz + feijão",
+      "Arroz + carne + brócolis + cenoura",
+      "Macarrão + frango + legumes"
+    ],
+
+    snack: [
+      "Pão integral + frango",
+      "Tapioca + ovos",
+      "Iogurte + whey + banana",
+      "Banana + whey + aveia",
+      "Crepioca + frango",
+      "Sanduíche integral de atum + fruta"
+    ],
+
+    dinner: [
+      "Arroz + frango + salada",
+      "Arroz + carne + legumes",
+      "Frango + batata + salada",
+      "Omelete de 3 ovos + arroz + legumes",
+      "Peixe + arroz + salada",
+      "Macarrão + frango + legumes"
+    ],
+
+    night: [
+      "Iogurte + whey + banana",
+      "Whey + mamão",
+      "Iogurte + whey + aveia",
+      "2–3 ovos + fruta",
+      "Banana + whey + canela",
+      "Iogurte + fruta + whey"
+    ]
+  }
+};
+
+
+// Estrutura mapeada das refeições para a aplicação
+const meals = Object.keys(mealsData).map(id => ({
+  id: id,
+  name: mealsData[id].title,
+  time: mealsData[id].time,
+  options: mealsData[id].options
+}));
+
+
+/* =========================
+   TREINOS
+========================= */
+
+const weeklyTraining = {
+
+  sunday:{
+    name:"Domingo",
+    title:"Descanso",
+    muscle:"Descanso / recuperação"
+  },
+
+  monday:{
+    name:"Segunda-feira",
+    title:"Costas + Bíceps",
+    groups:[
+      {
+        name:"Costas",
+        exercises:[
+          ["Puxada frontal na polia","3×8–12"],
+          ["Remada baixa na polia","3×8–12"],
+          ["Remada curvada com barra","3×8–10"],
+          ["Remada unilateral com halter","3×10–12"],
+          ["Puxada com pegada neutra","3×10–12"],
+          ["Pullover na polia","3×12–15"]
+        ]
+      },
+      {
+        name:"Bíceps",
+        exercises:[
+          ["Rosca direta com barra","3×8–12"],
+          ["Rosca alternada com halteres","3×10–12"],
+          ["Rosca martelo","3×10–12"],
+          ["Rosca Scott","3×10–12"],
+          ["Rosca na polia","3×12–15"]
+        ]
       }
+    ]
+  },
+
+  tuesday:{
+    name:"Terça-feira",
+    title:"Peito + Tríceps",
+    groups:[
+      {
+        name:"Peito",
+        exercises:[
+          ["Supino reto com barra","3×8–12"],
+          ["Supino inclinado com halteres","3×8–12"],
+          ["Supino inclinado na máquina","3×10–12"],
+          ["Crucifixo com halteres","3×10–15"],
+          ["Crossover na polia","3×10–15"],
+          ["Peck deck","3×10–15"]
+        ]
+      },
+      {
+        name:"Tríceps",
+        exercises:[
+          ["Tríceps pulley com barra","3×10–12"],
+          ["Tríceps francês com halter","3×10–12"],
+          ["Tríceps testa","3×8–12"],
+          ["Tríceps corda","3×10–15"],
+          ["Tríceps banco","3×10–15"]
+        ]
+      }
+    ]
+  },
+
+  wednesday:{
+    name:"Quarta-feira",
+    title:"Core + Abdômen",
+    groups:[
+      {
+        name:"Abdômen",
+        exercises:[
+          ["Abdominal na máquina","3×12–15"],
+          ["Abdominal supra no colchonete","3×15–20"],
+          ["Abdominal infra","3×12–15"],
+          ["Elevação de pernas","3×10–15"],
+          ["Abdominal na polia","3×10–15"],
+          ["Abdominal bicicleta","3×15–20"]
+        ]
+      },
+      {
+        name:"Core",
+        exercises:[
+          ["Prancha","3×30–60s"],
+          ["Prancha lateral","3×30–45s cada lado"],
+          ["Dead bug","3×10–12 cada lado"],
+          ["Bird dog","3×10–12 cada lado"],
+          ["Pallof press","3×10–15 cada lado"]
+        ]
+      }
+    ]
+  },
+
+  thursday:{
+    name:"Quinta-feira",
+    title:"Ombros",
+    groups:[
+      {
+        name:"Ombros",
+        exercises:[
+          ["Desenvolvimento com halteres","3×8–12"],
+          ["Desenvolvimento na máquina","3×8–12"],
+          ["Elevação lateral com halteres","3×10–15"],
+          ["Elevação lateral na polia","3×10–15"],
+          ["Elevação frontal","3×10–15"],
+          ["Crucifixo inverso","3×12–15"],
+          ["Face pull","3×12–15"]
+        ]
+      }
+    ]
+  },
+
+  friday:{
+    name:"Sexta-feira",
+    title:"Pernas",
+    groups:[
+      {
+        name:"Quadríceps",
+        exercises:[
+          ["Agachamento livre","3×8–12"],
+          ["Leg press","3×10–12"],
+          ["Cadeira extensora","3×12–15"],
+          ["Agachamento no Smith","3×8–12"]
+        ]
+      },
+      {
+        name:"Posterior",
+        exercises:[
+          ["Mesa flexora","3×10–15"],
+          ["Cadeira flexora","3×10–15"],
+          ["Stiff com halteres","3×8–12"],
+          ["Stiff com barra","3×8–12"]
+        ]
+      },
+      {
+        name:"Glúteos",
+        exercises:[
+          ["Elevação pélvica","3×10–12"],
+          ["Hip thrust","3×8–12"],
+          ["Glúteo na máquina","3×12–15"]
+        ]
+      },
+      {
+        name:"Panturrilha",
+        exercises:[
+          ["Panturrilha em pé","3×12–20"],
+          ["Panturrilha sentado","3×12–20"],
+          ["Panturrilha no leg press","3×12–20"]
+        ]
+      }
+    ]
+  },
+
+  saturday:{
+    name:"Sábado",
+    title:"Full Body",
+    groups:[
+      {
+        name:"Pernas",
+        exercises:[
+          ["Agachamento","3×8–12"],
+          ["Leg press","3×10–12"],
+          ["Agachamento no Smith","3×8–12"]
+        ]
+      },
+      {
+        name:"Peito",
+        exercises:[
+          ["Supino reto","3×8–12"],
+          ["Supino inclinado","3×8–12"],
+          ["Crossover","3×10–15"]
+        ]
+      },
+      {
+        name:"Costas",
+        exercises:[
+          ["Puxada frontal","3×8–12"],
+          ["Remada baixa","3×8–12"],
+          ["Remada unilateral","3×10–12"]
+        ]
+      },
+      {
+        name:"Ombros",
+        exercises:[
+          ["Desenvolvimento","3×8–12"],
+          ["Elevação lateral","3×10–15"],
+          ["Face pull","3×12–15"]
+        ]
+      },
+      {
+        name:"Braços",
+        exercises:[
+          ["Rosca direta","3×10–12"],
+          ["Rosca martelo","3×10–12"],
+          ["Tríceps corda","3×10–15"],
+          ["Tríceps pulley","3×10–15"]
+        ]
+      }
+    ]
+  }
+
+};
+
+
+/* =========================
+   ORDEM DOS DIAS
+========================= */
+
+const trainingDays = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday"
+];
+
+
+// ===============================
+// DOCES / VONTADE DE DOCE
+// ===============================
+
+const sweetOptions = [
+  "Gelatina zero",
+  "Iogurte natural + fruta",
+  "Banana com canela",
+  "Morango + iogurte",
+  "Pequena porção de chocolate",
+  "Whey + banana",
+  "Coca-Cola Zero — 350 ml"
+];
+
+
+/* =========================
+   LEMBRETES
+========================= */
+
+const defaultReminders = [
+  ["creatine","Creatina","06:50"],
+  ["training","Treino","07:00"],
+  ["breakfast","Café da manhã","09:00"],
+  ["lunch","Almoço","12:00"],
+  ["snack","Lanche da tarde","17:00"],
+  ["dinner","Jantar","19:00"],
+  ["night","Ceia","21:00"]
+];
+
+
+/* =========================
+   ESTADO
+========================= */
+
+let state = {
+
+  date:"",
+
+  meals:{},
+
+  selectedOptions:{},
+
+  water:0,
+
+  training:false,
+
+  cardio:false,
+
+  workout:"",
+
+  sweet:{},
+
+  weight:"",
+
+  height:"",
+
+  waist:"",
+
+  chest:"",
+
+  biceps:"",
+
+  progressHistory:[],
+
+  progressPhotos:[],
+
+  reminders:{},
+
+  exerciseChecks:{},
+
+  weeklyTrainingChecks:{},
+
+  weeklyCardioChecks:{},
+
+  /*
+    Registros diários utilizados
+    pela Dashboard Semanal.
+  */
+
+  weeklyDailyRecords:{},
+
+  /*
+    Semana atual no formato da
+    segunda-feira correspondente.
+  */
+
+  weeklyPeriod:""
+
+};
+
+
+/* =========================
+   DATA
+========================= */
+
+function getToday(){
+
+  const now = new Date();
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(now.getMonth()+1)
+      .padStart(2,"0");
+
+  const day =
+    String(now.getDate())
+      .padStart(2,"0");
+
+  return `${year}-${month}-${day}`;
+
+}
+
+
+function getDayKey(){
+
+  const day =
+    new Date().getDay();
+
+  const keys = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday"
+  ];
+
+  return keys[day];
+
+}
+
+
+/* =========================
+   SEMANA ATUAL
+========================= */
+
+function getWeekStart(){
+
+  const today =
+    new Date();
+
+  const day =
+    today.getDay();
+
+  /*
+    Domingo = 0.
+    Segunda = 1.
+  */
+
+  const diff =
+    day === 0
+      ? -6
+      : 1 - day;
+
+  const monday =
+    new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + diff
+    );
+
+  const year =
+    monday.getFullYear();
+
+  const month =
+    String(monday.getMonth()+1)
+      .padStart(2,"0");
+
+  const date =
+    String(monday.getDate())
+      .padStart(2,"0");
+
+  return `${year}-${month}-${date}`;
+
+}
+
+
+/* =========================
+   REGISTRO DIÁRIO
+========================= */
+
+function getDailyRecord(date){
+
+  if(!state.weeklyDailyRecords)
+    state.weeklyDailyRecords={};
+
+
+  if(!state.weeklyDailyRecords[date]){
+
+    state.weeklyDailyRecords[date] = {
+
+      diet:false,
+
+      water:0,
+
+      training:false,
+
+      cardio:false
 
     };
 
+  }
 
-    // =====================================================
-    // SALVAR
-    // =====================================================
 
-    function saveState() {
+  return state.weeklyDailyRecords[date];
 
-      localStorage.setItem(
-        "denis_diet_state",
-        JSON.stringify(state)
+}
+
+
+/* =========================
+   SINCRONIZAR DIA ATUAL
+========================= */
+
+function syncTodayWeeklyRecord(){
+
+  const today =
+    getToday();
+
+  const key =
+    getDayKey();
+
+  const record =
+    getDailyRecord(today);
+
+
+  /*
+    Dieta completa =
+    todas as 5 refeições concluídas.
+  */
+
+  const mealDone =
+    meals.filter(
+      meal=>state.meals[meal.id]
+    ).length;
+
+
+  record.diet =
+    mealDone === meals.length;
+
+
+  /*
+    Água:
+    registra as garrafinhas
+    efetivamente tomadas hoje.
+  */
+
+  record.water =
+    Math.max(
+      0,
+      Math.min(
+        WATER_GOAL,
+        Number(state.water) || 0
+      )
+    );
+
+
+  /*
+    Treino e cardio:
+    somente segunda a sábado.
+  */
+
+  if(key !== "sunday"){
+
+    record.training =
+      !!state.weeklyTrainingChecks[key];
+
+    record.cardio =
+      !!state.weeklyCardioChecks[key];
+
+  }else{
+
+    record.training=false;
+    record.cardio=false;
+
+  }
+
+
+  saveState();
+
+}
+
+
+/* =========================
+   DASHBOARD SEMANAL
+========================= */
+
+function updateWeeklyDashboard(){
+
+  if(!state.weeklyDailyRecords)
+    state.weeklyDailyRecords={};
+
+
+  const currentWeek =
+    getWeekStart();
+
+
+  /*
+    Garante que os registros exibidos
+    pertençam somente à semana atual.
+  */
+
+  let dietDays=0;
+  let waterBottles=0;
+  let trainingDaysCount=0;
+  let cardioDays=0;
+
+
+  trainingDays.forEach(key=>{
+
+    const date =
+      getDateForTrainingDay(
+        currentWeek,
+        key
       );
 
+
+    const record =
+      state.weeklyDailyRecords[date];
+
+
+    if(!record)
+      return;
+
+
+    if(record.diet)
+      dietDays++;
+
+
+    waterBottles +=
+      Number(record.water) || 0;
+
+
+    if(record.training)
+      trainingDaysCount++;
+
+
+    if(record.cardio)
+      cardioDays++;
+
+  });
+
+
+  /*
+    Limites das metas.
+  */
+
+  dietDays =
+    Math.min(dietDays,6);
+
+  waterBottles =
+    Math.min(waterBottles,24);
+
+  trainingDaysCount =
+    Math.min(trainingDaysCount,6);
+
+  cardioDays =
+    Math.min(cardioDays,6);
+
+
+  /*
+    Atualiza números.
+  */
+
+  document.getElementById(
+    "weeklyDietCount"
+  ).textContent =
+    `${dietDays}/6`;
+
+
+  document.getElementById(
+    "weeklyWaterCount"
+  ).textContent =
+    `${waterBottles}/24`;
+
+
+  document.getElementById(
+    "weeklyTrainingCount"
+  ).textContent =
+    `${trainingDaysCount}/6`;
+
+
+  document.getElementById(
+    "weeklyCardioCount"
+  ).textContent =
+    `${cardioDays}/6`;
+
+
+  /*
+    Barras individuais.
+  */
+
+  document.getElementById(
+    "weeklyDietBar"
+  ).style.width =
+    `${(dietDays/6)*100}%`;
+
+
+  document.getElementById(
+    "weeklyWaterBar"
+  ).style.width =
+    `${(waterBottles/24)*100}%`;
+
+
+  document.getElementById(
+    "weeklyTrainingBar"
+  ).style.width =
+    `${(trainingDaysCount/6)*100}%`;
+
+
+  document.getElementById(
+    "weeklyCardioBar"
+  ).style.width =
+    `${(cardioDays/6)*100}%`;
+
+
+  /*
+    Textos de status.
+  */
+
+  document.getElementById(
+    "weeklyDietStatus"
+  ).textContent =
+    dietDays === 6
+      ? "✓ Meta semanal concluída"
+      : `${6-dietDays} dia(s) restante(s)`;
+
+
+  document.getElementById(
+    "weeklyWaterStatus"
+  ).textContent =
+    waterBottles === 24
+      ? "✓ Meta semanal concluída"
+      : `${24-waterBottles} garrafinha(s) restante(s)`;
+
+
+  document.getElementById(
+    "weeklyTrainingStatus"
+  ).textContent =
+    trainingDaysCount === 6
+      ? "✓ Meta semanal concluída"
+      : `${6-trainingDaysCount} treino(s) restante(s)`;
+
+
+  document.getElementById(
+    "weeklyCardioStatus"
+  ).textContent =
+    cardioDays === 6
+      ? "✓ Meta semanal concluída"
+      : `${6-cardioDays} cardio(s) restante(s)`;
+
+
+  /*
+    Percentual geral:
+    cada uma das quatro metas
+    possui o mesmo peso.
+  */
+
+  const dietPercent =
+    (dietDays/6)*100;
+
+  const waterPercent =
+    (waterBottles/24)*100;
+
+  const trainingPercent =
+    (trainingDaysCount/6)*100;
+
+  const cardioPercent =
+    (cardioDays/6)*100;
+
+
+  const overall =
+    Math.round(
+      (
+        dietPercent +
+        waterPercent +
+        trainingPercent +
+        cardioPercent
+      ) / 4
+    );
+
+
+  document.getElementById(
+    "weeklyDashboardPercent"
+  ).textContent =
+    `${overall}%`;
+
+
+  /*
+    Mensagem final da dashboard.
+  */
+
+  const total =
+    dietDays +
+    waterBottles +
+    trainingDaysCount +
+    cardioDays;
+
+
+  const totalGoal =
+    6 + 24 + 6 + 6;
+
+
+  const totalElement =
+    document.getElementById(
+      "weeklyDashboardTotal"
+    );
+
+
+  if(overall === 100){
+
+    totalElement.innerHTML =
+      "🔥 <strong>SEMANA COMPLETA!</strong> Você bateu todas as metas.";
+
+  }else{
+
+    totalElement.innerHTML =
+      `Progresso da semana: <strong>${overall}%</strong> — ${total}/${totalGoal} unidades de meta concluídas.`;
+
+  }
+
+}
+
+
+/* =========================
+   DATA DE CADA DIA DA SEMANA
+========================= */
+
+function getDateForTrainingDay(
+  weekStart,
+  dayKey
+){
+
+  const indexes = {
+
+    monday:0,
+
+    tuesday:1,
+
+    wednesday:2,
+
+    thursday:3,
+
+    friday:4,
+
+    saturday:5
+
+  };
+
+
+  const offset =
+    indexes[dayKey];
+
+
+  const base =
+    new Date(
+      weekStart+"T12:00:00"
+    );
+
+
+  base.setDate(
+    base.getDate() + offset
+  );
+
+
+  const year =
+    base.getFullYear();
+
+  const month =
+    String(base.getMonth()+1)
+      .padStart(2,"0");
+
+  const day =
+    String(base.getDate())
+      .padStart(2,"0");
+
+
+  return `${year}-${month}-${day}`;
+
+}
+
+
+/* =========================
+   MENSAGEM DO DIA
+========================= */
+
+function renderDailyMotivation(){
+
+  const container =
+    document.getElementById(
+      "dailyMotivation"
+    );
+
+  if(!container)
+    return;
+
+
+  const now =
+    new Date();
+
+  const start =
+    new Date(
+      now.getFullYear(),
+      0,
+      0
+    );
+
+  const diff =
+    now - start;
+
+  const oneDay =
+    1000 * 60 * 60 * 24;
+
+  const dayOfYear =
+    Math.floor(
+      diff / oneDay
+    );
+
+  const index =
+    dayOfYear %
+    motivationMessages.length;
+
+
+  container.innerHTML = `
+
+    <div class="motivation">
+
+      <div class="motivation-title">
+        Bom dia, Dênis! ☀️
+      </div>
+
+      <div class="motivation-text">
+        "${motivationMessages[index]}"
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   CARREGAR ESTADO
+========================= */
+
+function loadState(){
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if(saved){
+
+    try{
+
+      state =
+        JSON.parse(saved);
+
+    }catch(e){}
+
+  }
+
+
+  if(!state.progressHistory)
+    state.progressHistory=[];
+
+
+  if(!state.progressPhotos)
+    state.progressPhotos=[];
+
+
+  if(!state.selectedOptions)
+    state.selectedOptions={};
+
+
+  if(!state.meals)
+    state.meals={};
+
+
+  if(!state.sweet)
+    state.sweet={};
+
+
+  if(!state.reminders)
+    state.reminders={};
+
+
+  if(!state.exerciseChecks)
+    state.exerciseChecks={};
+
+
+  if(!state.weeklyTrainingChecks)
+    state.weeklyTrainingChecks={};
+
+
+  if(!state.weeklyCardioChecks)
+    state.weeklyCardioChecks={};
+
+
+  if(!state.weeklyDailyRecords)
+    state.weeklyDailyRecords={};
+
+
+  if(typeof state.weeklyPeriod === "undefined")
+    state.weeklyPeriod="";
+
+
+  /*
+    Compatibilidade com versões anteriores.
+  */
+
+  if(typeof state.height === "undefined")
+    state.height="";
+
+
+  if(typeof state.chest === "undefined")
+    state.chest="";
+
+
+  if(typeof state.biceps === "undefined")
+    state.biceps="";
+
+
+  /*
+    Adiciona os novos campos aos registros
+    antigos do histórico.
+  */
+
+  state.progressHistory =
+    state.progressHistory.map(item=>({
+
+      date:item.date,
+
+      weight:
+        typeof item.weight !== "undefined"
+          ? item.weight
+          : null,
+
+      height:
+        typeof item.height !== "undefined"
+          ? item.height
+          : null,
+
+      waist:
+        typeof item.waist !== "undefined"
+          ? item.waist
+          : null,
+
+      chest:
+        typeof item.chest !== "undefined"
+          ? item.chest
+          : null,
+
+      biceps:
+        typeof item.biceps !== "undefined"
+          ? item.biceps
+          : null
+
+    }));
+
+
+  defaultReminders.forEach(item=>{
+
+    const id =
+      item[0];
+
+
+    if(
+      typeof state.reminders[id]
+      === "undefined"
+    ){
+
+      state.reminders[id]=true;
+
     }
 
-
-    // =====================================================
-    // INICIALIZAÇÃO
-    // =====================================================
-
-    function init() {
-
-      setupDaySelector();
-
-      renderMeals();
-
-      renderSweets();
-
-      renderWeeklyGrid();
-
-    }
+  });
 
 
-    // =====================================================
-    // SELETOR DE DIAS
-    // =====================================================
-
-    function setupDaySelector() {
-
-      const buttons =
-        document.querySelectorAll(".day-btn");
-
-      buttons.forEach(btn => {
-
-        btn.addEventListener("click", () => {
-
-          buttons.forEach(b =>
-            b.classList.remove("active")
-          );
-
-          btn.classList.add("active");
-
-          currentDay =
-            btn.dataset.day;
-
-          renderMeals();
-
-        });
-
-      });
-
-    }
+  const today =
+    getToday();
 
 
-    // =====================================================
-    // RENDERIZAÇÃO DAS REFEIÇÕES
-    // =====================================================
-
-    function renderMeals() {
-
-      const container =
-        document.getElementById("mealsContainer");
-
-      container.innerHTML = "";
-
-      const mealKeys =
-        Object.keys(meals);
-
-      let completedCount = 0;
+  const currentWeek =
+    getWeekStart();
 
 
-      mealKeys.forEach(mealKey => {
+  /*
+    Detecta mudança de semana.
 
-        const mealData =
-          meals[mealKey];
+    Quando uma nova semana começa,
+    os registros da dashboard começam
+    novamente do zero.
+  */
 
-        const optionsList =
-          weeklyMeals[currentDay][mealKey];
+  if(
+    state.weeklyPeriod !==
+    currentWeek
+  ){
 
-        const selectedIndex =
-          state.weeklyProgress[currentDay]?.[mealKey];
-
-
-        if (
-          selectedIndex !== undefined &&
-          selectedIndex !== null
-        ) {
-
-          completedCount++;
-
-        }
+    state.weeklyPeriod =
+      currentWeek;
 
 
-        const card =
-          document.createElement("div");
+    state.weeklyTrainingChecks={};
 
-        card.className = "card";
+    state.weeklyCardioChecks={};
 
+    state.weeklyDailyRecords={};
 
-        let optionsHTML = "";
-
-
-        optionsList.forEach((opt, idx) => {
-
-          const isSelected =
-            selectedIndex === idx;
+  }
 
 
-          optionsHTML += `
+  /*
+    Detecta mudança de dia.
+  */
 
-            <div
-              class="meal-option ${isSelected ? "selected" : ""}"
-              onclick="toggleMealOption('${mealKey}', ${idx})"
-            >
+  if(state.date !== today){
 
-              <div class="checkbox"></div>
+    state.date =
+      today;
 
-              <div>${opt}</div>
+    state.meals={};
 
-            </div>
+    state.selectedOptions={};
 
-          `;
+    state.water=0;
 
-        });
+    state.training =
+      !!state.weeklyTrainingChecks[
+        getDayKey()
+      ];
+
+    state.cardio =
+      !!state.weeklyCardioChecks[
+        getDayKey()
+      ];
+
+    state.workout="";
+
+    state.sweet={};
+
+    state.exerciseChecks={};
+
+    saveState();
+
+  }else{
+
+    state.training =
+      !!state.weeklyTrainingChecks[
+        getDayKey()
+      ];
+
+    state.cardio =
+      !!state.weeklyCardioChecks[
+        getDayKey()
+      ];
+
+  }
 
 
-        card.innerHTML = `
+  /*
+    Sincroniza o registro diário atual.
+  */
 
-          <div class="card-title">
+  syncTodayWeeklyRecord();
 
-            <span>${mealData.title}</span>
+}
 
-            <span class="time-badge">
-              ${mealData.time}
+
+/* =========================
+   SALVAR
+========================= */
+
+function saveState(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(state)
+  );
+
+}
+
+
+/* =========================
+   DATA NO HEADER
+========================= */
+
+function renderDate(){
+
+  const date =
+    new Date();
+
+
+  const formatted =
+    date.toLocaleDateString(
+      "pt-BR",
+      {
+        weekday:"long",
+        day:"2-digit",
+        month:"long",
+        year:"numeric"
+      }
+    );
+
+
+  document.getElementById(
+    "todayDate"
+  ).textContent =
+    formatted.charAt(0).toUpperCase()
+    + formatted.slice(1);
+
+}
+
+
+/* =========================
+   TREINO DO DIA NA HOME
+========================= */
+
+function renderTodayTraining(){
+
+  const key =
+    getDayKey();
+
+
+  const training =
+    weeklyTraining[key];
+
+
+  const home =
+    document.getElementById(
+      "homeTraining"
+    );
+
+
+  if(key === "sunday"){
+
+    const html = `
+
+      <div class="card">
+
+        <div class="training-header">
+
+          <h2>
+            😴 Treino de hoje
+          </h2>
+
+          <span class="day-badge">
+            DOMINGO
+          </span>
+
+        </div>
+
+        <p style="color:#aaa;margin-top:10px;">
+
+          Dia de descanso e recuperação.
+
+        </p>
+
+      </div>
+
+    `;
+
+
+    home.innerHTML =
+      html;
+
+
+    return;
+
+  }
+
+
+  const trainingDone =
+    !!state.weeklyTrainingChecks[key];
+
+
+  const cardioDone =
+    !!state.weeklyCardioChecks[key];
+
+
+  const html = `
+
+    <div class="card">
+
+      <div class="training-header">
+
+        <h2>
+          🏋️ Treino de hoje
+        </h2>
+
+        <span class="day-badge">
+          ${training.name}
+        </span>
+
+      </div>
+
+      <h3>
+        ${training.title}
+      </h3>
+
+      <p style="color:#aaa;font-size:13px;">
+
+        Veja todos os treinos na aba Treino.
+
+      </p>
+
+      <div class="check-big">
+
+        <input
+          type="checkbox"
+          ${trainingDone ? "checked" : ""}
+          onchange="toggleTodayTraining()">
+
+        <span>
+
+          ${
+            trainingDone
+              ? "✓ Treino de hoje realizado"
+              : "Marcar treino de hoje como completo"
+          }
+
+        </span>
+
+      </div>
+
+      <div class="check-big">
+
+        <input
+          type="checkbox"
+          ${cardioDone ? "checked" : ""}
+          onchange="toggleTodayCardio()">
+
+        <span>
+
+          ${
+            cardioDone
+              ? "✓ Cardio realizado"
+              : "Marcar cardio: 2 km caminhada + 1 km corrida"
+          }
+
+        </span>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  home.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   TREINOS DA SEMANA
+========================= */
+
+function renderWeeklyTraining(){
+
+  const container =
+    document.getElementById(
+      "weeklyTrainingContainer"
+    );
+
+
+  if(!container)
+    return;
+
+
+  let html="";
+
+
+  trainingDays.forEach(key=>{
+
+    const training =
+      weeklyTraining[key];
+
+
+    const trainingDone =
+      !!state.weeklyTrainingChecks[key];
+
+
+    const cardioDone =
+      !!state.weeklyCardioChecks[key];
+
+
+    let totalExercises=0;
+
+    let doneExercises=0;
+
+
+    training.groups.forEach(
+      (group,groupIndex)=>{
+
+        group.exercises.forEach(
+          (exercise,exerciseIndex)=>{
+
+            totalExercises++;
+
+
+            const id =
+              `${key}_${groupIndex}_${exerciseIndex}`;
+
+
+            if(
+              state.exerciseChecks[id]
+            ){
+
+              doneExercises++;
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    const exercisePercentage =
+      totalExercises
+        ? Math.round(
+            (doneExercises /
+              totalExercises) *
+            100
+          )
+        : 0;
+
+
+    html += `
+
+      <div class="week-day-card">
+
+        <div class="week-day-header">
+
+          <div class="week-day-title">
+
+            <h2>
+              🏋️ ${training.name}
+            </h2>
+
+            <span>
+              ${training.title}
             </span>
 
           </div>
 
-          <div>
-            ${optionsHTML}
+        </div>
+
+        <div class="week-day-content">
+
+          <div
+            class="week-training-check
+            ${trainingDone ? "done":""}">
+
+            <input
+              type="checkbox"
+              ${trainingDone ? "checked":""}
+              onchange="toggleWeeklyTraining('${key}')">
+
+            <span>
+
+              ${
+                trainingDone
+                  ? "✓ Treino realizado"
+                  : "Marcar treino completo"
+              }
+
+            </span>
+
           </div>
 
-        `;
+          <div class="section-count">
 
+            ${doneExercises}/${totalExercises}
+            exercícios realizados
 
-        container.appendChild(card);
+          </div>
 
-      });
-
-
-      // PROGRESSO
-
-      const total =
-        mealKeys.length;
-
-      const pct =
-        (completedCount / total) * 100;
-
-
-      document.getElementById(
-        "mealProgressBar"
-      ).style.width = pct + "%";
-
-
-      document.getElementById(
-        "mealProgressText"
-      ).textContent =
-        `${completedCount}/${total} refeições concluídas`;
-
-    }
-
-
-    // =====================================================
-    // SELECIONAR REFEIÇÃO
-    // =====================================================
-
-    function toggleMealOption(
-      mealKey,
-      index
-    ) {
-
-      if (
-        !state.weeklyProgress[currentDay]
-      ) {
-
-        state.weeklyProgress[currentDay] = {};
-
-      }
-
-
-      if (
-        state.weeklyProgress[currentDay][mealKey] === index
-      ) {
-
-        delete state.weeklyProgress[currentDay][mealKey];
-
-      } else {
-
-        state.weeklyProgress[currentDay][mealKey] =
-          index;
-
-      }
-
-
-      saveState();
-
-      renderMeals();
-
-      renderWeeklyGrid();
-
-    }
-
-
-    // =====================================================
-    // DOCES
-    // =====================================================
-
-    function renderSweets() {
-
-      const container =
-        document.getElementById(
-          "sweetsContainer"
-        );
-
-
-      container.innerHTML =
-        sweetOptions.map(
-          sweet => `
-
-            <div class="sweet-item">
-              🍬 ${sweet}
-            </div>
-
-          `
-        ).join("");
-
-    }
-
-
-    // =====================================================
-    // RESUMO SEMANAL
-    // =====================================================
-
-    function renderWeeklyGrid() {
-
-      const container =
-        document.getElementById(
-          "weeklyGrid"
-        );
-
-      container.innerHTML = "";
-
-
-      const days = [
-
-        {
-          id: "segunda",
-          label: "Seg"
-        },
-
-        {
-          id: "terca",
-          label: "Ter"
-        },
-
-        {
-          id: "quarta",
-          label: "Qua"
-        },
-
-        {
-          id: "quinta",
-          label: "Qui"
-        },
-
-        {
-          id: "sexta",
-          label: "Sex"
-        }
-
-      ];
-
-
-      const mealKeys =
-        Object.keys(meals);
-
-
-      days.forEach(d => {
-
-        const dayProgress =
-          state.weeklyProgress[d.id] || {};
-
-        let dotsHTML = "";
-
-
-        mealKeys.forEach(mKey => {
-
-          const isDone =
-            dayProgress[mKey] !== undefined &&
-            dayProgress[mKey] !== null;
-
-
-          dotsHTML += `
+          <div class="progress-wrap">
 
             <div
-              class="dot ${isDone ? "done" : ""}"
-            ></div>
+              class="progress-bar"
+              style="width:${exercisePercentage}%">
+            </div>
 
-          `;
-
-        });
-
-
-        const col =
-          document.createElement("div");
-
-        col.className =
-          "weekly-day-col";
-
-
-        col.innerHTML = `
-
-          <div class="weekly-day-name">
-            ${d.label}
           </div>
 
-          <div class="weekly-dot-container">
-            ${dotsHTML}
-          </div>
+    `;
+
+
+    training.groups.forEach(
+      (group,groupIndex)=>{
+
+        html += `
+
+          <h3>
+            ${group.name}
+          </h3>
 
         `;
 
 
-        container.appendChild(col);
+        group.exercises.forEach(
+          (exercise,exerciseIndex)=>{
 
-      });
+            const id =
+              `${key}_${groupIndex}_${exerciseIndex}`;
+
+
+            const checked =
+              !!state.exerciseChecks[id];
+
+
+            html += `
+
+              <label
+                class="exercise
+                ${checked ? "done":""}">
+
+                <input
+                  type="checkbox"
+                  ${checked ? "checked":""}
+                  onchange="toggleExercise('${id}')">
+
+                <div class="exercise-info">
+
+                  <div class="exercise-name">
+                    ${exercise[0]}
+                  </div>
+
+                  <div class="exercise-reps">
+                    ${exercise[1]}
+                  </div>
+
+                </div>
+
+              </label>
+
+            `;
+
+          }
+        );
+
+      }
+    );
+
+
+    /*
+      CARDIO DENTRO DE CADA DIA
+    */
+
+    html += `
+
+      <div
+        class="cardio-box
+        ${cardioDone ? "done":""}">
+
+        <input
+          type="checkbox"
+          ${cardioDone ? "checked":""}
+          onchange="toggleWeeklyCardio('${key}')">
+
+        <div>
+
+          <div class="cardio-title">
+
+            ${
+              cardioDone
+                ? "✓ Cardio realizado"
+                : "Cardio do dia"
+            }
+
+          </div>
+
+          <div class="cardio-subtitle">
+
+            🏃 2 km caminhada + 1 km corrida
+            — 3 km total
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    html += `
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   EXERCÍCIO
+========================= */
+
+function toggleExercise(id){
+
+  if(!state.exerciseChecks)
+    state.exerciseChecks={};
+
+
+  state.exerciseChecks[id] =
+    !state.exerciseChecks[id];
+
+
+  saveState();
+
+
+  renderWeeklyTraining();
+
+}
+
+
+/* =========================
+   TREINO DA SEMANA
+========================= */
+
+function toggleWeeklyTraining(key){
+
+  if(!state.weeklyTrainingChecks)
+    state.weeklyTrainingChecks={};
+
+
+  state.weeklyTrainingChecks[key] =
+    !state.weeklyTrainingChecks[key];
+
+
+  if(key === getDayKey()){
+
+    state.training =
+      !!state.weeklyTrainingChecks[key];
+
+  }
+
+
+  syncTodayWeeklyRecord();
+
+
+  saveState();
+
+
+  renderWeeklyTraining();
+
+  renderTodayTraining();
+
+  updateWeeklyDashboard();
+
+}
+
+
+/* =========================
+   TREINO DE HOJE
+========================= */
+
+function toggleTodayTraining(){
+
+  const key =
+    getDayKey();
+
+
+  if(!state.weeklyTrainingChecks)
+    state.weeklyTrainingChecks={};
+
+
+  state.weeklyTrainingChecks[key] =
+    !state.weeklyTrainingChecks[key];
+
+
+  state.training =
+    !!state.weeklyTrainingChecks[key];
+
+
+  syncTodayWeeklyRecord();
+
+
+  saveState();
+
+
+  renderWeeklyTraining();
+
+  renderTodayTraining();
+
+  updateWeeklyDashboard();
+
+}
+
+
+/* =========================
+   CARDIO DA SEMANA
+========================= */
+
+function toggleWeeklyCardio(key){
+
+  if(!state.weeklyCardioChecks)
+    state.weeklyCardioChecks={};
+
+
+  state.weeklyCardioChecks[key] =
+    !state.weeklyCardioChecks[key];
+
+
+  if(key === getDayKey()){
+
+    state.cardio =
+      !!state.weeklyCardioChecks[key];
+
+  }
+
+
+  syncTodayWeeklyRecord();
+
+
+  saveState();
+
+
+  renderWeeklyTraining();
+
+  renderTodayTraining();
+
+  updateWeeklyDashboard();
+
+}
+
+
+/* =========================
+   CARDIO DE HOJE
+========================= */
+
+function toggleTodayCardio(){
+
+  const key =
+    getDayKey();
+
+
+  if(!state.weeklyCardioChecks)
+    state.weeklyCardioChecks={};
+
+
+  state.weeklyCardioChecks[key] =
+    !state.weeklyCardioChecks[key];
+
+
+  state.cardio =
+    !!state.weeklyCardioChecks[key];
+
+
+  syncTodayWeeklyRecord();
+
+
+  saveState();
+
+
+  renderWeeklyTraining();
+
+  renderTodayTraining();
+
+  updateWeeklyDashboard();
+
+}
+
+
+/*
+  Mantida para compatibilidade
+  com versões anteriores do app.
+*/
+
+function renderCardio(){
+
+  renderWeeklyTraining();
+
+}
+
+
+/* =========================
+   REFEIÇÕES
+========================= */
+
+function renderMeals(){
+
+  const container =
+    document.getElementById(
+      "mealsContainer"
+    );
+
+
+  let html="";
+
+
+  meals.forEach(meal=>{
+
+    const done =
+      !!state.meals[meal.id];
+
+
+    const selected =
+      state.selectedOptions[meal.id];
+
+
+    html += `
+
+      <div class="meal">
+
+        <div class="meal-header">
+
+          <div class="meal-title">
+
+            ${done ? "☑️":"⬜"}
+            ${meal.name}
+
+          </div>
+
+          <div class="meal-time">
+
+            ${meal.time}
+
+          </div>
+
+        </div>
+
+        <div class="options">
+
+    `;
+
+
+    meal.options.forEach(
+      (option,optIndex)=>{
+
+        const isSelected =
+          selected === optIndex;
+
+
+        html += `
+
+          <div
+            class="option
+            ${isSelected ? "selected":""}"
+            onclick="selectMealOption('${meal.id}',${optIndex})">
+
+            ${isSelected ? "✓ ":""}
+
+            ${option}
+
+          </div>
+
+        `;
+
+      }
+    );
+
+
+    html += `
+
+        </div>
+
+        <button
+          class="${done ? "secondary":""}"
+          style="margin-top:10px;"
+          onclick="toggleMeal('${meal.id}')">
+
+          ${
+            done
+              ? "Desmarcar refeição"
+              : "Marcar como feita"
+          }
+
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+
+  container.innerHTML =
+    html;
+
+
+  updateMealProgress();
+
+}
+
+
+function selectMealOption(
+  id,
+  index
+){
+
+  state.selectedOptions[id] =
+    index;
+
+
+  saveState();
+
+
+  renderMeals();
+
+}
+
+
+function toggleMeal(id){
+
+  state.meals[id] =
+    !state.meals[id];
+
+
+  syncTodayWeeklyRecord();
+
+
+  saveState();
+
+
+  renderMeals();
+
+  updateWeeklyDashboard();
+
+}
+
+
+function updateMealProgress(){
+
+  const completed =
+    meals.filter(
+      meal=>state.meals[meal.id]
+    ).length;
+
+
+  const total =
+    meals.length;
+
+
+  const percentage =
+    (completed/total)*100;
+
+
+  document.getElementById(
+    "mealProgressBar"
+  ).style.width =
+    percentage+"%";
+
+
+  document.getElementById(
+    "mealProgressText"
+  ).textContent =
+    `${completed}/${total} refeições concluídas`;
+
+}
+
+
+/* =========================
+   ÁGUA
+========================= */
+
+function changeWater(amount){
+
+  state.water +=
+    amount;
+
+
+  if(state.water < 0)
+    state.water=0;
+
+
+  if(state.water > WATER_GOAL)
+    state.water=WATER_GOAL;
+
+
+  syncTodayWeeklyRecord();
+
+
+  saveState();
+
+
+  updateWaterDisplay();
+
+  updateWeeklyDashboard();
+
+}
+
+
+function updateWaterDisplay(){
+
+  const ml =
+    state.water *
+    WATER_BOTTLE;
+
+
+  document.getElementById(
+    "waterCount"
+  ).textContent =
+    `${state.water}/${WATER_GOAL}`;
+
+
+  document.getElementById(
+    "waterText"
+  ).textContent =
+    `${ml.toLocaleString("pt-BR")} ml de 2.000 ml`;
+
+
+  document.getElementById(
+    "waterProgressBar"
+  ).style.width =
+    `${(state.water/WATER_GOAL)*100}%`;
+
+}
+
+
+/* =========================
+   DOCE
+========================= */
+
+function renderSweet(){
+
+  const container =
+    document.getElementById(
+      "sweetContainer"
+    );
+
+
+  let html="";
+
+
+  sweetOptions.forEach(
+    (option,index)=>{
+
+      const checked =
+        !!state.sweet[index];
+
+
+      html += `
+
+        <label
+          class="exercise
+          ${checked ? "done":""}">
+
+          <input
+            type="checkbox"
+            ${checked ? "checked":""}
+            onchange="toggleSweet(${index})">
+
+          <div class="exercise-info">
+
+            <div class="exercise-name">
+              ${option}
+            </div>
+
+          </div>
+
+        </label>
+
+      `;
 
     }
+  );
 
 
-    // =====================================================
-    // INICIAR APP
-    // =====================================================
+  container.innerHTML =
+    html;
 
-    init();
+}
 
-  </script>
 
+function toggleSweet(index){
+
+  state.sweet[index] =
+    !state.sweet[index];
+
+
+  saveState();
+
+
+  renderSweet();
+
+}
+
+
+/* =========================
+   PROGRESSO
+========================= */
+
+function renderProgress(){
+
+  document.getElementById(
+    "weightInput"
+  ).value =
+    state.weight || "";
+
+
+  document.getElementById(
+    "heightInput"
+  ).value =
+    state.height || "";
+
+
+  document.getElementById(
+    "waistInput"
+  ).value =
+    state.waist || "";
+
+
+  document.getElementById(
+    "chestInput"
+  ).value =
+    state.chest || "";
+
+
+  document.getElementById(
+    "bicepsInput"
+  ).value =
+    state.biceps || "";
+
+
+  document.getElementById(
+    "currentWeight"
+  ).textContent =
+    state.weight
+      ? state.weight
+      : "--";
+
+
+  document.getElementById(
+    "currentHeight"
+  ).textContent =
+    state.height
+      ? state.height
+      : "--";
+
+
+  document.getElementById(
+    "currentWaist"
+  ).textContent =
+    state.waist
+      ? state.waist
+      : "--";
+
+
+  document.getElementById(
+    "currentChest"
+  ).textContent =
+    state.chest
+      ? state.chest
+      : "--";
+
+
+  document.getElementById(
+    "currentBiceps"
+  ).textContent =
+    state.biceps
+      ? state.biceps
+      : "--";
+
+
+  renderProgressHistory();
+
+  renderProgressPhotos();
+
+
+  setTimeout(
+    drawProgressCharts,
+    100
+  );
+
+}
+
+
+/* =========================
+   SALVAR PROGRESSO
+========================= */
+
+function saveProgress(){
+
+  const weight =
+    parseFloat(
+      document.getElementById(
+        "weightInput"
+      ).value
+    );
+
+
+  const height =
+    parseFloat(
+      document.getElementById(
+        "heightInput"
+      ).value
+    );
+
+
+  const waist =
+    parseFloat(
+      document.getElementById(
+        "waistInput"
+      ).value
+    );
+
+
+  const chest =
+    parseFloat(
+      document.getElementById(
+        "chestInput"
+      ).value
+    );
+
+
+  const biceps =
+    parseFloat(
+      document.getElementById(
+        "bicepsInput"
+      ).value
+    );
+
+
+  if(
+    isNaN(weight) &&
+    isNaN(height) &&
+    isNaN(waist) &&
+    isNaN(chest) &&
+    isNaN(biceps)
+  ){
+
+    alert(
+      "Informe pelo menos uma medida."
+    );
+
+
+    return;
+
+  }
+
+
+  if(!isNaN(weight))
+    state.weight=weight;
+
+
+  if(!isNaN(height))
+    state.height=height;
+
+
+  if(!isNaN(waist))
+    state.waist=waist;
+
+
+  if(!isNaN(chest))
+    state.chest=chest;
+
+
+  if(!isNaN(biceps))
+    state.biceps=biceps;
+
+
+  const today =
+    getToday();
+
+
+  let existing =
+    state.progressHistory.find(
+      item=>item.date===today
+    );
+
+
+  if(!existing){
+
+    existing={
+
+      date:today,
+
+      weight:null,
+
+      height:null,
+
+      waist:null,
+
+      chest:null,
+
+      biceps:null
+
+    };
+
+
+    state.progressHistory.push(
+      existing
+    );
+
+  }
+
+
+  if(!isNaN(weight))
+    existing.weight=weight;
+
+
+  if(!isNaN(height))
+    existing.height=height;
+
+
+  if(!isNaN(waist))
+    existing.waist=waist;
+
+
+  if(!isNaN(chest))
+    existing.chest=chest;
+
+
+  if(!isNaN(biceps))
+    existing.biceps=biceps;
+
+
+  state.progressHistory =
+    state.progressHistory.slice(-30);
+
+
+  saveState();
+
+
+  renderProgress();
+
+
+  alert(
+    "Medição salva!"
+  );
+
+}
+
+
+/* =========================
+   FOTOS DE PROGRESSO
+========================= */
+
+function setDefaultPhotoDate(){
+
+  const input =
+    document.getElementById(
+      "photoDateInput"
+    );
+
+
+  if(!input)
+    return;
+
+
+  if(!input.value)
+    input.value =
+      getToday();
+
+}
+
+
+/* =========================
+   PRÉ-VISUALIZAÇÃO DA FOTO
+========================= */
+
+function previewPhoto(){
+
+  const input =
+    document.getElementById(
+      "photoInput"
+    );
+
+
+  const preview =
+    document.getElementById(
+      "photoPreview"
+    );
+
+
+  const image =
+    document.getElementById(
+      "photoPreviewImage"
+    );
+
+
+  if(
+    !input.files ||
+    !input.files[0]
+  ){
+
+    preview.style.display="none";
+
+    image.src="";
+
+    return;
+
+  }
+
+
+  const file =
+    input.files[0];
+
+
+  if(
+    !file.type.startsWith("image/")
+  ){
+
+    alert(
+      "Selecione uma imagem válida."
+    );
+
+
+    input.value="";
+
+    preview.style.display="none";
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    function(e){
+
+      image.src =
+        e.target.result;
+
+      preview.style.display =
+        "block";
+
+    };
+
+
+  reader.readAsDataURL(
+    file
+  );
+
+}
+
+
+/* =========================
+   COMPRIMIR FOTO
+========================= */
+
+function compressImage(file){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function(event){
+
+          const image =
+            new Image();
+
+
+          image.onload =
+            function(){
+
+              const maxSize =
+                1200;
+
+
+              let width =
+                image.width;
+
+
+              let height =
+                image.height;
+
+
+              if(width > height){
+
+                if(width > maxSize){
+
+                  height =
+                    Math.round(
+                      height *
+                      maxSize /
+                      width
+                    );
+
+                  width =
+                    maxSize;
+
+                }
+
+              }else{
+
+                if(height > maxSize){
+
+                  width =
+                    Math.round(
+                      width *
+                      maxSize /
+                      height
+                    );
+
+                  height =
+                    maxSize;
+
+                }
+
+              }
+
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              canvas.width =
+                width;
+
+              canvas.height =
+                height;
+
+
+              const ctx =
+                canvas.getContext(
+                  "2d"
+                );
+
+
+              ctx.drawImage(
+                image,
+                0,
+                0,
+                width,
+                height
+              );
+
+
+              const compressed =
+                canvas.toDataURL(
+                  "image/jpeg",
+                  0.82
+                );
+
+
+              resolve(
+                compressed
+              );
+
+            };
+
+
+          image.onerror =
+            reject;
+
+
+          image.src =
+            event.target.result;
+
+        };
+
+
+      reader.onerror =
+        reject;
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   SALVAR FOTO
+========================= */
+
+async function saveProgressPhoto(){
+
+  const dateInput =
+    document.getElementById(
+      "photoDateInput"
+    );
+
+
+  const fileInput =
+    document.getElementById(
+      "photoInput"
+    );
+
+
+  const date =
+    dateInput.value;
+
+
+  if(!date){
+
+    alert(
+      "Escolha a data da foto."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !fileInput.files ||
+    !fileInput.files[0]
+  ){
+
+    alert(
+      "Escolha uma foto."
+    );
+
+    return;
+
+  }
+
+
+  const file =
+    fileInput.files[0];
+
+
+  if(
+    !file.type.startsWith("image/")
+  ){
+
+    alert(
+      "Selecione uma imagem válida."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const imageData =
+      await compressImage(
+        file
+      );
+
+
+    if(!state.progressPhotos)
+      state.progressPhotos=[];
+
+
+    state.progressPhotos.push({
+
+      id:
+        Date.now(),
+
+      date:
+        date,
+
+      image:
+        imageData
+
+    });
+
+
+    state.progressPhotos =
+      state.progressPhotos.slice(-30);
+
+
+    saveState();
+
+
+    fileInput.value="";
+
+
+    document.getElementById(
+      "photoPreview"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "photoPreviewImage"
+    ).src="";
+
+
+    renderProgressPhotos();
+
+
+    alert(
+      "Foto de progresso salva!"
+    );
+
+  }catch(error){
+
+    alert(
+      "Não foi possível salvar a foto."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   HISTÓRICO DE FOTOS
+========================= */
+
+function renderProgressPhotos(){
+
+  const container =
+    document.getElementById(
+      "photoHistory"
+    );
+
+
+  if(!container)
+    return;
+
+
+  if(
+    !state.progressPhotos ||
+    !state.progressPhotos.length
+  ){
+
+    container.innerHTML = `
+
+      <p style="color:#888;margin-top:15px;">
+
+        Nenhuma foto de progresso registrada.
+
+      </p>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  const photos =
+    [...state.progressPhotos]
+      .sort(
+        (a,b)=>
+          new Date(b.date) -
+          new Date(a.date)
+      );
+
+
+  let html="";
+
+
+  photos.forEach(
+    photo=>{
+
+      const date =
+        new Date(
+          photo.date+"T12:00:00"
+        )
+        .toLocaleDateString(
+          "pt-BR"
+        );
+
+
+      html += `
+
+        <div class="photo-item">
+
+          <div class="photo-item-date">
+
+            📅 ${date}
+
+          </div>
+
+          <img
+            src="${photo.image}"
+            alt="Foto de progresso de ${date}">
+
+          <button
+            class="danger photo-delete"
+            onclick="deleteProgressPhoto(${photo.id})">
+
+            🗑️ Excluir foto
+
+          </button>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   EXCLUIR FOTO
+========================= */
+
+function deleteProgressPhoto(id){
+
+  if(
+    !confirm(
+      "Deseja realmente excluir esta foto?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  state.progressPhotos =
+    state.progressPhotos.filter(
+      photo=>photo.id !== id
+    );
+
+
+  saveState();
+
+
+  renderProgressPhotos();
+
+}
+
+
+/* =========================
+   HISTÓRICO
+========================= */
+
+function renderProgressHistory(){
+
+  const container =
+    document.getElementById(
+      "progressHistory"
+    );
+
+
+  if(
+    !state.progressHistory.length
+  ){
+
+    container.innerHTML =
+      `<p style="color:#888;">
+        Nenhuma medição registrada.
+      </p>`;
+
+
+    return;
+
+  }
+
+
+  const history =
+    [...state.progressHistory]
+      .reverse();
+
+
+  let html="";
+
+
+  history.forEach(
+    item=>{
+
+      const date =
+        new Date(
+          item.date+"T12:00:00"
+        )
+        .toLocaleDateString(
+          "pt-BR"
+        );
+
+
+      html += `
+
+        <div class="history-item">
+
+          <div class="history-date">
+
+            ${date}
+
+          </div>
+
+          <div class="history-measures">
+
+            <span>
+
+              ⚖️ Peso:
+              ${
+                item.weight != null
+                  ? item.weight+" kg"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              📏 Altura:
+              ${
+                item.height != null
+                  ? item.height+" cm"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              🟠 Cintura:
+              ${
+                item.waist != null
+                  ? item.waist+" cm"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              🫁 Peitoral:
+              ${
+                item.chest != null
+                  ? item.chest+" cm"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              💪 Bíceps:
+              ${
+                item.biceps != null
+                  ? item.biceps+" cm"
+                  : "--"
+              }
+
+            </span>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   GRÁFICOS
+========================= */
+
+function drawProgressCharts(){
+
+  drawWeightChart();
+
+  drawBodyChart();
+
+}
+
+
+/* =========================
+   GRÁFICO DE PESO
+========================= */
+
+function drawWeightChart(){
+
+  const canvas =
+    document.getElementById(
+      "weightChart"
+    );
+
+
+  if(!canvas)
+    return;
+
+
+  const ctx =
+    canvas.getContext(
+      "2d"
+    );
+
+
+  const width =
+    canvas.width;
+
+
+  const height =
+    canvas.height;
+
+
+  ctx.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  const data =
+    state.progressHistory.filter(
+      item=>item.weight != null
+    );
+
+
+  if(data.length < 2){
+
+    ctx.fillStyle="#777";
+
+    ctx.font="14px Arial";
+
+    ctx.fillText(
+      "Registre pelo menos 2 medições de peso para visualizar a evolução.",
+      30,
+      height/2
+    );
+
+    return;
+
+  }
+
+
+  const values =
+    data.map(
+      item=>Number(item.weight)
+    );
+
+
+  let min =
+    Math.min(...values);
+
+
+  let max =
+    Math.max(...values);
+
+
+  if(min === max){
+    min -= 1;
+    max += 1;
+  }
+
+  const padding = 40;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
+
+  ctx.strokeStyle = "#292f29";
+  ctx.lineWidth = 1;
+
+  for(let i=0; i<=4; i++){
+    const y = padding + (chartHeight/4)*i;
+    ctx.beginPath();
+    ctx.moveTo(padding, y);
+    ctx.lineTo(width - padding, y);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = "#55e06f";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+
+  data.forEach((item, index) => {
+    const x = padding + (chartWidth / (data.length - 1)) * index;
+    const y = height - padding - ((item.weight - min) / (max - min)) * chartHeight;
+    if(index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  data.forEach((item, index) => {
+    const x = padding + (chartWidth / (data.length - 1)) * index;
+    const y = height - padding - ((item.weight - min) / (max - min)) * chartHeight;
+    ctx.fillStyle = "#55e06f";
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+
+/* =========================
+   GRÁFICO DE MEDIDAS
+========================= */
+
+function drawBodyChart(){
+  const canvas = document.getElementById("bodyChart");
+  if(!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0, 0, width, height);
+
+  const data = state.progressHistory.filter(
+    item => item.waist != null || item.chest != null || item.biceps != null
+  );
+
+  if(data.length < 2){
+    ctx.fillStyle = "#777";
+    ctx.font = "14px Arial";
+    ctx.fillText("Registre pelo menos 2 medições de medidas corporais para visualizar a evolução.", 30, height/2);
+    return;
+  }
+
+  const padding = 40;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
+
+  ctx.strokeStyle = "#292f29";
+  ctx.lineWidth = 1;
+  for(let i=0; i<=4; i++){
+    const y = padding + (chartHeight/4)*i;
+    ctx.beginPath();
+    ctx.moveTo(padding, y);
+    ctx.lineTo(width - padding, y);
+    ctx.stroke();
+  }
+}
+
+
+/* =========================
+   ROTEAMENTO E NAVEGAÇÃO
+========================= */
+
+function showPage(pageId){
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
+
+  const targetPage = document.getElementById(pageId);
+  const targetNav = document.getElementById(`nav-${pageId}`);
+
+  if(targetPage) targetPage.classList.add("active");
+  if(targetNav) targetNav.classList.add("active");
+
+  if(pageId === "home"){
+    renderTodayTraining();
+    updateWaterDisplay();
+  } else if(pageId === "diet"){
+    renderMeals();
+  } else if(pageId === "training"){
+    renderWeeklyTraining();
+  } else if(pageId === "sweet"){
+    renderSweet();
+  } else if(pageId === "progress"){
+    renderProgress();
+    setDefaultPhotoDate();
+  }
+}
+
+
+/* =========================
+   CRONÔMETRO
+========================= */
+
+let restTimerInterval = null;
+let restTimeLeft = 90;
+let restTimerRunning = false;
+
+function setRestTime(seconds){
+  stopRestTimer();
+  restTimeLeft = seconds;
+  updateRestTimerDisplay();
+}
+
+function updateRestTimerDisplay(){
+  const display = document.getElementById("restTimerDisplay");
+  const minutes = Math.floor(restTimeLeft / 60);
+  const seconds = restTimeLeft % 60;
+  display.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+  display.classList.remove("finished");
+}
+
+function toggleRestTimer(){
+  if(restTimerRunning){
+    stopRestTimer();
+  } else {
+    restTimerRunning = true;
+    document.getElementById("restStartButton").textContent = "⏸️ Pausar";
+    restTimerInterval = setInterval(() => {
+      restTimeLeft--;
+      updateRestTimerDisplay();
+      if(restTimeLeft <= 0){
+        stopRestTimer();
+        document.getElementById("restTimerDisplay").classList.add("finished");
+        document.getElementById("restTimerStatus").textContent = "🔔 Tempo de descanso encerrado!";
+      }
+    }, 1000);
+  }
+}
+
+function stopRestTimer(){
+  clearInterval(restTimerInterval);
+  restTimerRunning = false;
+  const btn = document.getElementById("restStartButton");
+  if(btn) btn.textContent = "▶️ Iniciar";
+}
+
+function resetRestTimer(){
+  stopRestTimer();
+  restTimeLeft = 90;
+  updateRestTimerDisplay();
+}
+
+function saveWorkout(){
+  const text = document.getElementById("workoutText").value;
+  state.workout = text;
+  saveState();
+  alert("Observação salva com sucesso!");
+}
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+window.onload = function(){
+  loadState();
+  renderDate();
+  renderDailyMotivation();
+  renderTodayTraining();
+  updateWaterDisplay();
+  updateWeeklyDashboard();
+};
+
+</script>
 </body>
 </html>
