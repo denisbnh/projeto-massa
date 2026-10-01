@@ -334,6 +334,44 @@ header p{
   color:#55e06f;
 }
 
+.cardio-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#111711;
+  border:1px solid #2e382e;
+  border-radius:10px;
+  padding:13px;
+  margin:15px 0 5px;
+}
+
+.cardio-box input{
+  width:22px;
+  height:22px;
+  accent-color:#55e06f;
+  flex-shrink:0;
+}
+
+.cardio-box.done{
+  border-color:#3f8e4c;
+  background:#18251a;
+}
+
+.cardio-title{
+  font-size:14px;
+  font-weight:bold;
+}
+
+.cardio-subtitle{
+  color:#999;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.cardio-box.done .cardio-title{
+  color:#55e06f;
+}
+
 button{
   border:none;
   border-radius:10px;
@@ -399,7 +437,8 @@ button.danger{
 
 textarea,
 input[type="number"],
-input[type="text"]{
+input[type="text"],
+input[type="date"]{
   width:100%;
   background:#101310;
   color:#fff;
@@ -408,6 +447,16 @@ input[type="text"]{
   padding:11px;
   margin-top:7px;
   outline:none;
+}
+
+input[type="file"]{
+  width:100%;
+  background:#101310;
+  color:#bbb;
+  border:1px solid #303630;
+  border-radius:9px;
+  padding:10px;
+  margin-top:7px;
 }
 
 textarea{
@@ -565,6 +614,66 @@ label{
   gap:5px;
   color:#aaa;
   font-size:13px;
+}
+
+.photo-form{
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:12px;
+  padding:14px;
+  margin-top:15px;
+}
+
+.photo-form h3{
+  margin-top:0;
+}
+
+.photo-preview{
+  display:none;
+  margin-top:12px;
+  text-align:center;
+}
+
+.photo-preview img{
+  width:100%;
+  max-height:350px;
+  object-fit:contain;
+  border-radius:10px;
+  border:1px solid #303630;
+  background:#0d0f0e;
+}
+
+.photo-history{
+  margin-top:15px;
+}
+
+.photo-item{
+  background:#101310;
+  border:1px solid #292f29;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+}
+
+.photo-item-date{
+  color:#55e06f;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:9px;
+}
+
+.photo-item img{
+  display:block;
+  width:100%;
+  max-height:400px;
+  object-fit:contain;
+  border-radius:9px;
+  background:#0d0f0e;
+}
+
+.photo-delete{
+  margin-top:8px;
+  width:100%;
 }
 
 canvas{
@@ -762,37 +871,13 @@ canvas{
     <h2>🏋️ Treinos da semana</h2>
 
     <p style="color:#aaa;font-size:13px;line-height:1.5;">
-      Aqui estão todos os treinos da semana. Marque o treino completo
-      e também os exercícios que você realmente realizou.
+      Aqui estão todos os treinos da semana. Marque o treino completo,
+      os exercícios realizados e o cardio feito em cada dia.
     </p>
 
   </div>
 
   <div id="weeklyTrainingContainer"></div>
-
-  <div class="card">
-
-    <h2>🏃 Cardio</h2>
-
-    <div class="exercise" onclick="toggleCardio()">
-
-      <input type="checkbox" id="cardioCheck">
-
-      <div class="exercise-info">
-
-        <div class="exercise-name">
-          2 km caminhada + 1 km corrida
-        </div>
-
-        <div class="exercise-reps">
-          Esteira — cardio diário
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
 
   <div class="card">
 
@@ -901,6 +986,74 @@ canvas{
       Salvar medição
 
     </button>
+
+  </div>
+
+
+  <!-- FOTOS DE PROGRESSO -->
+  <div class="card">
+
+    <h2>📸 Fotos de evolução</h2>
+
+    <p style="color:#aaa;font-size:13px;line-height:1.5;">
+      Adicione uma foto para acompanhar visualmente sua evolução.
+      Escolha a data correspondente ao registro.
+    </p>
+
+    <div class="photo-form">
+
+      <h3>➕ Adicionar foto</h3>
+
+      <div style="margin-top:10px;">
+
+        <label>
+          Data da foto
+        </label>
+
+        <input
+          type="date"
+          id="photoDateInput">
+
+      </div>
+
+      <div style="margin-top:10px;">
+
+        <label>
+          Foto
+        </label>
+
+        <input
+          type="file"
+          id="photoInput"
+          accept="image/*"
+          onchange="previewPhoto()">
+
+      </div>
+
+      <div
+        id="photoPreview"
+        class="photo-preview">
+
+        <img
+          id="photoPreviewImage"
+          alt="Pré-visualização da foto">
+
+      </div>
+
+      <button
+        onclick="saveProgressPhoto()"
+        style="margin-top:12px;width:100%;">
+
+        📸 Salvar foto de progresso
+
+      </button>
+
+    </div>
+
+    <div
+      id="photoHistory"
+      class="photo-history">
+    </div>
 
   </div>
 
@@ -1480,11 +1633,15 @@ let state = {
 
   progressHistory:[],
 
+  progressPhotos:[],
+
   reminders:{},
 
   exerciseChecks:{},
 
-  weeklyTrainingChecks:{}
+  weeklyTrainingChecks:{},
+
+  weeklyCardioChecks:{}
 
 };
 
@@ -1502,6 +1659,7 @@ function getToday(){
   const day = String(now.getDate()).padStart(2,"0");
 
   return `${year}-${month}-${day}`;
+
 }
 
 
@@ -1520,6 +1678,7 @@ function getDayKey(){
   ];
 
   return keys[day];
+
 }
 
 
@@ -1586,8 +1745,12 @@ function loadState(){
     }catch(e){}
   }
 
+
   if(!state.progressHistory)
     state.progressHistory=[];
+
+  if(!state.progressPhotos)
+    state.progressPhotos=[];
 
   if(!state.selectedOptions)
     state.selectedOptions={};
@@ -1606,6 +1769,9 @@ function loadState(){
 
   if(!state.weeklyTrainingChecks)
     state.weeklyTrainingChecks={};
+
+  if(!state.weeklyCardioChecks)
+    state.weeklyCardioChecks={};
 
 
   /*
@@ -1672,6 +1838,7 @@ function loadState(){
 
   const today = getToday();
 
+
   if(state.date !== today){
 
     state.date = today;
@@ -1681,8 +1848,17 @@ function loadState(){
 
     state.water=0;
 
-    state.training=false;
-    state.cardio=false;
+    /*
+      Os registros semanais NÃO são apagados.
+      Assim os checks de treino/cardio dos outros
+      dias continuam registrados.
+    */
+
+    state.training =
+      !!state.weeklyTrainingChecks[getDayKey()];
+
+    state.cardio =
+      !!state.weeklyCardioChecks[getDayKey()];
 
     state.workout="";
 
@@ -1690,9 +1866,20 @@ function loadState(){
 
     state.exerciseChecks={};
 
-    state.weeklyTrainingChecks={};
-
     saveState();
+
+  }else{
+
+    /*
+      Mantém o estado diário sincronizado
+      com os registros semanais.
+    */
+
+    state.training =
+      !!state.weeklyTrainingChecks[getDayKey()];
+
+    state.cardio =
+      !!state.weeklyCardioChecks[getDayKey()];
 
   }
 
@@ -1779,6 +1966,13 @@ function renderTodayTraining(){
   }
 
 
+  const trainingDone =
+    !!state.weeklyTrainingChecks[key];
+
+  const cardioDone =
+    !!state.weeklyCardioChecks[key];
+
+
   const html = `
 
     <div class="card">
@@ -1803,11 +1997,28 @@ function renderTodayTraining(){
 
         <input
           type="checkbox"
-          ${state.training ? "checked" : ""}
+          ${trainingDone ? "checked" : ""}
           onchange="toggleTodayTraining()">
 
         <span>
-          Marcar treino de hoje como completo
+          ${trainingDone
+            ? "✓ Treino de hoje realizado"
+            : "Marcar treino de hoje como completo"}
+        </span>
+
+      </div>
+
+      <div class="check-big">
+
+        <input
+          type="checkbox"
+          ${cardioDone ? "checked" : ""}
+          onchange="toggleTodayCardio()">
+
+        <span>
+          ${cardioDone
+            ? "✓ Cardio realizado"
+            : "Marcar cardio: 2 km caminhada + 1 km corrida"}
         </span>
 
       </div>
@@ -1844,6 +2055,9 @@ function renderWeeklyTraining(){
 
     const trainingDone =
       !!state.weeklyTrainingChecks[key];
+
+    const cardioDone =
+      !!state.weeklyCardioChecks[key];
 
 
     let totalExercises=0;
@@ -1978,6 +2192,41 @@ function renderWeeklyTraining(){
     });
 
 
+    /*
+      CARDIO DENTRO DE CADA DIA
+    */
+
+    html += `
+
+      <div
+        class="cardio-box ${cardioDone ? "done":""}">
+
+        <input
+          type="checkbox"
+          ${cardioDone ? "checked":""}
+          onchange="toggleWeeklyCardio('${key}')">
+
+        <div>
+
+          <div class="cardio-title">
+
+            ${cardioDone
+              ? "✓ Cardio realizado"
+              : "Cardio do dia"}
+
+          </div>
+
+          <div class="cardio-subtitle">
+            🏃 2 km caminhada + 1 km corrida — 3 km total
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
     html += `
 
         </div>
@@ -2003,8 +2252,10 @@ function toggleExercise(id){
   if(!state.exerciseChecks)
     state.exerciseChecks={};
 
+
   state.exerciseChecks[id] =
     !state.exerciseChecks[id];
+
 
   saveState();
 
@@ -2087,29 +2338,79 @@ function toggleTodayTraining(){
 
 
 /* =========================
-   CARDIO
+   CARDIO DA SEMANA
 ========================= */
 
-function renderCardio(){
+function toggleWeeklyCardio(key){
 
-  const check =
-    document.getElementById("cardioCheck");
+  if(!state.weeklyCardioChecks)
+    state.weeklyCardioChecks={};
 
-  if(check)
-    check.checked = !!state.cardio;
+
+  state.weeklyCardioChecks[key] =
+    !state.weeklyCardioChecks[key];
+
+
+  if(key === getDayKey()){
+
+    state.cardio =
+      !!state.weeklyCardioChecks[key];
+
+  }
+
+
+  saveState();
+
+  renderWeeklyTraining();
+
+  renderTodayTraining();
+
+  updateDailyGoal();
 
 }
 
 
-function toggleCardio(){
+/* =========================
+   CARDIO DE HOJE
+========================= */
 
-  state.cardio = !state.cardio;
+function toggleTodayCardio(){
+
+  const key =
+    getDayKey();
+
+
+  if(!state.weeklyCardioChecks)
+    state.weeklyCardioChecks={};
+
+
+  state.weeklyCardioChecks[key] =
+    !state.weeklyCardioChecks[key];
+
+
+  state.cardio =
+    !!state.weeklyCardioChecks[key];
+
 
   saveState();
 
-  renderCardio();
+  renderWeeklyTraining();
+
+  renderTodayTraining();
 
   updateDailyGoal();
+
+}
+
+
+/*
+  Mantida para compatibilidade com versões
+  anteriores do app.
+*/
+
+function renderCardio(){
+
+  renderWeeklyTraining();
 
 }
 
@@ -2266,15 +2567,26 @@ function updateDailyGoal(){
       meal=>state.meals[meal.id]
     ).length;
 
+
   const waterDone =
     state.water >= WATER_GOAL;
 
+
   const trainingDone =
-    state.training;
+    !!state.weeklyTrainingChecks[getDayKey()];
+
 
   const cardioDone =
-    state.cardio;
+    !!state.weeklyCardioChecks[getDayKey()];
 
+
+  /*
+    5 refeições
+    + água
+    + treino
+    + cardio
+    = 8 metas
+  */
 
   const completed =
     mealDone +
@@ -2284,6 +2596,7 @@ function updateDailyGoal(){
 
 
   const total=8;
+
 
   const percentage =
     Math.round(
@@ -2300,6 +2613,7 @@ function updateDailyGoal(){
 
   if(bar)
     bar.style.width=percentage+"%";
+
 
   if(text)
     text.textContent =
@@ -2336,13 +2650,16 @@ function updateWaterDisplay(){
   const ml =
     state.water * WATER_BOTTLE;
 
+
   document.getElementById("waterCount")
     .textContent=
       `${state.water}/${WATER_GOAL}`;
 
+
   document.getElementById("waterText")
     .textContent=
       `${ml.toLocaleString("pt-BR")} ml de 2.000 ml`;
+
 
   document.getElementById("waterProgressBar")
     .style.width=
@@ -2438,11 +2755,13 @@ function renderProgress(){
         ? state.weight
         : "--";
 
+
   document.getElementById("currentHeight")
     .textContent=
       state.height
         ? state.height
         : "--";
+
 
   document.getElementById("currentWaist")
     .textContent=
@@ -2450,11 +2769,13 @@ function renderProgress(){
         ? state.waist
         : "--";
 
+
   document.getElementById("currentChest")
     .textContent=
       state.chest
         ? state.chest
         : "--";
+
 
   document.getElementById("currentBiceps")
     .textContent=
@@ -2464,6 +2785,8 @@ function renderProgress(){
 
 
   renderProgressHistory();
+
+  renderProgressPhotos();
 
   setTimeout(drawProgressCharts,100);
 
@@ -2481,20 +2804,24 @@ function saveProgress(){
       document.getElementById("weightInput").value
     );
 
+
   const height =
     parseFloat(
       document.getElementById("heightInput").value
     );
+
 
   const waist =
     parseFloat(
       document.getElementById("waistInput").value
     );
 
+
   const chest =
     parseFloat(
       document.getElementById("chestInput").value
     );
+
 
   const biceps =
     parseFloat(
@@ -2589,6 +2916,414 @@ function saveProgress(){
 
 
 /* =========================
+   FOTOS DE PROGRESSO
+========================= */
+
+function setDefaultPhotoDate(){
+
+  const input =
+    document.getElementById("photoDateInput");
+
+  if(!input)
+    return;
+
+
+  if(!input.value)
+    input.value=getToday();
+
+}
+
+
+/* =========================
+   PRÉ-VISUALIZAÇÃO DA FOTO
+========================= */
+
+function previewPhoto(){
+
+  const input =
+    document.getElementById("photoInput");
+
+  const preview =
+    document.getElementById("photoPreview");
+
+  const image =
+    document.getElementById("photoPreviewImage");
+
+
+  if(!input.files || !input.files[0]){
+
+    preview.style.display="none";
+
+    image.src="";
+
+    return;
+
+  }
+
+
+  const file =
+    input.files[0];
+
+
+  if(!file.type.startsWith("image/")){
+
+    alert("Selecione uma imagem válida.");
+
+    input.value="";
+
+    preview.style.display="none";
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload=function(e){
+
+    image.src=e.target.result;
+
+    preview.style.display="block";
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   COMPRIMIR FOTO
+========================= */
+
+function compressImage(file){
+
+  return new Promise((resolve,reject)=>{
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload=function(event){
+
+      const image =
+        new Image();
+
+
+      image.onload=function(){
+
+        const maxSize=1200;
+
+        let width=image.width;
+        let height=image.height;
+
+
+        if(width > height){
+
+          if(width > maxSize){
+
+            height =
+              Math.round(
+                height * maxSize / width
+              );
+
+            width=maxSize;
+
+          }
+
+        }else{
+
+          if(height > maxSize){
+
+            width =
+              Math.round(
+                width * maxSize / height
+              );
+
+            height=maxSize;
+
+          }
+
+        }
+
+
+        const canvas =
+          document.createElement("canvas");
+
+        canvas.width=width;
+        canvas.height=height;
+
+
+        const ctx =
+          canvas.getContext("2d");
+
+
+        ctx.drawImage(
+          image,
+          0,
+          0,
+          width,
+          height
+        );
+
+
+        const compressed =
+          canvas.toDataURL(
+            "image/jpeg",
+            0.82
+          );
+
+
+        resolve(compressed);
+
+      };
+
+
+      image.onerror=reject;
+
+      image.src=event.target.result;
+
+    };
+
+
+    reader.onerror=reject;
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+/* =========================
+   SALVAR FOTO
+========================= */
+
+async function saveProgressPhoto(){
+
+  const dateInput =
+    document.getElementById("photoDateInput");
+
+  const fileInput =
+    document.getElementById("photoInput");
+
+
+  const date =
+    dateInput.value;
+
+
+  if(!date){
+
+    alert("Escolha a data da foto.");
+
+    return;
+
+  }
+
+
+  if(
+    !fileInput.files ||
+    !fileInput.files[0]
+  ){
+
+    alert("Escolha uma foto.");
+
+    return;
+
+  }
+
+
+  const file =
+    fileInput.files[0];
+
+
+  if(!file.type.startsWith("image/")){
+
+    alert("Selecione uma imagem válida.");
+
+    return;
+
+  }
+
+
+  try{
+
+    const imageData =
+      await compressImage(file);
+
+
+    if(!state.progressPhotos)
+      state.progressPhotos=[];
+
+
+    state.progressPhotos.push({
+
+      id:
+        Date.now(),
+
+      date:date,
+
+      image:imageData
+
+    });
+
+
+    /*
+      Mantém as fotos mais recentes.
+      Isso evita que o LocalStorage fique
+      excessivamente grande.
+    */
+
+    state.progressPhotos =
+      state.progressPhotos.slice(-30);
+
+
+    saveState();
+
+
+    fileInput.value="";
+
+    document.getElementById("photoPreview")
+      .style.display="none";
+
+    document.getElementById("photoPreviewImage")
+      .src="";
+
+
+    renderProgressPhotos();
+
+
+    alert("Foto de progresso salva!");
+
+  }catch(error){
+
+    alert(
+      "Não foi possível salvar a foto."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   HISTÓRICO DE FOTOS
+========================= */
+
+function renderProgressPhotos(){
+
+  const container =
+    document.getElementById("photoHistory");
+
+
+  if(!container)
+    return;
+
+
+  if(
+    !state.progressPhotos ||
+    !state.progressPhotos.length
+  ){
+
+    container.innerHTML = `
+
+      <p style="color:#888;margin-top:15px;">
+        Nenhuma foto de progresso registrada.
+      </p>
+
+    `;
+
+    return;
+
+  }
+
+
+  const photos =
+    [...state.progressPhotos]
+      .sort(
+        (a,b)=>
+          new Date(b.date) -
+          new Date(a.date)
+      );
+
+
+  let html="";
+
+
+  photos.forEach(photo=>{
+
+    const date =
+      new Date(photo.date+"T12:00:00")
+        .toLocaleDateString("pt-BR");
+
+
+    html += `
+
+      <div class="photo-item">
+
+        <div class="photo-item-date">
+          📅 ${date}
+        </div>
+
+        <img
+          src="${photo.image}"
+          alt="Foto de progresso de ${date}">
+
+        <button
+          class="danger photo-delete"
+          onclick="deleteProgressPhoto(${photo.id})">
+
+          🗑️ Excluir foto
+
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+
+  container.innerHTML=html;
+
+}
+
+
+/* =========================
+   EXCLUIR FOTO
+========================= */
+
+function deleteProgressPhoto(id){
+
+  if(
+    !confirm(
+      "Deseja realmente excluir esta foto?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  state.progressPhotos =
+    state.progressPhotos.filter(
+      photo=>photo.id !== id
+    );
+
+
+  saveState();
+
+  renderProgressPhotos();
+
+}
+
+
+/* =========================
    HISTÓRICO
 ========================= */
 
@@ -2606,6 +3341,7 @@ function renderProgressHistory(){
       </p>`;
 
     return;
+
   }
 
 
@@ -2706,6 +3442,7 @@ function drawWeightChart(){
 
   if(!canvas)
     return;
+
 
   const ctx =
     canvas.getContext("2d");
@@ -2835,6 +3572,7 @@ function drawWeightChart(){
       Math.PI*2
     );
 
+
     ctx.fillStyle="#55e06f";
     ctx.fill();
 
@@ -2864,6 +3602,7 @@ function drawBodyChart(){
 
   if(!canvas)
     return;
+
 
   const ctx =
     canvas.getContext("2d");
@@ -2961,6 +3700,7 @@ function drawBodyChart(){
     y
   );
 
+
   drawBodyLine(
     ctx,
     data,
@@ -2968,6 +3708,7 @@ function drawBodyChart(){
     x,
     y
   );
+
 
   drawBodyLine(
     ctx,
@@ -2982,17 +3723,20 @@ function drawBodyChart(){
 
   ctx.fillStyle="#aaa";
 
+
   ctx.fillText(
     "Cintura",
     50,
     15
   );
 
+
   ctx.fillText(
     "Peitoral",
     115,
     15
   );
+
 
   ctx.fillText(
     "Bíceps",
@@ -3072,6 +3816,7 @@ function drawBodyLine(
 
     ctx.beginPath();
 
+
     ctx.arc(
       point.x,
       point.y,
@@ -3092,7 +3837,6 @@ function drawBodyLine(
 
 
     ctx.fill();
-
 
   });
 
@@ -3116,14 +3860,21 @@ function drawGrid(
       20 +
       i*((height-55)/4);
 
+
     ctx.beginPath();
 
-    ctx.moveTo(40,gy);
+
+    ctx.moveTo(
+      40,
+      gy
+    );
+
 
     ctx.lineTo(
       width-20,
       gy
     );
+
 
     ctx.stroke();
 
@@ -3165,6 +3916,7 @@ function renderReminders(){
     const id=item[0];
     const name=item[1];
     const time=item[2];
+
 
     const enabled =
       state.reminders[id];
@@ -3231,6 +3983,7 @@ function showPage(page){
   const selected =
     document.getElementById(page);
 
+
   if(selected)
     selected.classList.add("active");
 
@@ -3245,12 +3998,14 @@ function showPage(page){
   const nav =
     document.getElementById("nav-"+page);
 
+
   if(nav)
     nav.classList.add("active");
 
 
   if(page==="progress")
     renderProgress();
+
 
   if(page==="training")
     renderWeeklyTraining();
@@ -3286,8 +4041,16 @@ function init(){
 
   renderReminders();
 
+
   document.getElementById("workoutText").value =
     state.workout || "";
+
+
+  /*
+    Data padrão para nova foto.
+  */
+
+  setDefaultPhotoDate();
 
 }
 
