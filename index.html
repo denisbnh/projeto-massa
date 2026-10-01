@@ -684,6 +684,80 @@ canvas{
   margin-top:12px;
 }
 
+
+/* =========================
+   CRONÔMETRO DE DESCANSO
+========================= */
+
+.rest-timer{
+  background:linear-gradient(135deg,#142018,#101310);
+  border:1px solid #315237;
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+.rest-timer-title{
+  color:#55e06f;
+  font-size:15px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.rest-timer-display{
+  font-size:48px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin:8px 0 15px;
+}
+
+.rest-timer-display.finished{
+  color:#55e06f;
+  animation:timerPulse .7s infinite alternate;
+}
+
+@keyframes timerPulse{
+  from{
+    transform:scale(1);
+    opacity:1;
+  }
+
+  to{
+    transform:scale(1.05);
+    opacity:.65;
+  }
+}
+
+.rest-presets{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.rest-presets button{
+  padding:9px 5px;
+  font-size:12px;
+}
+
+.rest-controls{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:7px;
+}
+
+.rest-controls button{
+  padding:10px 5px;
+}
+
+.rest-status{
+  color:#999;
+  font-size:12px;
+  margin-top:10px;
+}
+
+
 .nav{
   position:fixed;
   bottom:0;
@@ -710,6 +784,7 @@ canvas{
   color:#55e06f;
 }
 
+
 @media(max-width:600px){
 
   .quick-grid{
@@ -727,6 +802,10 @@ canvas{
 
   .week-day-title{
     align-items:flex-start;
+  }
+
+  .rest-presets{
+    grid-template-columns:repeat(4,1fr);
   }
 
 }
@@ -789,6 +868,7 @@ canvas{
 
       <div>
         <div class="water-count" id="waterCount">0/4</div>
+
         <div class="progress-text">
           garrafas de 500 ml
         </div>
@@ -866,6 +946,78 @@ canvas{
 <!-- TREINO -->
 <section id="training" class="page">
 
+  <!-- CRONÔMETRO DE DESCANSO -->
+  <div class="rest-timer">
+
+    <div class="rest-timer-title">
+      ⏱️ CRONÔMETRO DE DESCANSO
+    </div>
+
+    <div
+      id="restTimerDisplay"
+      class="rest-timer-display">
+      01:30
+    </div>
+
+    <div class="rest-presets">
+
+      <button
+        class="secondary"
+        onclick="setRestTime(30)">
+        30s
+      </button>
+
+      <button
+        class="secondary"
+        onclick="setRestTime(60)">
+        60s
+      </button>
+
+      <button
+        class="secondary"
+        onclick="setRestTime(90)">
+        90s
+      </button>
+
+      <button
+        class="secondary"
+        onclick="setRestTime(120)">
+        120s
+      </button>
+
+    </div>
+
+    <div class="rest-controls">
+
+      <button
+        id="restStartButton"
+        onclick="toggleRestTimer()">
+        ▶️ Iniciar
+      </button>
+
+      <button
+        class="secondary"
+        onclick="resetRestTimer()">
+        🔄 Reiniciar
+      </button>
+
+      <button
+        class="danger"
+        onclick="stopRestTimer()">
+        ⏹️ Parar
+      </button>
+
+    </div>
+
+    <div
+      id="restTimerStatus"
+      class="rest-status">
+      Escolha o tempo e inicie o descanso.
+    </div>
+
+  </div>
+
+
   <div class="card">
 
     <h2>🏋️ Treinos da semana</h2>
@@ -928,6 +1080,7 @@ canvas{
 
       <div>
         <label>Peso (kg)</label>
+
         <input
           type="number"
           step="0.1"
@@ -937,6 +1090,7 @@ canvas{
 
       <div>
         <label>Altura (cm)</label>
+
         <input
           type="number"
           step="0.1"
@@ -951,6 +1105,7 @@ canvas{
 
       <div>
         <label>Cintura (cm)</label>
+
         <input
           type="number"
           step="0.1"
@@ -960,6 +1115,7 @@ canvas{
 
       <div>
         <label>Peitoral (cm)</label>
+
         <input
           type="number"
           step="0.1"
@@ -969,6 +1125,7 @@ canvas{
 
       <div>
         <label>Bíceps (cm)</label>
+
         <input
           type="number"
           step="0.1"
@@ -3968,6 +4125,377 @@ function toggleReminder(id){
 
 
 /* =========================
+   CRONÔMETRO DE DESCANSO
+========================= */
+
+let restTimerInterval = null;
+
+let restTimerDuration = 90;
+
+let restTimerRemaining = 90;
+
+let restTimerRunning = false;
+
+
+function formatRestTime(seconds){
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+  const secs =
+    seconds % 60;
+
+  return (
+    String(minutes).padStart(2,"0")
+    + ":" +
+    String(secs).padStart(2,"0")
+  );
+
+}
+
+
+function updateRestTimerDisplay(){
+
+  const display =
+    document.getElementById("restTimerDisplay");
+
+  const status =
+    document.getElementById("restTimerStatus");
+
+  const button =
+    document.getElementById("restStartButton");
+
+
+  if(!display)
+    return;
+
+
+  display.textContent =
+    formatRestTime(restTimerRemaining);
+
+
+  if(restTimerRemaining <= 0){
+
+    display.classList.add("finished");
+
+    if(status)
+      status.textContent =
+        "🔥 Descanso terminado! Próxima série.";
+
+    if(button)
+      button.textContent =
+        "▶️ Iniciar novamente";
+
+  }else{
+
+    display.classList.remove("finished");
+
+    if(button){
+
+      button.textContent =
+        restTimerRunning
+          ? "⏸️ Pausar"
+          : "▶️ Iniciar";
+
+    }
+
+  }
+
+}
+
+
+function setRestTime(seconds){
+
+  stopRestTimer();
+
+  restTimerDuration =
+    seconds;
+
+  restTimerRemaining =
+    seconds;
+
+  updateRestTimerDisplay();
+
+
+  const status =
+    document.getElementById("restTimerStatus");
+
+
+  if(status){
+
+    status.textContent =
+      `Descanso configurado para ${seconds} segundos.`;
+
+  }
+
+}
+
+
+function toggleRestTimer(){
+
+  if(restTimerRunning){
+
+    pauseRestTimer();
+
+    return;
+
+  }
+
+
+  if(restTimerRemaining <= 0){
+
+    restTimerRemaining =
+      restTimerDuration;
+
+  }
+
+
+  startRestTimer();
+
+}
+
+
+function startRestTimer(){
+
+  if(restTimerRunning)
+    return;
+
+
+  restTimerRunning=true;
+
+
+  const status =
+    document.getElementById("restTimerStatus");
+
+
+  if(status)
+    status.textContent =
+      "⏳ Descansando...";
+
+
+  updateRestTimerDisplay();
+
+
+  restTimerInterval =
+    setInterval(()=>{
+
+      restTimerRemaining--;
+
+      updateRestTimerDisplay();
+
+
+      if(restTimerRemaining <= 0){
+
+        finishRestTimer();
+
+      }
+
+    },1000);
+
+}
+
+
+function pauseRestTimer(){
+
+  clearInterval(
+    restTimerInterval
+  );
+
+  restTimerInterval=null;
+
+  restTimerRunning=false;
+
+
+  const status =
+    document.getElementById("restTimerStatus");
+
+
+  if(status){
+
+    status.textContent =
+      "⏸️ Cronômetro pausado.";
+
+  }
+
+
+  updateRestTimerDisplay();
+
+}
+
+
+function resetRestTimer(){
+
+  clearInterval(
+    restTimerInterval
+  );
+
+  restTimerInterval=null;
+
+  restTimerRunning=false;
+
+  restTimerRemaining =
+    restTimerDuration;
+
+
+  const display =
+    document.getElementById("restTimerDisplay");
+
+
+  if(display)
+    display.classList.remove("finished");
+
+
+  const status =
+    document.getElementById("restTimerStatus");
+
+
+  if(status)
+    status.textContent =
+      "Cronômetro reiniciado.";
+
+
+  updateRestTimerDisplay();
+
+}
+
+
+function stopRestTimer(){
+
+  clearInterval(
+    restTimerInterval
+  );
+
+  restTimerInterval=null;
+
+  restTimerRunning=false;
+
+  restTimerRemaining =
+    restTimerDuration;
+
+
+  const display =
+    document.getElementById("restTimerDisplay");
+
+
+  if(display)
+    display.classList.remove("finished");
+
+
+  updateRestTimerDisplay();
+
+}
+
+
+function finishRestTimer(){
+
+  clearInterval(
+    restTimerInterval
+  );
+
+  restTimerInterval=null;
+
+  restTimerRunning=false;
+
+  restTimerRemaining=0;
+
+
+  updateRestTimerDisplay();
+
+
+  /*
+    AVISO SONORO
+  */
+
+  try{
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if(AudioContext){
+
+      const audio =
+        new AudioContext();
+
+
+      const oscillator =
+        audio.createOscillator();
+
+
+      const gain =
+        audio.createGain();
+
+
+      oscillator.connect(gain);
+
+      gain.connect(audio.destination);
+
+
+      oscillator.frequency.value=880;
+
+      oscillator.type="sine";
+
+
+      gain.gain.setValueAtTime(
+        0.001,
+        audio.currentTime
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.25,
+        audio.currentTime+0.02
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audio.currentTime+0.7
+      );
+
+
+      oscillator.start();
+
+
+      oscillator.stop(
+        audio.currentTime+0.7
+      );
+
+    }
+
+  }catch(error){}
+
+
+  /*
+    VIBRAÇÃO NO CELULAR
+  */
+
+  if(
+    "vibrate" in navigator
+  ){
+
+    navigator.vibrate([
+      300,
+      150,
+      300
+    ]);
+
+  }
+
+
+  const status =
+    document.getElementById("restTimerStatus");
+
+
+  if(status)
+    status.textContent =
+      "🔥 DESCANSO TERMINADO! Próxima série.";
+
+}
+
+
+/* =========================
    NAVEGAÇÃO
 ========================= */
 
@@ -4051,6 +4579,14 @@ function init(){
   */
 
   setDefaultPhotoDate();
+
+
+  /*
+    Inicializa o cronômetro
+    de descanso.
+  */
+
+  updateRestTimerDisplay();
 
 }
 
