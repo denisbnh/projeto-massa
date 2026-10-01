@@ -92,6 +92,28 @@ header p{
   line-height:1.5;
 }
 
+.motivation{
+  background:#18251a;
+  border:1px solid #315237;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:15px;
+}
+
+.motivation-title{
+  color:#55e06f;
+  font-size:15px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.motivation-text{
+  color:#ddd;
+  font-size:14px;
+  line-height:1.5;
+  font-style:italic;
+}
+
 .progress-wrap{
   background:#252a25;
   height:10px;
@@ -238,6 +260,78 @@ header p{
   color:#aaa;
   font-size:13px;
   margin-bottom:9px;
+}
+
+.week-day-card{
+  border:1px solid #272d27;
+  border-radius:15px;
+  margin-bottom:15px;
+  overflow:hidden;
+  background:#151915;
+}
+
+.week-day-header{
+  padding:16px 18px;
+  background:#111511;
+  border-bottom:1px solid #292f29;
+}
+
+.week-day-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.week-day-title h2{
+  font-size:18px;
+}
+
+.week-day-title span{
+  color:#55e06f;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.week-day-content{
+  padding:16px 18px;
+}
+
+.week-day-content h3{
+  color:#55e06f;
+  font-size:15px;
+  margin:12px 0 9px;
+}
+
+.week-training-check{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#192019;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:14px;
+}
+
+.week-training-check input{
+  width:22px;
+  height:22px;
+  accent-color:#55e06f;
+  flex-shrink:0;
+}
+
+.week-training-check span{
+  font-weight:bold;
+  font-size:14px;
+}
+
+.week-training-check.done{
+  background:#18251a;
+  border:1px solid #3f8e4c;
+}
+
+.week-training-check.done span{
+  color:#55e06f;
 }
 
 button{
@@ -521,7 +615,13 @@ canvas{
   .current-measurements{
     grid-template-columns:1fr 1fr;
   }
+
+  .week-day-title{
+    align-items:flex-start;
+  }
+
 }
+
 </style>
 </head>
 
@@ -536,6 +636,8 @@ canvas{
 
 <!-- HOME -->
 <section id="home" class="page active">
+
+  <div id="dailyMotivation"></div>
 
   <div class="hero">
     <h2>Foco: Massa + Definição 💪</h2>
@@ -616,7 +718,7 @@ canvas{
 
     <div class="quick" onclick="showPage('training')">
       <strong>🏋️ Treino</strong>
-      <span>Exercícios do dia</span>
+      <span>Exercícios da semana</span>
     </div>
 
     <div class="quick" onclick="showPage('sweet')">
@@ -655,9 +757,18 @@ canvas{
 <!-- TREINO -->
 <section id="training" class="page">
 
-  <div id="todayTrainingCard"></div>
+  <div class="card">
 
-  <div id="exerciseContainer"></div>
+    <h2>🏋️ Treinos da semana</h2>
+
+    <p style="color:#aaa;font-size:13px;line-height:1.5;">
+      Aqui estão todos os treinos da semana. Marque o treino completo
+      e também os exercícios que você realmente realizou.
+    </p>
+
+  </div>
+
+  <div id="weeklyTrainingContainer"></div>
 
   <div class="card">
 
@@ -943,6 +1054,75 @@ const STORAGE_KEY = "projetoDenis2027";
 
 const WATER_BOTTLE = 500;
 const WATER_GOAL = 4;
+
+
+/* =========================
+   MENSAGENS MOTIVACIONAIS
+========================= */
+
+const motivationMessages = [
+
+  "Hoje é mais um passo na direção do corpo que você quer construir.",
+
+  "Não precisa ser perfeito. Precisa ser consistente.",
+
+  "O treino de hoje é um investimento no Denis que você quer ser amanhã.",
+
+  "Faça o básico bem feito e repita. É assim que o resultado aparece.",
+
+  "Disciplina nos dias comuns é o que cria resultados extraordinários.",
+
+  "Você não precisa estar motivado todos os dias. Precisa continuar.",
+
+  "Cada refeição, cada treino e cada litro de água contam.",
+
+  "O resultado não acontece de uma vez. Ele é construído todos os dias.",
+
+  "Hoje você tem mais uma oportunidade de fazer melhor que ontem.",
+
+  "Constância vence a pressa. Continue firme.",
+
+  "Seu objetivo merece o esforço de hoje.",
+
+  "Treino feito, dieta em dia e cabeça no objetivo.",
+
+  "Não abandone o processo só porque o resultado ainda não apareceu.",
+
+  "Pequenas escolhas repetidas todos os dias mudam o corpo.",
+
+  "Você está construindo uma versão mais forte de você.",
+
+  "Um dia de cada vez. Uma refeição de cada vez. Um treino de cada vez.",
+
+  "O importante é não parar.",
+
+  "Faça hoje aquilo que o seu futuro vai agradecer.",
+
+  "Seu corpo acompanha aquilo que você repete.",
+
+  "Consistência é continuar mesmo quando ninguém está vendo.",
+
+  "Mais um treino. Mais uma refeição certa. Mais um passo.",
+
+  "Não compare o seu começo com o resultado de outra pessoa.",
+
+  "Você não precisa correr. Precisa seguir em frente.",
+
+  "O esforço de hoje vira resultado com o tempo.",
+
+  "Mantenha o foco no processo e deixe o resultado aparecer.",
+
+  "A meta é simples: terminar o dia melhor do que começou.",
+
+  "Cada semana consistente aproxima você do objetivo.",
+
+  "Não negocie com a preguiça aquilo que é importante para você.",
+
+  "Você já começou. Agora continue.",
+
+  "2027 começa com as escolhas que você faz hoje."
+
+];
 
 
 /* =========================
@@ -1232,6 +1412,20 @@ const weeklyTraining = {
 
 
 /* =========================
+   ORDEM DOS DIAS
+========================= */
+
+const trainingDays = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday"
+];
+
+
+/* =========================
    OPÇÕES PARA DOCE
 ========================= */
 
@@ -1288,7 +1482,9 @@ let state = {
 
   reminders:{},
 
-  exerciseChecks:{}
+  exerciseChecks:{},
+
+  weeklyTrainingChecks:{}
 
 };
 
@@ -1328,6 +1524,54 @@ function getDayKey(){
 
 
 /* =========================
+   MENSAGEM DO DIA
+========================= */
+
+function renderDailyMotivation(){
+
+  const container =
+    document.getElementById("dailyMotivation");
+
+  if(!container)
+    return;
+
+  const now = new Date();
+
+  const start =
+    new Date(now.getFullYear(),0,0);
+
+  const diff =
+    now - start;
+
+  const oneDay =
+    1000 * 60 * 60 * 24;
+
+  const dayOfYear =
+    Math.floor(diff / oneDay);
+
+  const index =
+    dayOfYear % motivationMessages.length;
+
+  container.innerHTML = `
+
+    <div class="motivation">
+
+      <div class="motivation-title">
+        Bom dia, Dênis! ☀️
+      </div>
+
+      <div class="motivation-text">
+        "${motivationMessages[index]}"
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
    CARREGAR ESTADO
 ========================= */
 
@@ -1359,6 +1603,10 @@ function loadState(){
 
   if(!state.exerciseChecks)
     state.exerciseChecks={};
+
+  if(!state.weeklyTrainingChecks)
+    state.weeklyTrainingChecks={};
+
 
   /*
     Compatibilidade com versões anteriores
@@ -1442,6 +1690,8 @@ function loadState(){
 
     state.exerciseChecks={};
 
+    state.weeklyTrainingChecks={};
+
     saveState();
 
   }
@@ -1488,7 +1738,7 @@ function renderDate(){
 
 
 /* =========================
-   TREINO DO DIA
+   TREINO DO DIA NA HOME
 ========================= */
 
 function renderTodayTraining(){
@@ -1496,9 +1746,6 @@ function renderTodayTraining(){
   const key = getDayKey();
 
   const training = weeklyTraining[key];
-
-  const container =
-    document.getElementById("todayTrainingCard");
 
   const home =
     document.getElementById("homeTraining");
@@ -1523,23 +1770,9 @@ function renderTodayTraining(){
           Dia de descanso e recuperação.
         </p>
 
-        <div class="check-big">
-
-          <input
-            type="checkbox"
-            ${state.training ? "checked" : ""}
-            onchange="toggleTraining()">
-
-          <span>
-            Marcar descanso concluído
-          </span>
-
-        </div>
-
       </div>
     `;
 
-    container.innerHTML=html;
     home.innerHTML=html;
 
     return;
@@ -1563,7 +1796,7 @@ function renderTodayTraining(){
       <h3>${training.title}</h3>
 
       <p style="color:#aaa;font-size:13px;">
-        Marque os exercícios que você realmente realizou.
+        Veja todos os treinos na aba Treino.
       </p>
 
       <div class="check-big">
@@ -1571,10 +1804,10 @@ function renderTodayTraining(){
         <input
           type="checkbox"
           ${state.training ? "checked" : ""}
-          onchange="toggleTraining()">
+          onchange="toggleTodayTraining()">
 
         <span>
-          Marcar treino completo
+          Marcar treino de hoje como completo
         </span>
 
       </div>
@@ -1583,146 +1816,187 @@ function renderTodayTraining(){
 
   `;
 
-  container.innerHTML=html;
   home.innerHTML=html;
 
 }
 
 
 /* =========================
-   EXERCÍCIOS
+   TREINOS DA SEMANA
 ========================= */
 
-function renderExercises(){
+function renderWeeklyTraining(){
 
   const container =
-    document.getElementById("exerciseContainer");
+    document.getElementById("weeklyTrainingContainer");
 
-  const key = getDayKey();
-
-  const training = weeklyTraining[key];
-
-  if(key === "sunday"){
-
-    container.innerHTML = `
-
-      <div class="card">
-
-        <h2>😴 Descanso</h2>
-
-        <p style="color:#aaa;">
-          Aproveite o domingo para recuperação.
-        </p>
-
-      </div>
-
-    `;
-
+  if(!container)
     return;
-  }
 
 
   let html="";
 
-  let total=0;
-  let done=0;
+
+  trainingDays.forEach(key=>{
+
+    const training =
+      weeklyTraining[key];
+
+    const trainingDone =
+      !!state.weeklyTrainingChecks[key];
 
 
-  training.groups.forEach((group,groupIndex)=>{
-
-    html += `
-
-      <div class="card">
-
-        <h2>${group.name}</h2>
-
-        <div class="section-count">
-          Escolha os exercícios que você fez.
-        </div>
-
-    `;
+    let totalExercises=0;
+    let doneExercises=0;
 
 
-    group.exercises.forEach((exercise,exerciseIndex)=>{
+    training.groups.forEach((group,groupIndex)=>{
 
-      total++;
+      group.exercises.forEach((exercise,exerciseIndex)=>{
 
-      const id =
-        `${key}_${groupIndex}_${exerciseIndex}`;
+        totalExercises++;
 
-      const checked =
-        !!state.exerciseChecks[id];
+        const id =
+          `${key}_${groupIndex}_${exerciseIndex}`;
 
-      if(checked)
-        done++;
+        if(state.exerciseChecks[id])
+          doneExercises++;
 
-
-      html += `
-
-        <label class="exercise ${checked ? "done":""}">
-
-          <input
-            type="checkbox"
-            ${checked ? "checked":""}
-            onchange="toggleExercise('${id}')">
-
-          <div class="exercise-info">
-
-            <div class="exercise-name">
-              ${exercise[0]}
-            </div>
-
-            <div class="exercise-reps">
-              ${exercise[1]}
-            </div>
-
-          </div>
-
-        </label>
-
-      `;
+      });
 
     });
 
 
-    html += `</div>`;
+    const exercisePercentage =
+      totalExercises
+        ? Math.round((doneExercises/totalExercises)*100)
+        : 0;
 
-  });
+
+    html += `
+
+      <div class="week-day-card">
+
+        <div class="week-day-header">
+
+          <div class="week-day-title">
+
+            <h2>
+              🏋️ ${training.name}
+            </h2>
+
+            <span>
+              ${training.title}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="week-day-content">
+
+          <div class="week-training-check ${trainingDone ? "done":""}">
+
+            <input
+              type="checkbox"
+              ${trainingDone ? "checked":""}
+              onchange="toggleWeeklyTraining('${key}')">
+
+            <span>
+              ${trainingDone
+                ? "✓ Treino realizado"
+                : "Marcar treino completo"}
+            </span>
+
+          </div>
+
+          <div class="section-count">
+            ${doneExercises}/${totalExercises}
+            exercícios realizados
+          </div>
+
+          <div class="progress-wrap">
+
+            <div
+              class="progress-bar"
+              style="width:${exercisePercentage}%">
+            </div>
+
+          </div>
+
+    `;
 
 
-  html = `
+    training.groups.forEach((group,groupIndex)=>{
 
-    <div class="card">
+      html += `
 
-      <h2>📋 Exercícios realizados</h2>
+        <h3>
+          ${group.name}
+        </h3>
 
-      <div class="section-count">
+      `;
 
-        <span id="exerciseCounter">
-          ${done}/${total} exercícios realizados
-        </span>
 
-      </div>
+      group.exercises.forEach((exercise,exerciseIndex)=>{
 
-      <div class="progress-wrap">
+        const id =
+          `${key}_${groupIndex}_${exerciseIndex}`;
 
-        <div
-          class="progress-bar"
-          id="exerciseProgress"
-          style="width:${total ? (done/total)*100 : 0}%">
+        const checked =
+          !!state.exerciseChecks[id];
+
+
+        html += `
+
+          <label
+            class="exercise ${checked ? "done":""}">
+
+            <input
+              type="checkbox"
+              ${checked ? "checked":""}
+              onchange="toggleExercise('${id}')">
+
+            <div class="exercise-info">
+
+              <div class="exercise-name">
+                ${exercise[0]}
+              </div>
+
+              <div class="exercise-reps">
+                ${exercise[1]}
+              </div>
+
+            </div>
+
+          </label>
+
+        `;
+
+      });
+
+    });
+
+
+    html += `
+
         </div>
 
       </div>
 
-    </div>
+    `;
 
-  ` + html;
+  });
 
 
   container.innerHTML=html;
 
 }
 
+
+/* =========================
+   EXERCÍCIO
+========================= */
 
 function toggleExercise(id){
 
@@ -1734,7 +2008,7 @@ function toggleExercise(id){
 
   saveState();
 
-  renderExercises();
+  renderWeeklyTraining();
 
   updateDailyGoal();
 
@@ -1742,14 +2016,68 @@ function toggleExercise(id){
 
 
 /* =========================
-   TREINO COMPLETO
+   TREINO DA SEMANA
 ========================= */
 
-function toggleTraining(){
+function toggleWeeklyTraining(key){
 
-  state.training = !state.training;
+  if(!state.weeklyTrainingChecks)
+    state.weeklyTrainingChecks={};
+
+
+  state.weeklyTrainingChecks[key] =
+    !state.weeklyTrainingChecks[key];
+
+
+  /*
+    Mantém o treino de hoje sincronizado
+    com a Meta do Dia.
+  */
+
+  if(key === getDayKey()){
+
+    state.training =
+      !!state.weeklyTrainingChecks[key];
+
+  }
+
 
   saveState();
+
+  renderWeeklyTraining();
+
+  renderTodayTraining();
+
+  updateDailyGoal();
+
+}
+
+
+/* =========================
+   TREINO DE HOJE
+========================= */
+
+function toggleTodayTraining(){
+
+  const key =
+    getDayKey();
+
+
+  if(!state.weeklyTrainingChecks)
+    state.weeklyTrainingChecks={};
+
+
+  state.weeklyTrainingChecks[key] =
+    !state.weeklyTrainingChecks[key];
+
+
+  state.training =
+    !!state.weeklyTrainingChecks[key];
+
+
+  saveState();
+
+  renderWeeklyTraining();
 
   renderTodayTraining();
 
@@ -2924,6 +3252,9 @@ function showPage(page){
   if(page==="progress")
     renderProgress();
 
+  if(page==="training")
+    renderWeeklyTraining();
+
 }
 
 
@@ -2937,11 +3268,13 @@ function init(){
 
   renderDate();
 
+  renderDailyMotivation();
+
   renderMeals();
 
   renderTodayTraining();
 
-  renderExercises();
+  renderWeeklyTraining();
 
   renderCardio();
 
