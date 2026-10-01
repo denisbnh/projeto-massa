@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -92,6 +91,110 @@ header p{
   color:#ccc;
   line-height:1.5;
 }
+
+
+/* =========================
+   DASHBOARD SEMANAL
+========================= */
+
+.weekly-dashboard{
+  margin-top:18px;
+  background:#0f140f;
+  border:1px solid #315237;
+  border-radius:15px;
+  padding:16px;
+}
+
+.weekly-dashboard-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.weekly-dashboard-title{
+  color:#55e06f;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.weekly-dashboard-subtitle{
+  color:#888;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.weekly-dashboard-percent{
+  color:#55e06f;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.weekly-goals{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.weekly-goal{
+  background:#151915;
+  border:1px solid #292f29;
+  border-radius:12px;
+  padding:13px;
+}
+
+.weekly-goal-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:7px;
+}
+
+.weekly-goal-name{
+  font-size:13px;
+  font-weight:bold;
+  color:#ddd;
+}
+
+.weekly-goal-count{
+  color:#55e06f;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.weekly-goal-bar{
+  background:#252a25;
+  height:7px;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.weekly-goal-bar-fill{
+  height:100%;
+  background:#55e06f;
+  width:0%;
+  transition:.3s;
+}
+
+.weekly-goal-status{
+  color:#888;
+  font-size:10px;
+  margin-top:6px;
+}
+
+.weekly-dashboard-total{
+  margin-top:13px;
+  color:#aaa;
+  font-size:12px;
+  text-align:center;
+}
+
+.weekly-dashboard-total strong{
+  color:#55e06f;
+}
+
 
 .motivation{
   background:#18251a;
@@ -809,6 +912,14 @@ canvas{
     grid-template-columns:repeat(4,1fr);
   }
 
+  .weekly-goals{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .weekly-dashboard{
+    padding:13px;
+  }
+
 }
 
 </style>
@@ -829,6 +940,7 @@ canvas{
   <div id="dailyMotivation"></div>
 
   <div class="hero">
+
     <h2>Foco: Massa + Definição 💪</h2>
 
     <p>
@@ -836,30 +948,223 @@ canvas{
       mantendo alimentação, treino, cardio e hidratação em dia.
     </p>
 
-    <div class="progress-wrap">
-      <div class="progress-bar" id="dailyGoalBar"></div>
+
+    <!-- DASHBOARD SEMANAL -->
+
+    <div class="weekly-dashboard">
+
+      <div class="weekly-dashboard-header">
+
+        <div>
+
+          <div class="weekly-dashboard-title">
+            📊 DASHBOARD SEMANAL
+          </div>
+
+          <div class="weekly-dashboard-subtitle">
+            Segunda a sábado
+          </div>
+
+        </div>
+
+        <div
+          id="weeklyDashboardPercent"
+          class="weekly-dashboard-percent">
+          0%
+        </div>
+
+      </div>
+
+
+      <div class="weekly-goals">
+
+
+        <!-- DIETA -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              🍽️ Dieta
+            </div>
+
+            <div
+              id="weeklyDietCount"
+              class="weekly-goal-count">
+              0/6
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyDietBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyDietStatus"
+            class="weekly-goal-status">
+            6 dias completos
+          </div>
+
+        </div>
+
+
+        <!-- ÁGUA -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              💧 Água
+            </div>
+
+            <div
+              id="weeklyWaterCount"
+              class="weekly-goal-count">
+              0/24
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyWaterBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyWaterStatus"
+            class="weekly-goal-status">
+            24 garrafinhas de 500 ml
+          </div>
+
+        </div>
+
+
+        <!-- TREINO -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              🏋️ Treinos
+            </div>
+
+            <div
+              id="weeklyTrainingCount"
+              class="weekly-goal-count">
+              0/6
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyTrainingBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyTrainingStatus"
+            class="weekly-goal-status">
+            6 treinos
+          </div>
+
+        </div>
+
+
+        <!-- CARDIO -->
+
+        <div class="weekly-goal">
+
+          <div class="weekly-goal-top">
+
+            <div class="weekly-goal-name">
+              🏃 Cardios
+            </div>
+
+            <div
+              id="weeklyCardioCount"
+              class="weekly-goal-count">
+              0/6
+            </div>
+
+          </div>
+
+          <div class="weekly-goal-bar">
+
+            <div
+              id="weeklyCardioBar"
+              class="weekly-goal-bar-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="weeklyCardioStatus"
+            class="weekly-goal-status">
+            6 cardios de 3 km
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div
+        id="weeklyDashboardTotal"
+        class="weekly-dashboard-total">
+
+        Semana iniciada. Vamos buscar os <strong>4 objetivos!</strong>
+
+      </div>
+
     </div>
 
-    <div class="progress-text" id="dailyGoalText">
-      Meta do dia: 0%
-    </div>
   </div>
+
 
   <div class="card">
 
     <h2>🍽️ Alimentação de hoje</h2>
 
     <div class="progress-wrap">
-      <div class="progress-bar" id="mealProgressBar"></div>
+
+      <div
+        class="progress-bar"
+        id="mealProgressBar">
+      </div>
+
     </div>
 
-    <div class="progress-text" id="mealProgressText">
+    <div
+      class="progress-text"
+      id="mealProgressText">
+
       0/5 refeições
+
     </div>
 
   </div>
 
+
   <div id="homeTraining"></div>
+
 
   <div class="card">
 
@@ -868,21 +1173,35 @@ canvas{
     <div class="water">
 
       <div>
-        <div class="water-count" id="waterCount">0/4</div>
+
+        <div
+          class="water-count"
+          id="waterCount">
+
+          0/4
+
+        </div>
 
         <div class="progress-text">
           garrafas de 500 ml
         </div>
+
       </div>
 
       <div class="water-buttons">
 
-        <button onclick="changeWater(-1)" class="secondary">
+        <button
+          onclick="changeWater(-1)"
+          class="secondary">
+
           −
+
         </button>
 
         <button onclick="changeWater(1)">
+
           +
+
         </button>
 
       </div>
@@ -890,35 +1209,73 @@ canvas{
     </div>
 
     <div class="progress-wrap">
-      <div class="progress-bar" id="waterProgressBar"></div>
+
+      <div
+        class="progress-bar"
+        id="waterProgressBar">
+      </div>
+
     </div>
 
-    <div class="progress-text" id="waterText">
+    <div
+      class="progress-text"
+      id="waterText">
+
       0 ml de 2.000 ml
+
     </div>
 
   </div>
 
+
   <div class="quick-grid">
 
-    <div class="quick" onclick="showPage('diet')">
+    <div
+      class="quick"
+      onclick="showPage('diet')">
+
       <strong>🍽️ Dieta</strong>
-      <span>Opções de refeições</span>
+
+      <span>
+        Opções de refeições
+      </span>
+
     </div>
 
-    <div class="quick" onclick="showPage('training')">
+    <div
+      class="quick"
+      onclick="showPage('training')">
+
       <strong>🏋️ Treino</strong>
-      <span>Exercícios da semana</span>
+
+      <span>
+        Exercícios da semana
+      </span>
+
     </div>
 
-    <div class="quick" onclick="showPage('sweet')">
+    <div
+      class="quick"
+      onclick="showPage('sweet')">
+
       <strong>🍫 Vontade de doce</strong>
-      <span>Opções controladas</span>
+
+      <span>
+        Opções controladas
+      </span>
+
     </div>
 
-    <div class="quick" onclick="showPage('progress')">
+    <div
+      class="quick"
+      onclick="showPage('progress')">
+
       <strong>📈 Progresso</strong>
-      <span>Peso e medidas</span>
+
+      <span>
+        Peso e medidas
+      </span>
+
     </div>
 
   </div>
@@ -948,6 +1305,7 @@ canvas{
 <section id="training" class="page">
 
   <!-- CRONÔMETRO DE DESCANSO -->
+
   <div class="rest-timer">
 
     <div class="rest-timer-title">
@@ -957,7 +1315,9 @@ canvas{
     <div
       id="restTimerDisplay"
       class="rest-timer-display">
+
       01:30
+
     </div>
 
     <div class="rest-presets">
@@ -965,25 +1325,33 @@ canvas{
       <button
         class="secondary"
         onclick="setRestTime(30)">
+
         30s
+
       </button>
 
       <button
         class="secondary"
         onclick="setRestTime(60)">
+
         60s
+
       </button>
 
       <button
         class="secondary"
         onclick="setRestTime(90)">
+
         90s
+
       </button>
 
       <button
         class="secondary"
         onclick="setRestTime(120)">
+
         120s
+
       </button>
 
     </div>
@@ -993,19 +1361,25 @@ canvas{
       <button
         id="restStartButton"
         onclick="toggleRestTimer()">
+
         ▶️ Iniciar
+
       </button>
 
       <button
         class="secondary"
         onclick="resetRestTimer()">
+
         🔄 Reiniciar
+
       </button>
 
       <button
         class="danger"
         onclick="stopRestTimer()">
+
         ⏹️ Parar
+
       </button>
 
     </div>
@@ -1013,7 +1387,9 @@ canvas{
     <div
       id="restTimerStatus"
       class="rest-status">
+
       Escolha o tempo e inicie o descanso.
+
     </div>
 
   </div>
@@ -1024,23 +1400,31 @@ canvas{
     <h2>🏋️ Treinos da semana</h2>
 
     <p style="color:#aaa;font-size:13px;line-height:1.5;">
+
       Aqui estão todos os treinos da semana. Marque o treino completo,
       os exercícios realizados e o cardio feito em cada dia.
+
     </p>
 
   </div>
 
   <div id="weeklyTrainingContainer"></div>
 
+
   <div class="card">
 
     <h2>📝 Observações do treino</h2>
 
-    <textarea id="workoutText"
+    <textarea
+      id="workoutText"
       placeholder="Anote cargas, dificuldades, observações ou evolução..."></textarea>
 
-    <button onclick="saveWorkout()" style="margin-top:10px;">
+    <button
+      onclick="saveWorkout()"
+      style="margin-top:10px;">
+
       Salvar observação
+
     </button>
 
   </div>
@@ -1056,7 +1440,9 @@ canvas{
     <h2>🍫 Controle da vontade de doce</h2>
 
     <p style="color:#aaa;font-size:13px;margin-bottom:15px;">
+
       Escolha uma opção quando bater aquela vontade.
+
     </p>
 
     <div id="sweetContainer"></div>
@@ -1074,12 +1460,15 @@ canvas{
     <h2>📈 Meu progresso</h2>
 
     <p style="color:#aaa;font-size:13px;line-height:1.5;">
+
       Registre suas medidas para acompanhar a evolução do corpo ao longo do tempo.
+
     </p>
 
     <div class="form-row">
 
       <div>
+
         <label>Peso (kg)</label>
 
         <input
@@ -1087,9 +1476,11 @@ canvas{
           step="0.1"
           id="weightInput"
           placeholder="Ex.: 80,5">
+
       </div>
 
       <div>
+
         <label>Altura (cm)</label>
 
         <input
@@ -1097,6 +1488,7 @@ canvas{
           step="0.1"
           id="heightInput"
           placeholder="Ex.: 175">
+
       </div>
 
     </div>
@@ -1105,6 +1497,7 @@ canvas{
     <div class="form-row-3">
 
       <div>
+
         <label>Cintura (cm)</label>
 
         <input
@@ -1112,9 +1505,11 @@ canvas{
           step="0.1"
           id="waistInput"
           placeholder="Ex.: 90">
+
       </div>
 
       <div>
+
         <label>Peitoral (cm)</label>
 
         <input
@@ -1122,9 +1517,11 @@ canvas{
           step="0.1"
           id="chestInput"
           placeholder="Ex.: 105">
+
       </div>
 
       <div>
+
         <label>Bíceps (cm)</label>
 
         <input
@@ -1132,6 +1529,7 @@ canvas{
           step="0.1"
           id="bicepsInput"
           placeholder="Ex.: 36">
+
       </div>
 
     </div>
@@ -1149,13 +1547,16 @@ canvas{
 
 
   <!-- FOTOS DE PROGRESSO -->
+
   <div class="card">
 
     <h2>📸 Fotos de evolução</h2>
 
     <p style="color:#aaa;font-size:13px;line-height:1.5;">
+
       Adicione uma foto para acompanhar visualmente sua evolução.
       Escolha a data correspondente ao registro.
+
     </p>
 
     <div class="photo-form">
@@ -1211,6 +1612,7 @@ canvas{
     <div
       id="photoHistory"
       class="photo-history">
+
     </div>
 
   </div>
@@ -1223,33 +1625,63 @@ canvas{
     <div class="current-measurements">
 
       <div class="measure-box">
+
         <strong>PESO</strong>
-        <span id="currentWeight">--</span>
+
+        <span id="currentWeight">
+          --
+        </span>
+
         <small>kg</small>
+
       </div>
 
       <div class="measure-box">
+
         <strong>ALTURA</strong>
-        <span id="currentHeight">--</span>
+
+        <span id="currentHeight">
+          --
+        </span>
+
         <small>cm</small>
+
       </div>
 
       <div class="measure-box">
+
         <strong>CINTURA</strong>
-        <span id="currentWaist">--</span>
+
+        <span id="currentWaist">
+          --
+        </span>
+
         <small>cm</small>
+
       </div>
 
       <div class="measure-box">
+
         <strong>PEITORAL</strong>
-        <span id="currentChest">--</span>
+
+        <span id="currentChest">
+          --
+        </span>
+
         <small>cm</small>
+
       </div>
 
       <div class="measure-box">
+
         <strong>BÍCEPS</strong>
-        <span id="currentBiceps">--</span>
+
+        <span id="currentBiceps">
+          --
+        </span>
+
         <small>cm</small>
+
       </div>
 
     </div>
@@ -1268,9 +1700,11 @@ canvas{
     </canvas>
 
     <div class="chart-legend">
+
       <span class="legend-weight">
         ● Peso (kg)
       </span>
+
     </div>
 
   </div>
@@ -1287,9 +1721,11 @@ canvas{
     </canvas>
 
     <div class="chart-legend">
+
       <span class="legend-body">
         ● Cintura / Peitoral / Bíceps (cm)
       </span>
+
     </div>
 
   </div>
@@ -1307,6 +1743,7 @@ canvas{
 
 
 <!-- LEMBRETES -->
+
 <section id="reminders" class="page">
 
   <div class="card">
@@ -1323,37 +1760,48 @@ canvas{
 
 
 <!-- NAVEGAÇÃO -->
+
 <nav class="nav">
 
   <button
     onclick="showPage('home')"
     id="nav-home"
     class="active">
+
     🏠<br>Início
+
   </button>
 
   <button
     onclick="showPage('diet')"
     id="nav-diet">
+
     🍽️<br>Dieta
+
   </button>
 
   <button
     onclick="showPage('training')"
     id="nav-training">
+
     🏋️<br>Treino
+
   </button>
 
   <button
     onclick="showPage('sweet')"
     id="nav-sweet">
+
     🍫<br>Doce
+
   </button>
 
   <button
     onclick="showPage('progress')"
     id="nav-progress">
+
     📈<br>Progresso
+
   </button>
 
 </nav>
@@ -1364,6 +1812,7 @@ canvas{
 const STORAGE_KEY = "projetoDenis2027";
 
 const WATER_BOTTLE = 500;
+
 const WATER_GOAL = 4;
 
 
@@ -1778,12 +2227,15 @@ const defaultReminders = [
 let state = {
 
   date:"",
+
   meals:{},
+
   selectedOptions:{},
 
   water:0,
 
   training:false,
+
   cardio:false,
 
   workout:"",
@@ -1791,9 +2243,13 @@ let state = {
   sweet:{},
 
   weight:"",
+
   height:"",
+
   waist:"",
+
   chest:"",
+
   biceps:"",
 
   progressHistory:[],
@@ -1806,7 +2262,21 @@ let state = {
 
   weeklyTrainingChecks:{},
 
-  weeklyCardioChecks:{}
+  weeklyCardioChecks:{},
+
+  /*
+    Registros diários utilizados
+    pela Dashboard Semanal.
+  */
+
+  weeklyDailyRecords:{},
+
+  /*
+    Semana atual no formato da
+    segunda-feira correspondente.
+  */
+
+  weeklyPeriod:""
 
 };
 
@@ -1819,9 +2289,16 @@ function getToday(){
 
   const now = new Date();
 
-  const year = now.getFullYear();
-  const month = String(now.getMonth()+1).padStart(2,"0");
-  const day = String(now.getDate()).padStart(2,"0");
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(now.getMonth()+1)
+      .padStart(2,"0");
+
+  const day =
+    String(now.getDate())
+      .padStart(2,"0");
 
   return `${year}-${month}-${day}`;
 
@@ -1830,7 +2307,8 @@ function getToday(){
 
 function getDayKey(){
 
-  const day = new Date().getDay();
+  const day =
+    new Date().getDay();
 
   const keys = [
     "sunday",
@@ -1848,21 +2326,478 @@ function getDayKey(){
 
 
 /* =========================
+   SEMANA ATUAL
+========================= */
+
+function getWeekStart(){
+
+  const today =
+    new Date();
+
+  const day =
+    today.getDay();
+
+  /*
+    Domingo = 0.
+    Segunda = 1.
+  */
+
+  const diff =
+    day === 0
+      ? -6
+      : 1 - day;
+
+  const monday =
+    new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + diff
+    );
+
+  const year =
+    monday.getFullYear();
+
+  const month =
+    String(monday.getMonth()+1)
+      .padStart(2,"0");
+
+  const date =
+    String(monday.getDate())
+      .padStart(2,"0");
+
+  return `${year}-${month}-${date}`;
+
+}
+
+
+/* =========================
+   REGISTRO DIÁRIO
+========================= */
+
+function getDailyRecord(date){
+
+  if(!state.weeklyDailyRecords)
+    state.weeklyDailyRecords={};
+
+
+  if(!state.weeklyDailyRecords[date]){
+
+    state.weeklyDailyRecords[date] = {
+
+      diet:false,
+
+      water:0,
+
+      training:false,
+
+      cardio:false
+
+    };
+
+  }
+
+
+  return state.weeklyDailyRecords[date];
+
+}
+
+
+/* =========================
+   SINCRONIZAR DIA ATUAL
+========================= */
+
+function syncTodayWeeklyRecord(){
+
+  const today =
+    getToday();
+
+  const key =
+    getDayKey();
+
+  const record =
+    getDailyRecord(today);
+
+
+  /*
+    Dieta completa =
+    todas as 5 refeições concluídas.
+  */
+
+  const mealDone =
+    meals.filter(
+      meal=>state.meals[meal.id]
+    ).length;
+
+
+  record.diet =
+    mealDone === meals.length;
+
+
+  /*
+    Água:
+    registra as garrafinhas
+    efetivamente tomadas hoje.
+  */
+
+  record.water =
+    Math.max(
+      0,
+      Math.min(
+        WATER_GOAL,
+        Number(state.water) || 0
+      )
+    );
+
+
+  /*
+    Treino e cardio:
+    somente segunda a sábado.
+  */
+
+  if(key !== "sunday"){
+
+    record.training =
+      !!state.weeklyTrainingChecks[key];
+
+    record.cardio =
+      !!state.weeklyCardioChecks[key];
+
+  }else{
+
+    record.training=false;
+    record.cardio=false;
+
+  }
+
+
+  saveState();
+
+}
+
+
+/* =========================
+   DASHBOARD SEMANAL
+========================= */
+
+function updateWeeklyDashboard(){
+
+  if(!state.weeklyDailyRecords)
+    state.weeklyDailyRecords={};
+
+
+  const currentWeek =
+    getWeekStart();
+
+
+  /*
+    Garante que os registros exibidos
+    pertençam somente à semana atual.
+  */
+
+  let dietDays=0;
+  let waterBottles=0;
+  let trainingDays=0;
+  let cardioDays=0;
+
+
+  trainingDays.forEach(key=>{
+
+    const date =
+      getDateForTrainingDay(
+        currentWeek,
+        key
+      );
+
+
+    const record =
+      state.weeklyDailyRecords[date];
+
+
+    if(!record)
+      return;
+
+
+    if(record.diet)
+      dietDays++;
+
+
+    waterBottles +=
+      Number(record.water) || 0;
+
+
+    if(record.training)
+      trainingDays++;
+
+
+    if(record.cardio)
+      cardioDays++;
+
+  });
+
+
+  /*
+    Limites das metas.
+  */
+
+  dietDays =
+    Math.min(dietDays,6);
+
+  waterBottles =
+    Math.min(waterBottles,24);
+
+  trainingDays =
+    Math.min(trainingDays,6);
+
+  cardioDays =
+    Math.min(cardioDays,6);
+
+
+  /*
+    Atualiza números.
+  */
+
+  document.getElementById(
+    "weeklyDietCount"
+  ).textContent =
+    `${dietDays}/6`;
+
+
+  document.getElementById(
+    "weeklyWaterCount"
+  ).textContent =
+    `${waterBottles}/24`;
+
+
+  document.getElementById(
+    "weeklyTrainingCount"
+  ).textContent =
+    `${trainingDays}/6`;
+
+
+  document.getElementById(
+    "weeklyCardioCount"
+  ).textContent =
+    `${cardioDays}/6`;
+
+
+  /*
+    Barras individuais.
+  */
+
+  document.getElementById(
+    "weeklyDietBar"
+  ).style.width =
+    `${(dietDays/6)*100}%`;
+
+
+  document.getElementById(
+    "weeklyWaterBar"
+  ).style.width =
+    `${(waterBottles/24)*100}%`;
+
+
+  document.getElementById(
+    "weeklyTrainingBar"
+  ).style.width =
+    `${(trainingDays/6)*100}%`;
+
+
+  document.getElementById(
+    "weeklyCardioBar"
+  ).style.width =
+    `${(cardioDays/6)*100}%`;
+
+
+  /*
+    Textos de status.
+  */
+
+  document.getElementById(
+    "weeklyDietStatus"
+  ).textContent =
+    dietDays === 6
+      ? "✓ Meta semanal concluída"
+      : `${6-dietDays} dia(s) restante(s)`;
+
+
+  document.getElementById(
+    "weeklyWaterStatus"
+  ).textContent =
+    waterBottles === 24
+      ? "✓ Meta semanal concluída"
+      : `${24-waterBottles} garrafinha(s) restante(s)`;
+
+
+  document.getElementById(
+    "weeklyTrainingStatus"
+  ).textContent =
+    trainingDays === 6
+      ? "✓ Meta semanal concluída"
+      : `${6-trainingDays} treino(s) restante(s)`;
+
+
+  document.getElementById(
+    "weeklyCardioStatus"
+  ).textContent =
+    cardioDays === 6
+      ? "✓ Meta semanal concluída"
+      : `${6-cardioDays} cardio(s) restante(s)`;
+
+
+  /*
+    Percentual geral:
+    cada uma das quatro metas
+    possui o mesmo peso.
+  */
+
+  const dietPercent =
+    (dietDays/6)*100;
+
+  const waterPercent =
+    (waterBottles/24)*100;
+
+  const trainingPercent =
+    (trainingDays/6)*100;
+
+  const cardioPercent =
+    (cardioDays/6)*100;
+
+
+  const overall =
+    Math.round(
+      (
+        dietPercent +
+        waterPercent +
+        trainingPercent +
+        cardioPercent
+      ) / 4
+    );
+
+
+  document.getElementById(
+    "weeklyDashboardPercent"
+  ).textContent =
+    `${overall}%`;
+
+
+  /*
+    Mensagem final da dashboard.
+  */
+
+  const total =
+    dietDays +
+    waterBottles +
+    trainingDays +
+    cardioDays;
+
+
+  const totalGoal =
+    6 + 24 + 6 + 6;
+
+
+  const totalElement =
+    document.getElementById(
+      "weeklyDashboardTotal"
+    );
+
+
+  if(overall === 100){
+
+    totalElement.innerHTML =
+      "🔥 <strong>SEMANA COMPLETA!</strong> Você bateu todas as metas.";
+
+  }else{
+
+    totalElement.innerHTML =
+      `Progresso da semana: <strong>${overall}%</strong> — ${total}/${totalGoal} unidades de meta concluídas.`;
+
+  }
+
+}
+
+
+/* =========================
+   DATA DE CADA DIA DA SEMANA
+========================= */
+
+function getDateForTrainingDay(
+  weekStart,
+  dayKey
+){
+
+  const indexes = {
+
+    monday:0,
+
+    tuesday:1,
+
+    wednesday:2,
+
+    thursday:3,
+
+    friday:4,
+
+    saturday:5
+
+  };
+
+
+  const offset =
+    indexes[dayKey];
+
+
+  const base =
+    new Date(
+      weekStart+"T12:00:00"
+    );
+
+
+  base.setDate(
+    base.getDate() + offset
+  );
+
+
+  const year =
+    base.getFullYear();
+
+  const month =
+    String(base.getMonth()+1)
+      .padStart(2,"0");
+
+  const day =
+    String(base.getDate())
+      .padStart(2,"0");
+
+
+  return `${year}-${month}-${day}`;
+
+}
+
+
+/* =========================
    MENSAGEM DO DIA
 ========================= */
 
 function renderDailyMotivation(){
 
   const container =
-    document.getElementById("dailyMotivation");
+    document.getElementById(
+      "dailyMotivation"
+    );
 
   if(!container)
     return;
 
-  const now = new Date();
+
+  const now =
+    new Date();
 
   const start =
-    new Date(now.getFullYear(),0,0);
+    new Date(
+      now.getFullYear(),
+      0,
+      0
+    );
 
   const diff =
     now - start;
@@ -1871,10 +2806,14 @@ function renderDailyMotivation(){
     1000 * 60 * 60 * 24;
 
   const dayOfYear =
-    Math.floor(diff / oneDay);
+    Math.floor(
+      diff / oneDay
+    );
 
   const index =
-    dayOfYear % motivationMessages.length;
+    dayOfYear %
+    motivationMessages.length;
+
 
   container.innerHTML = `
 
@@ -1901,53 +2840,79 @@ function renderDailyMotivation(){
 
 function loadState(){
 
-  const saved = localStorage.getItem(STORAGE_KEY);
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
 
   if(saved){
 
     try{
-      state = JSON.parse(saved);
+
+      state =
+        JSON.parse(saved);
+
     }catch(e){}
+
   }
 
 
   if(!state.progressHistory)
     state.progressHistory=[];
 
+
   if(!state.progressPhotos)
     state.progressPhotos=[];
+
 
   if(!state.selectedOptions)
     state.selectedOptions={};
 
+
   if(!state.meals)
     state.meals={};
+
 
   if(!state.sweet)
     state.sweet={};
 
+
   if(!state.reminders)
     state.reminders={};
+
 
   if(!state.exerciseChecks)
     state.exerciseChecks={};
 
+
   if(!state.weeklyTrainingChecks)
     state.weeklyTrainingChecks={};
+
 
   if(!state.weeklyCardioChecks)
     state.weeklyCardioChecks={};
 
 
+  if(!state.weeklyDailyRecords)
+    state.weeklyDailyRecords={};
+
+
+  if(typeof state.weeklyPeriod === "undefined")
+    state.weeklyPeriod="";
+
+
   /*
-    Compatibilidade com versões anteriores
+    Compatibilidade com versões anteriores.
   */
 
   if(typeof state.height === "undefined")
     state.height="";
 
+
   if(typeof state.chest === "undefined")
     state.chest="";
+
 
   if(typeof state.biceps === "undefined")
     state.biceps="";
@@ -1993,37 +2958,80 @@ function loadState(){
 
   defaultReminders.forEach(item=>{
 
-    const id = item[0];
+    const id =
+      item[0];
 
-    if(typeof state.reminders[id] === "undefined")
-      state.reminders[id] = true;
+
+    if(
+      typeof state.reminders[id]
+      === "undefined"
+    ){
+
+      state.reminders[id]=true;
+
+    }
 
   });
 
 
-  const today = getToday();
+  const today =
+    getToday();
 
+
+  const currentWeek =
+    getWeekStart();
+
+
+  /*
+    Detecta mudança de semana.
+
+    Quando uma nova semana começa,
+    os registros da dashboard começam
+    novamente do zero.
+  */
+
+  if(
+    state.weeklyPeriod !==
+    currentWeek
+  ){
+
+    state.weeklyPeriod =
+      currentWeek;
+
+
+    state.weeklyTrainingChecks={};
+
+    state.weeklyCardioChecks={};
+
+    state.weeklyDailyRecords={};
+
+  }
+
+
+  /*
+    Detecta mudança de dia.
+  */
 
   if(state.date !== today){
 
-    state.date = today;
+    state.date =
+      today;
 
     state.meals={};
+
     state.selectedOptions={};
 
     state.water=0;
 
-    /*
-      Os registros semanais NÃO são apagados.
-      Assim os checks de treino/cardio dos outros
-      dias continuam registrados.
-    */
-
     state.training =
-      !!state.weeklyTrainingChecks[getDayKey()];
+      !!state.weeklyTrainingChecks[
+        getDayKey()
+      ];
 
     state.cardio =
-      !!state.weeklyCardioChecks[getDayKey()];
+      !!state.weeklyCardioChecks[
+        getDayKey()
+      ];
 
     state.workout="";
 
@@ -2035,18 +3043,24 @@ function loadState(){
 
   }else{
 
-    /*
-      Mantém o estado diário sincronizado
-      com os registros semanais.
-    */
-
     state.training =
-      !!state.weeklyTrainingChecks[getDayKey()];
+      !!state.weeklyTrainingChecks[
+        getDayKey()
+      ];
 
     state.cardio =
-      !!state.weeklyCardioChecks[getDayKey()];
+      !!state.weeklyCardioChecks[
+        getDayKey()
+      ];
 
   }
+
+
+  /*
+    Sincroniza o registro diário atual.
+  */
+
+  syncTodayWeeklyRecord();
 
 }
 
@@ -2071,20 +3085,27 @@ function saveState(){
 
 function renderDate(){
 
-  const date = new Date();
+  const date =
+    new Date();
 
-  const formatted = date.toLocaleDateString(
-    "pt-BR",
-    {
-      weekday:"long",
-      day:"2-digit",
-      month:"long",
-      year:"numeric"
-    }
-  );
 
-  document.getElementById("todayDate").textContent =
-    formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  const formatted =
+    date.toLocaleDateString(
+      "pt-BR",
+      {
+        weekday:"long",
+        day:"2-digit",
+        month:"long",
+        year:"numeric"
+      }
+    );
+
+
+  document.getElementById(
+    "todayDate"
+  ).textContent =
+    formatted.charAt(0).toUpperCase()
+    + formatted.slice(1);
 
 }
 
@@ -2095,22 +3116,31 @@ function renderDate(){
 
 function renderTodayTraining(){
 
-  const key = getDayKey();
+  const key =
+    getDayKey();
 
-  const training = weeklyTraining[key];
+
+  const training =
+    weeklyTraining[key];
+
 
   const home =
-    document.getElementById("homeTraining");
+    document.getElementById(
+      "homeTraining"
+    );
 
 
   if(key === "sunday"){
 
     const html = `
+
       <div class="card">
 
         <div class="training-header">
 
-          <h2>😴 Treino de hoje</h2>
+          <h2>
+            😴 Treino de hoje
+          </h2>
 
           <span class="day-badge">
             DOMINGO
@@ -2119,20 +3149,28 @@ function renderTodayTraining(){
         </div>
 
         <p style="color:#aaa;margin-top:10px;">
+
           Dia de descanso e recuperação.
+
         </p>
 
       </div>
+
     `;
 
-    home.innerHTML=html;
+
+    home.innerHTML =
+      html;
+
 
     return;
+
   }
 
 
   const trainingDone =
     !!state.weeklyTrainingChecks[key];
+
 
   const cardioDone =
     !!state.weeklyCardioChecks[key];
@@ -2144,7 +3182,9 @@ function renderTodayTraining(){
 
       <div class="training-header">
 
-        <h2>🏋️ Treino de hoje</h2>
+        <h2>
+          🏋️ Treino de hoje
+        </h2>
 
         <span class="day-badge">
           ${training.name}
@@ -2152,10 +3192,14 @@ function renderTodayTraining(){
 
       </div>
 
-      <h3>${training.title}</h3>
+      <h3>
+        ${training.title}
+      </h3>
 
       <p style="color:#aaa;font-size:13px;">
+
         Veja todos os treinos na aba Treino.
+
       </p>
 
       <div class="check-big">
@@ -2166,9 +3210,13 @@ function renderTodayTraining(){
           onchange="toggleTodayTraining()">
 
         <span>
-          ${trainingDone
-            ? "✓ Treino de hoje realizado"
-            : "Marcar treino de hoje como completo"}
+
+          ${
+            trainingDone
+              ? "✓ Treino de hoje realizado"
+              : "Marcar treino de hoje como completo"
+          }
+
         </span>
 
       </div>
@@ -2181,9 +3229,13 @@ function renderTodayTraining(){
           onchange="toggleTodayCardio()">
 
         <span>
-          ${cardioDone
-            ? "✓ Cardio realizado"
-            : "Marcar cardio: 2 km caminhada + 1 km corrida"}
+
+          ${
+            cardioDone
+              ? "✓ Cardio realizado"
+              : "Marcar cardio: 2 km caminhada + 1 km corrida"
+          }
+
         </span>
 
       </div>
@@ -2192,7 +3244,9 @@ function renderTodayTraining(){
 
   `;
 
-  home.innerHTML=html;
+
+  home.innerHTML =
+    html;
 
 }
 
@@ -2204,7 +3258,10 @@ function renderTodayTraining(){
 function renderWeeklyTraining(){
 
   const container =
-    document.getElementById("weeklyTrainingContainer");
+    document.getElementById(
+      "weeklyTrainingContainer"
+    );
+
 
   if(!container)
     return;
@@ -2218,37 +3275,55 @@ function renderWeeklyTraining(){
     const training =
       weeklyTraining[key];
 
+
     const trainingDone =
       !!state.weeklyTrainingChecks[key];
+
 
     const cardioDone =
       !!state.weeklyCardioChecks[key];
 
 
     let totalExercises=0;
+
     let doneExercises=0;
 
 
-    training.groups.forEach((group,groupIndex)=>{
+    training.groups.forEach(
+      (group,groupIndex)=>{
 
-      group.exercises.forEach((exercise,exerciseIndex)=>{
+        group.exercises.forEach(
+          (exercise,exerciseIndex)=>{
 
-        totalExercises++;
+            totalExercises++;
 
-        const id =
-          `${key}_${groupIndex}_${exerciseIndex}`;
 
-        if(state.exerciseChecks[id])
-          doneExercises++;
+            const id =
+              `${key}_${groupIndex}_${exerciseIndex}`;
 
-      });
 
-    });
+            if(
+              state.exerciseChecks[id]
+            ){
+
+              doneExercises++;
+
+            }
+
+          }
+        );
+
+      }
+    );
 
 
     const exercisePercentage =
       totalExercises
-        ? Math.round((doneExercises/totalExercises)*100)
+        ? Math.round(
+            (doneExercises /
+              totalExercises) *
+            100
+          )
         : 0;
 
 
@@ -2274,7 +3349,9 @@ function renderWeeklyTraining(){
 
         <div class="week-day-content">
 
-          <div class="week-training-check ${trainingDone ? "done":""}">
+          <div
+            class="week-training-check
+            ${trainingDone ? "done":""}">
 
             <input
               type="checkbox"
@@ -2282,16 +3359,22 @@ function renderWeeklyTraining(){
               onchange="toggleWeeklyTraining('${key}')">
 
             <span>
-              ${trainingDone
-                ? "✓ Treino realizado"
-                : "Marcar treino completo"}
+
+              ${
+                trainingDone
+                  ? "✓ Treino realizado"
+                  : "Marcar treino completo"
+              }
+
             </span>
 
           </div>
 
           <div class="section-count">
+
             ${doneExercises}/${totalExercises}
             exercícios realizados
+
           </div>
 
           <div class="progress-wrap">
@@ -2306,55 +3389,61 @@ function renderWeeklyTraining(){
     `;
 
 
-    training.groups.forEach((group,groupIndex)=>{
-
-      html += `
-
-        <h3>
-          ${group.name}
-        </h3>
-
-      `;
-
-
-      group.exercises.forEach((exercise,exerciseIndex)=>{
-
-        const id =
-          `${key}_${groupIndex}_${exerciseIndex}`;
-
-        const checked =
-          !!state.exerciseChecks[id];
-
+    training.groups.forEach(
+      (group,groupIndex)=>{
 
         html += `
 
-          <label
-            class="exercise ${checked ? "done":""}">
-
-            <input
-              type="checkbox"
-              ${checked ? "checked":""}
-              onchange="toggleExercise('${id}')">
-
-            <div class="exercise-info">
-
-              <div class="exercise-name">
-                ${exercise[0]}
-              </div>
-
-              <div class="exercise-reps">
-                ${exercise[1]}
-              </div>
-
-            </div>
-
-          </label>
+          <h3>
+            ${group.name}
+          </h3>
 
         `;
 
-      });
 
-    });
+        group.exercises.forEach(
+          (exercise,exerciseIndex)=>{
+
+            const id =
+              `${key}_${groupIndex}_${exerciseIndex}`;
+
+
+            const checked =
+              !!state.exerciseChecks[id];
+
+
+            html += `
+
+              <label
+                class="exercise
+                ${checked ? "done":""}">
+
+                <input
+                  type="checkbox"
+                  ${checked ? "checked":""}
+                  onchange="toggleExercise('${id}')">
+
+                <div class="exercise-info">
+
+                  <div class="exercise-name">
+                    ${exercise[0]}
+                  </div>
+
+                  <div class="exercise-reps">
+                    ${exercise[1]}
+                  </div>
+
+                </div>
+
+              </label>
+
+            `;
+
+          }
+        );
+
+      }
+    );
 
 
     /*
@@ -2364,7 +3453,8 @@ function renderWeeklyTraining(){
     html += `
 
       <div
-        class="cardio-box ${cardioDone ? "done":""}">
+        class="cardio-box
+        ${cardioDone ? "done":""}">
 
         <input
           type="checkbox"
@@ -2375,14 +3465,19 @@ function renderWeeklyTraining(){
 
           <div class="cardio-title">
 
-            ${cardioDone
-              ? "✓ Cardio realizado"
-              : "Cardio do dia"}
+            ${
+              cardioDone
+                ? "✓ Cardio realizado"
+                : "Cardio do dia"
+            }
 
           </div>
 
           <div class="cardio-subtitle">
-            🏃 2 km caminhada + 1 km corrida — 3 km total
+
+            🏃 2 km caminhada + 1 km corrida
+            — 3 km total
+
           </div>
 
         </div>
@@ -2403,7 +3498,8 @@ function renderWeeklyTraining(){
   });
 
 
-  container.innerHTML=html;
+  container.innerHTML =
+    html;
 
 }
 
@@ -2424,10 +3520,8 @@ function toggleExercise(id){
 
   saveState();
 
+
   renderWeeklyTraining();
-
-  updateDailyGoal();
-
 
 }
 
@@ -2446,11 +3540,6 @@ function toggleWeeklyTraining(key){
     !state.weeklyTrainingChecks[key];
 
 
-  /*
-    Mantém o treino de hoje sincronizado
-    com a Meta do Dia.
-  */
-
   if(key === getDayKey()){
 
     state.training =
@@ -2459,13 +3548,17 @@ function toggleWeeklyTraining(key){
   }
 
 
+  syncTodayWeeklyRecord();
+
+
   saveState();
+
 
   renderWeeklyTraining();
 
   renderTodayTraining();
 
-  updateDailyGoal();
+  updateWeeklyDashboard();
 
 }
 
@@ -2492,13 +3585,17 @@ function toggleTodayTraining(){
     !!state.weeklyTrainingChecks[key];
 
 
+  syncTodayWeeklyRecord();
+
+
   saveState();
+
 
   renderWeeklyTraining();
 
   renderTodayTraining();
 
-  updateDailyGoal();
+  updateWeeklyDashboard();
 
 }
 
@@ -2525,13 +3622,17 @@ function toggleWeeklyCardio(key){
   }
 
 
+  syncTodayWeeklyRecord();
+
+
   saveState();
+
 
   renderWeeklyTraining();
 
   renderTodayTraining();
 
-  updateDailyGoal();
+  updateWeeklyDashboard();
 
 }
 
@@ -2558,20 +3659,24 @@ function toggleTodayCardio(){
     !!state.weeklyCardioChecks[key];
 
 
+  syncTodayWeeklyRecord();
+
+
   saveState();
+
 
   renderWeeklyTraining();
 
   renderTodayTraining();
 
-  updateDailyGoal();
+  updateWeeklyDashboard();
 
 }
 
 
 /*
-  Mantida para compatibilidade com versões
-  anteriores do app.
+  Mantida para compatibilidade
+  com versões anteriores do app.
 */
 
 function renderCardio(){
@@ -2588,7 +3693,10 @@ function renderCardio(){
 function renderMeals(){
 
   const container =
-    document.getElementById("mealsContainer");
+    document.getElementById(
+      "mealsContainer"
+    );
+
 
   let html="";
 
@@ -2597,6 +3705,7 @@ function renderMeals(){
 
     const done =
       !!state.meals[meal.id];
+
 
     const selected =
       state.selectedOptions[meal.id];
@@ -2609,11 +3718,16 @@ function renderMeals(){
         <div class="meal-header">
 
           <div class="meal-title">
-            ${done ? "☑️":"⬜"} ${meal.name}
+
+            ${done ? "☑️":"⬜"}
+            ${meal.name}
+
           </div>
 
           <div class="meal-time">
+
             ${meal.time}
+
           </div>
 
         </div>
@@ -2623,26 +3737,30 @@ function renderMeals(){
     `;
 
 
-    meal.options.forEach((option,optIndex)=>{
+    meal.options.forEach(
+      (option,optIndex)=>{
 
-      const isSelected =
-        selected === optIndex;
+        const isSelected =
+          selected === optIndex;
 
-      html += `
 
-        <div
-          class="option ${isSelected ? "selected":""}"
-          onclick="selectMealOption('${meal.id}',${optIndex})">
+        html += `
 
-          ${isSelected ? "✓ ":""}
+          <div
+            class="option
+            ${isSelected ? "selected":""}"
+            onclick="selectMealOption('${meal.id}',${optIndex})">
 
-          ${option}
+            ${isSelected ? "✓ ":""}
 
-        </div>
+            ${option}
 
-      `;
+          </div>
 
-    });
+        `;
+
+      }
+    );
 
 
     html += `
@@ -2654,9 +3772,11 @@ function renderMeals(){
           style="margin-top:10px;"
           onclick="toggleMeal('${meal.id}')">
 
-          ${done
-            ? "Desmarcar refeição"
-            : "Marcar como feita"}
+          ${
+            done
+              ? "Desmarcar refeição"
+              : "Marcar como feita"
+          }
 
         </button>
 
@@ -2667,18 +3787,26 @@ function renderMeals(){
   });
 
 
-  container.innerHTML=html;
+  container.innerHTML =
+    html;
+
 
   updateMealProgress();
 
 }
 
 
-function selectMealOption(id,index){
+function selectMealOption(
+  id,
+  index
+){
 
-  state.selectedOptions[id]=index;
+  state.selectedOptions[id] =
+    index;
+
 
   saveState();
+
 
   renderMeals();
 
@@ -2690,11 +3818,16 @@ function toggleMeal(id){
   state.meals[id] =
     !state.meals[id];
 
+
+  syncTodayWeeklyRecord();
+
+
   saveState();
+
 
   renderMeals();
 
-  updateDailyGoal();
+  updateWeeklyDashboard();
 
 }
 
@@ -2706,84 +3839,25 @@ function updateMealProgress(){
       meal=>state.meals[meal.id]
     ).length;
 
-  const total=meals.length;
+
+  const total =
+    meals.length;
+
 
   const percentage =
     (completed/total)*100;
 
 
-  document.getElementById("mealProgressBar")
-    .style.width=percentage+"%";
-
-  document.getElementById("mealProgressText")
-    .textContent=
-      `${completed}/${total} refeições concluídas`;
-
-}
+  document.getElementById(
+    "mealProgressBar"
+  ).style.width =
+    percentage+"%";
 
 
-/* =========================
-   META DO DIA
-========================= */
-
-function updateDailyGoal(){
-
-  const mealDone =
-    meals.filter(
-      meal=>state.meals[meal.id]
-    ).length;
-
-
-  const waterDone =
-    state.water >= WATER_GOAL;
-
-
-  const trainingDone =
-    !!state.weeklyTrainingChecks[getDayKey()];
-
-
-  const cardioDone =
-    !!state.weeklyCardioChecks[getDayKey()];
-
-
-  /*
-    5 refeições
-    + água
-    + treino
-    + cardio
-    = 8 metas
-  */
-
-  const completed =
-    mealDone +
-    (waterDone ? 1:0) +
-    (trainingDone ? 1:0) +
-    (cardioDone ? 1:0);
-
-
-  const total=8;
-
-
-  const percentage =
-    Math.round(
-      (completed/total)*100
-    );
-
-
-  const bar =
-    document.getElementById("dailyGoalBar");
-
-  const text =
-    document.getElementById("dailyGoalText");
-
-
-  if(bar)
-    bar.style.width=percentage+"%";
-
-
-  if(text)
-    text.textContent =
-      `Meta do dia: ${percentage}% (${completed}/${total})`;
+  document.getElementById(
+    "mealProgressText"
+  ).textContent =
+    `${completed}/${total} refeições concluídas`;
 
 }
 
@@ -2794,19 +3868,27 @@ function updateDailyGoal(){
 
 function changeWater(amount){
 
-  state.water += amount;
+  state.water +=
+    amount;
+
 
   if(state.water < 0)
     state.water=0;
 
+
   if(state.water > WATER_GOAL)
     state.water=WATER_GOAL;
 
+
+  syncTodayWeeklyRecord();
+
+
   saveState();
+
 
   updateWaterDisplay();
 
-  updateDailyGoal();
+  updateWeeklyDashboard();
 
 }
 
@@ -2814,22 +3896,26 @@ function changeWater(amount){
 function updateWaterDisplay(){
 
   const ml =
-    state.water * WATER_BOTTLE;
+    state.water *
+    WATER_BOTTLE;
 
 
-  document.getElementById("waterCount")
-    .textContent=
-      `${state.water}/${WATER_GOAL}`;
+  document.getElementById(
+    "waterCount"
+  ).textContent =
+    `${state.water}/${WATER_GOAL}`;
 
 
-  document.getElementById("waterText")
-    .textContent=
-      `${ml.toLocaleString("pt-BR")} ml de 2.000 ml`;
+  document.getElementById(
+    "waterText"
+  ).textContent =
+    `${ml.toLocaleString("pt-BR")} ml de 2.000 ml`;
 
 
-  document.getElementById("waterProgressBar")
-    .style.width=
-      `${(state.water/WATER_GOAL)*100}%`;
+  document.getElementById(
+    "waterProgressBar"
+  ).style.width =
+    `${(state.water/WATER_GOAL)*100}%`;
 
 }
 
@@ -2841,42 +3927,50 @@ function updateWaterDisplay(){
 function renderSweet(){
 
   const container =
-    document.getElementById("sweetContainer");
+    document.getElementById(
+      "sweetContainer"
+    );
+
 
   let html="";
 
 
-  sweetOptions.forEach((option,index)=>{
+  sweetOptions.forEach(
+    (option,index)=>{
 
-    const checked =
-      !!state.sweet[index];
+      const checked =
+        !!state.sweet[index];
 
 
-    html += `
+      html += `
 
-      <label class="exercise ${checked ? "done":""}">
+        <label
+          class="exercise
+          ${checked ? "done":""}">
 
-        <input
-          type="checkbox"
-          ${checked ? "checked":""}
-          onchange="toggleSweet(${index})">
+          <input
+            type="checkbox"
+            ${checked ? "checked":""}
+            onchange="toggleSweet(${index})">
 
-        <div class="exercise-info">
+          <div class="exercise-info">
 
-          <div class="exercise-name">
-            ${option}
+            <div class="exercise-name">
+              ${option}
+            </div>
+
           </div>
 
-        </div>
+        </label>
 
-      </label>
+      `;
 
-    `;
+    }
+  );
 
-  });
 
-
-  container.innerHTML=html;
+  container.innerHTML =
+    html;
 
 }
 
@@ -2886,7 +3980,9 @@ function toggleSweet(index){
   state.sweet[index] =
     !state.sweet[index];
 
+
   saveState();
+
 
   renderSweet();
 
@@ -2899,62 +3995,85 @@ function toggleSweet(index){
 
 function renderProgress(){
 
-  document.getElementById("weightInput")
-    .value=state.weight || "";
-
-  document.getElementById("heightInput")
-    .value=state.height || "";
-
-  document.getElementById("waistInput")
-    .value=state.waist || "";
-
-  document.getElementById("chestInput")
-    .value=state.chest || "";
-
-  document.getElementById("bicepsInput")
-    .value=state.biceps || "";
+  document.getElementById(
+    "weightInput"
+  ).value =
+    state.weight || "";
 
 
-  document.getElementById("currentWeight")
-    .textContent=
-      state.weight
-        ? state.weight
-        : "--";
+  document.getElementById(
+    "heightInput"
+  ).value =
+    state.height || "";
 
 
-  document.getElementById("currentHeight")
-    .textContent=
-      state.height
-        ? state.height
-        : "--";
+  document.getElementById(
+    "waistInput"
+  ).value =
+    state.waist || "";
 
 
-  document.getElementById("currentWaist")
-    .textContent=
-      state.waist
-        ? state.waist
-        : "--";
+  document.getElementById(
+    "chestInput"
+  ).value =
+    state.chest || "";
 
 
-  document.getElementById("currentChest")
-    .textContent=
-      state.chest
-        ? state.chest
-        : "--";
+  document.getElementById(
+    "bicepsInput"
+  ).value =
+    state.biceps || "";
 
 
-  document.getElementById("currentBiceps")
-    .textContent=
-      state.biceps
-        ? state.biceps
-        : "--";
+  document.getElementById(
+    "currentWeight"
+  ).textContent =
+    state.weight
+      ? state.weight
+      : "--";
+
+
+  document.getElementById(
+    "currentHeight"
+  ).textContent =
+    state.height
+      ? state.height
+      : "--";
+
+
+  document.getElementById(
+    "currentWaist"
+  ).textContent =
+    state.waist
+      ? state.waist
+      : "--";
+
+
+  document.getElementById(
+    "currentChest"
+  ).textContent =
+    state.chest
+      ? state.chest
+      : "--";
+
+
+  document.getElementById(
+    "currentBiceps"
+  ).textContent =
+    state.biceps
+      ? state.biceps
+      : "--";
 
 
   renderProgressHistory();
 
   renderProgressPhotos();
 
-  setTimeout(drawProgressCharts,100);
+
+  setTimeout(
+    drawProgressCharts,
+    100
+  );
 
 }
 
@@ -2967,31 +4086,41 @@ function saveProgress(){
 
   const weight =
     parseFloat(
-      document.getElementById("weightInput").value
+      document.getElementById(
+        "weightInput"
+      ).value
     );
 
 
   const height =
     parseFloat(
-      document.getElementById("heightInput").value
+      document.getElementById(
+        "heightInput"
+      ).value
     );
 
 
   const waist =
     parseFloat(
-      document.getElementById("waistInput").value
+      document.getElementById(
+        "waistInput"
+      ).value
     );
 
 
   const chest =
     parseFloat(
-      document.getElementById("chestInput").value
+      document.getElementById(
+        "chestInput"
+      ).value
     );
 
 
   const biceps =
     parseFloat(
-      document.getElementById("bicepsInput").value
+      document.getElementById(
+        "bicepsInput"
+      ).value
     );
 
 
@@ -3007,27 +4136,34 @@ function saveProgress(){
       "Informe pelo menos uma medida."
     );
 
+
     return;
+
   }
 
 
   if(!isNaN(weight))
     state.weight=weight;
 
+
   if(!isNaN(height))
     state.height=height;
+
 
   if(!isNaN(waist))
     state.waist=waist;
 
+
   if(!isNaN(chest))
     state.chest=chest;
+
 
   if(!isNaN(biceps))
     state.biceps=biceps;
 
 
-  const today=getToday();
+  const today =
+    getToday();
 
 
   let existing =
@@ -3039,15 +4175,25 @@ function saveProgress(){
   if(!existing){
 
     existing={
+
       date:today,
+
       weight:null,
+
       height:null,
+
       waist:null,
+
       chest:null,
+
       biceps:null
+
     };
 
-    state.progressHistory.push(existing);
+
+    state.progressHistory.push(
+      existing
+    );
 
   }
 
@@ -3055,14 +4201,18 @@ function saveProgress(){
   if(!isNaN(weight))
     existing.weight=weight;
 
+
   if(!isNaN(height))
     existing.height=height;
+
 
   if(!isNaN(waist))
     existing.waist=waist;
 
+
   if(!isNaN(chest))
     existing.chest=chest;
+
 
   if(!isNaN(biceps))
     existing.biceps=biceps;
@@ -3074,9 +4224,13 @@ function saveProgress(){
 
   saveState();
 
+
   renderProgress();
 
-  alert("Medição salva!");
+
+  alert(
+    "Medição salva!"
+  );
 
 }
 
@@ -3088,14 +4242,18 @@ function saveProgress(){
 function setDefaultPhotoDate(){
 
   const input =
-    document.getElementById("photoDateInput");
+    document.getElementById(
+      "photoDateInput"
+    );
+
 
   if(!input)
     return;
 
 
   if(!input.value)
-    input.value=getToday();
+    input.value =
+      getToday();
 
 }
 
@@ -3107,16 +4265,27 @@ function setDefaultPhotoDate(){
 function previewPhoto(){
 
   const input =
-    document.getElementById("photoInput");
+    document.getElementById(
+      "photoInput"
+    );
+
 
   const preview =
-    document.getElementById("photoPreview");
+    document.getElementById(
+      "photoPreview"
+    );
+
 
   const image =
-    document.getElementById("photoPreviewImage");
+    document.getElementById(
+      "photoPreviewImage"
+    );
 
 
-  if(!input.files || !input.files[0]){
+  if(
+    !input.files ||
+    !input.files[0]
+  ){
 
     preview.style.display="none";
 
@@ -3131,9 +4300,14 @@ function previewPhoto(){
     input.files[0];
 
 
-  if(!file.type.startsWith("image/")){
+  if(
+    !file.type.startsWith("image/")
+  ){
 
-    alert("Selecione uma imagem válida.");
+    alert(
+      "Selecione uma imagem válida."
+    );
+
 
     input.value="";
 
@@ -3148,16 +4322,21 @@ function previewPhoto(){
     new FileReader();
 
 
-  reader.onload=function(e){
+  reader.onload =
+    function(e){
 
-    image.src=e.target.result;
+      image.src =
+        e.target.result;
 
-    preview.style.display="block";
+      preview.style.display =
+        "block";
 
-  };
+    };
 
 
-  reader.readAsDataURL(file);
+  reader.readAsDataURL(
+    file
+  );
 
 }
 
@@ -3168,99 +4347,132 @@ function previewPhoto(){
 
 function compressImage(file){
 
-  return new Promise((resolve,reject)=>{
+  return new Promise(
+    (resolve,reject)=>{
 
-    const reader =
-      new FileReader();
-
-
-    reader.onload=function(event){
-
-      const image =
-        new Image();
+      const reader =
+        new FileReader();
 
 
-      image.onload=function(){
+      reader.onload =
+        function(event){
 
-        const maxSize=1200;
-
-        let width=image.width;
-        let height=image.height;
+          const image =
+            new Image();
 
 
-        if(width > height){
+          image.onload =
+            function(){
 
-          if(width > maxSize){
+              const maxSize =
+                1200;
 
-            height =
-              Math.round(
-                height * maxSize / width
+
+              let width =
+                image.width;
+
+
+              let height =
+                image.height;
+
+
+              if(width > height){
+
+                if(width > maxSize){
+
+                  height =
+                    Math.round(
+                      height *
+                      maxSize /
+                      width
+                    );
+
+                  width =
+                    maxSize;
+
+                }
+
+              }else{
+
+                if(height > maxSize){
+
+                  width =
+                    Math.round(
+                      width *
+                      maxSize /
+                      height
+                    );
+
+                  height =
+                    maxSize;
+
+                }
+
+              }
+
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              canvas.width =
+                width;
+
+              canvas.height =
+                height;
+
+
+              const ctx =
+                canvas.getContext(
+                  "2d"
+                );
+
+
+              ctx.drawImage(
+                image,
+                0,
+                0,
+                width,
+                height
               );
 
-            width=maxSize;
 
-          }
+              const compressed =
+                canvas.toDataURL(
+                  "image/jpeg",
+                  0.82
+                );
 
-        }else{
 
-          if(height > maxSize){
-
-            width =
-              Math.round(
-                width * maxSize / height
+              resolve(
+                compressed
               );
 
-            height=maxSize;
-
-          }
-
-        }
+            };
 
 
-        const canvas =
-          document.createElement("canvas");
-
-        canvas.width=width;
-        canvas.height=height;
+          image.onerror =
+            reject;
 
 
-        const ctx =
-          canvas.getContext("2d");
+          image.src =
+            event.target.result;
+
+        };
 
 
-        ctx.drawImage(
-          image,
-          0,
-          0,
-          width,
-          height
-        );
+      reader.onerror =
+        reject;
 
 
-        const compressed =
-          canvas.toDataURL(
-            "image/jpeg",
-            0.82
-          );
+      reader.readAsDataURL(
+        file
+      );
 
-
-        resolve(compressed);
-
-      };
-
-
-      image.onerror=reject;
-
-      image.src=event.target.result;
-
-    };
-
-
-    reader.onerror=reject;
-
-    reader.readAsDataURL(file);
-
-  });
+    }
+  );
 
 }
 
@@ -3272,10 +4484,15 @@ function compressImage(file){
 async function saveProgressPhoto(){
 
   const dateInput =
-    document.getElementById("photoDateInput");
+    document.getElementById(
+      "photoDateInput"
+    );
+
 
   const fileInput =
-    document.getElementById("photoInput");
+    document.getElementById(
+      "photoInput"
+    );
 
 
   const date =
@@ -3284,7 +4501,9 @@ async function saveProgressPhoto(){
 
   if(!date){
 
-    alert("Escolha a data da foto.");
+    alert(
+      "Escolha a data da foto."
+    );
 
     return;
 
@@ -3296,7 +4515,9 @@ async function saveProgressPhoto(){
     !fileInput.files[0]
   ){
 
-    alert("Escolha uma foto.");
+    alert(
+      "Escolha uma foto."
+    );
 
     return;
 
@@ -3307,9 +4528,13 @@ async function saveProgressPhoto(){
     fileInput.files[0];
 
 
-  if(!file.type.startsWith("image/")){
+  if(
+    !file.type.startsWith("image/")
+  ){
 
-    alert("Selecione uma imagem válida.");
+    alert(
+      "Selecione uma imagem válida."
+    );
 
     return;
 
@@ -3319,7 +4544,9 @@ async function saveProgressPhoto(){
   try{
 
     const imageData =
-      await compressImage(file);
+      await compressImage(
+        file
+      );
 
 
     if(!state.progressPhotos)
@@ -3331,18 +4558,14 @@ async function saveProgressPhoto(){
       id:
         Date.now(),
 
-      date:date,
+      date:
+        date,
 
-      image:imageData
+      image:
+        imageData
 
     });
 
-
-    /*
-      Mantém as fotos mais recentes.
-      Isso evita que o LocalStorage fique
-      excessivamente grande.
-    */
 
     state.progressPhotos =
       state.progressPhotos.slice(-30);
@@ -3353,17 +4576,24 @@ async function saveProgressPhoto(){
 
     fileInput.value="";
 
-    document.getElementById("photoPreview")
-      .style.display="none";
 
-    document.getElementById("photoPreviewImage")
-      .src="";
+    document.getElementById(
+      "photoPreview"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "photoPreviewImage"
+    ).src="";
 
 
     renderProgressPhotos();
 
 
-    alert("Foto de progresso salva!");
+    alert(
+      "Foto de progresso salva!"
+    );
 
   }catch(error){
 
@@ -3383,7 +4613,9 @@ async function saveProgressPhoto(){
 function renderProgressPhotos(){
 
   const container =
-    document.getElementById("photoHistory");
+    document.getElementById(
+      "photoHistory"
+    );
 
 
   if(!container)
@@ -3398,10 +4630,13 @@ function renderProgressPhotos(){
     container.innerHTML = `
 
       <p style="color:#888;margin-top:15px;">
+
         Nenhuma foto de progresso registrada.
+
       </p>
 
     `;
+
 
     return;
 
@@ -3420,41 +4655,50 @@ function renderProgressPhotos(){
   let html="";
 
 
-  photos.forEach(photo=>{
+  photos.forEach(
+    photo=>{
 
-    const date =
-      new Date(photo.date+"T12:00:00")
-        .toLocaleDateString("pt-BR");
+      const date =
+        new Date(
+          photo.date+"T12:00:00"
+        )
+        .toLocaleDateString(
+          "pt-BR"
+        );
 
 
-    html += `
+      html += `
 
-      <div class="photo-item">
+        <div class="photo-item">
 
-        <div class="photo-item-date">
-          📅 ${date}
+          <div class="photo-item-date">
+
+            📅 ${date}
+
+          </div>
+
+          <img
+            src="${photo.image}"
+            alt="Foto de progresso de ${date}">
+
+          <button
+            class="danger photo-delete"
+            onclick="deleteProgressPhoto(${photo.id})">
+
+            🗑️ Excluir foto
+
+          </button>
+
         </div>
 
-        <img
-          src="${photo.image}"
-          alt="Foto de progresso de ${date}">
+      `;
 
-        <button
-          class="danger photo-delete"
-          onclick="deleteProgressPhoto(${photo.id})">
-
-          🗑️ Excluir foto
-
-        </button>
-
-      </div>
-
-    `;
-
-  });
+    }
+  );
 
 
-  container.innerHTML=html;
+  container.innerHTML =
+    html;
 
 }
 
@@ -3484,6 +4728,7 @@ function deleteProgressPhoto(id){
 
   saveState();
 
+
   renderProgressPhotos();
 
 }
@@ -3496,15 +4741,20 @@ function deleteProgressPhoto(id){
 function renderProgressHistory(){
 
   const container =
-    document.getElementById("progressHistory");
+    document.getElementById(
+      "progressHistory"
+    );
 
 
-  if(!state.progressHistory.length){
+  if(
+    !state.progressHistory.length
+  ){
 
     container.innerHTML =
       `<p style="color:#888;">
         Nenhuma medição registrada.
       </p>`;
+
 
     return;
 
@@ -3512,74 +4762,104 @@ function renderProgressHistory(){
 
 
   const history =
-    [...state.progressHistory].reverse();
+    [...state.progressHistory]
+      .reverse();
 
 
   let html="";
 
 
-  history.forEach(item=>{
+  history.forEach(
+    item=>{
 
-    const date =
-      new Date(item.date+"T12:00:00")
-        .toLocaleDateString("pt-BR");
+      const date =
+        new Date(
+          item.date+"T12:00:00"
+        )
+        .toLocaleDateString(
+          "pt-BR"
+        );
 
 
-    html += `
+      html += `
 
-      <div class="history-item">
+        <div class="history-item">
 
-        <div class="history-date">
-          ${date}
+          <div class="history-date">
+
+            ${date}
+
+          </div>
+
+          <div class="history-measures">
+
+            <span>
+
+              ⚖️ Peso:
+              ${
+                item.weight != null
+                  ? item.weight+" kg"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              📏 Altura:
+              ${
+                item.height != null
+                  ? item.height+" cm"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              🟠 Cintura:
+              ${
+                item.waist != null
+                  ? item.waist+" cm"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              🫁 Peitoral:
+              ${
+                item.chest != null
+                  ? item.chest+" cm"
+                  : "--"
+              }
+
+            </span>
+
+            <span>
+
+              💪 Bíceps:
+              ${
+                item.biceps != null
+                  ? item.biceps+" cm"
+                  : "--"
+              }
+
+            </span>
+
+          </div>
+
         </div>
 
-        <div class="history-measures">
+      `;
 
-          <span>
-            ⚖️ Peso:
-            ${item.weight != null
-              ? item.weight+" kg"
-              : "--"}
-          </span>
-
-          <span>
-            📏 Altura:
-            ${item.height != null
-              ? item.height+" cm"
-              : "--"}
-          </span>
-
-          <span>
-            🟠 Cintura:
-            ${item.waist != null
-              ? item.waist+" cm"
-              : "--"}
-          </span>
-
-          <span>
-            🫁 Peitoral:
-            ${item.chest != null
-              ? item.chest+" cm"
-              : "--"}
-          </span>
-
-          <span>
-            💪 Bíceps:
-            ${item.biceps != null
-              ? item.biceps+" cm"
-              : "--"}
-          </span>
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
+    }
+  );
 
 
-  container.innerHTML=html;
+  container.innerHTML =
+    html;
 
 }
 
@@ -3604,17 +4884,27 @@ function drawProgressCharts(){
 function drawWeightChart(){
 
   const canvas =
-    document.getElementById("weightChart");
+    document.getElementById(
+      "weightChart"
+    );
+
 
   if(!canvas)
     return;
 
 
   const ctx =
-    canvas.getContext("2d");
+    canvas.getContext(
+      "2d"
+    );
 
-  const width=canvas.width;
-  const height=canvas.height;
+
+  const width =
+    canvas.width;
+
+
+  const height =
+    canvas.height;
 
 
   ctx.clearRect(
@@ -3649,11 +4939,14 @@ function drawWeightChart(){
 
 
   const values =
-    data.map(item=>Number(item.weight));
+    data.map(
+      item=>Number(item.weight)
+    );
 
 
   let min =
     Math.min(...values);
+
 
   let max =
     Math.max(...values);
@@ -3662,11 +4955,13 @@ function drawWeightChart(){
   if(min===max){
 
     min-=2;
+
     max+=2;
 
   }else{
 
     min-=1;
+
     max+=1;
 
   }
@@ -3676,6 +4971,7 @@ function drawWeightChart(){
 
     if(data.length===1)
       return width/2;
+
 
     return 50 +
       (i/(data.length-1)) *
@@ -3703,57 +4999,89 @@ function drawWeightChart(){
   ctx.beginPath();
 
 
-  data.forEach((item,i)=>{
+  data.forEach(
+    (item,i)=>{
 
-    const px=x(i);
-    const py=y(Number(item.weight));
+      const px =
+        x(i);
 
-
-    if(i===0)
-      ctx.moveTo(px,py);
-    else
-      ctx.lineTo(px,py);
-
-  });
+      const py =
+        y(
+          Number(item.weight)
+        );
 
 
-  ctx.strokeStyle="#55e06f";
+      if(i===0)
+        ctx.moveTo(
+          px,
+          py
+        );
+      else
+        ctx.lineTo(
+          px,
+          py
+        );
+
+    }
+  );
+
+
+  ctx.strokeStyle =
+    "#55e06f";
+
+
   ctx.lineWidth=3;
+
   ctx.stroke();
 
 
-  data.forEach((item,i)=>{
+  data.forEach(
+    (item,i)=>{
 
-    const px=x(i);
-    const py=y(Number(item.weight));
+      const px =
+        x(i);
 
-
-    ctx.beginPath();
-
-    ctx.arc(
-      px,
-      py,
-      5,
-      0,
-      Math.PI*2
-    );
+      const py =
+        y(
+          Number(item.weight)
+        );
 
 
-    ctx.fillStyle="#55e06f";
-    ctx.fill();
+      ctx.beginPath();
 
 
-    ctx.fillStyle="#aaa";
-    ctx.font="11px Arial";
+      ctx.arc(
+        px,
+        py,
+        5,
+        0,
+        Math.PI*2
+      );
 
 
-    ctx.fillText(
-      item.weight+" kg",
-      px-18,
-      py-10
-    );
+      ctx.fillStyle =
+        "#55e06f";
 
-  });
+
+      ctx.fill();
+
+
+      ctx.fillStyle =
+        "#aaa";
+
+
+      ctx.font =
+        "11px Arial";
+
+
+      ctx.fillText(
+        item.weight+" kg",
+        px-18,
+        py-10
+      );
+
+    }
+  );
 
 }
 
@@ -3765,17 +5093,27 @@ function drawWeightChart(){
 function drawBodyChart(){
 
   const canvas =
-    document.getElementById("bodyChart");
+    document.getElementById(
+      "bodyChart"
+    );
+
 
   if(!canvas)
     return;
 
 
   const ctx =
-    canvas.getContext("2d");
+    canvas.getContext(
+      "2d"
+    );
 
-  const width=canvas.width;
-  const height=canvas.height;
+
+  const width =
+    canvas.width;
+
+
+  const height =
+    canvas.height;
 
 
   ctx.clearRect(
@@ -3793,18 +5131,28 @@ function drawBodyChart(){
   const validValues=[];
 
 
-  data.forEach(item=>{
+  data.forEach(
+    item=>{
 
-    if(item.waist != null)
-      validValues.push(Number(item.waist));
+      if(item.waist != null)
+        validValues.push(
+          Number(item.waist)
+        );
 
-    if(item.chest != null)
-      validValues.push(Number(item.chest));
 
-    if(item.biceps != null)
-      validValues.push(Number(item.biceps));
+      if(item.chest != null)
+        validValues.push(
+          Number(item.chest)
+        );
 
-  });
+
+      if(item.biceps != null)
+        validValues.push(
+          Number(item.biceps)
+        );
+
+    }
+  );
 
 
   if(validValues.length < 2){
@@ -3825,16 +5173,22 @@ function drawBodyChart(){
 
 
   let min =
-    Math.min(...validValues)-2;
+    Math.min(
+      ...validValues
+    )-2;
+
 
   let max =
-    Math.max(...validValues)+2;
+    Math.max(
+      ...validValues
+    )+2;
 
 
   function x(i){
 
     if(data.length===1)
       return width/2;
+
 
     return 50 +
       (i/(data.length-1)) *
@@ -3886,9 +5240,12 @@ function drawBodyChart(){
   );
 
 
-  ctx.font="12px Arial";
+  ctx.font =
+    "12px Arial";
 
-  ctx.fillStyle="#aaa";
+
+  ctx.fillStyle =
+    "#aaa";
 
 
   ctx.fillText(
@@ -3925,19 +5282,30 @@ function drawBodyLine(
   const points=[];
 
 
-  data.forEach((item,i)=>{
+  data.forEach(
+    (item,i)=>{
 
-    if(item[field] != null){
+      if(item[field] != null){
 
-      points.push({
-        x:x(i),
-        y:y(Number(item[field])),
-        value:item[field]
-      });
+        points.push({
+
+          x:x(i),
+
+          y:y(
+            Number(
+              item[field]
+            )
+          ),
+
+          value:
+            item[field]
+
+        });
+
+      }
 
     }
-
-  });
+  );
 
 
   if(!points.length)
@@ -3947,31 +5315,37 @@ function drawBodyLine(
   ctx.beginPath();
 
 
-  points.forEach((point,i)=>{
+  points.forEach(
+    (point,i)=>{
 
-    if(i===0)
-      ctx.moveTo(point.x,point.y);
-    else
-      ctx.lineTo(point.x,point.y);
+      if(i===0)
+        ctx.moveTo(
+          point.x,
+          point.y
+        );
+      else
+        ctx.lineTo(
+          point.x,
+          point.y
+        );
 
-  });
+    }
+  );
 
-
-  /*
-    Diferenca visual apenas pela linha:
-    cintura = branca
-    peitoral = verde
-    bíceps = cinza
-  */
 
   if(field==="waist")
-    ctx.strokeStyle="#ffffff";
+    ctx.strokeStyle =
+      "#ffffff";
+
 
   if(field==="chest")
-    ctx.strokeStyle="#55e06f";
+    ctx.strokeStyle =
+      "#55e06f";
+
 
   if(field==="biceps")
-    ctx.strokeStyle="#999999";
+    ctx.strokeStyle =
+      "#999999";
 
 
   ctx.lineWidth=2;
@@ -3979,33 +5353,40 @@ function drawBodyLine(
   ctx.stroke();
 
 
-  points.forEach(point=>{
+  points.forEach(
+    point=>{
 
-    ctx.beginPath();
-
-
-    ctx.arc(
-      point.x,
-      point.y,
-      4,
-      0,
-      Math.PI*2
-    );
+      ctx.beginPath();
 
 
-    if(field==="waist")
-      ctx.fillStyle="#ffffff";
+      ctx.arc(
+        point.x,
+        point.y,
+        4,
+        0,
+        Math.PI*2
+      );
 
-    if(field==="chest")
-      ctx.fillStyle="#55e06f";
 
-    if(field==="biceps")
-      ctx.fillStyle="#999999";
+      if(field==="waist")
+        ctx.fillStyle =
+          "#ffffff";
 
 
-    ctx.fill();
+      if(field==="chest")
+        ctx.fillStyle =
+          "#55e06f";
 
-  });
+
+      if(field==="biceps")
+        ctx.fillStyle =
+          "#999999";
+
+
+      ctx.fill();
+
+    }
+  );
 
 }
 
@@ -4016,7 +5397,9 @@ function drawGrid(
   height
 ){
 
-  ctx.strokeStyle="#303630";
+  ctx.strokeStyle =
+    "#303630";
+
 
   ctx.lineWidth=1;
 
@@ -4025,7 +5408,8 @@ function drawGrid(
 
     const gy =
       20 +
-      i*((height-55)/4);
+      i *
+      ((height-55)/4);
 
 
     ctx.beginPath();
@@ -4057,11 +5441,17 @@ function drawGrid(
 function saveWorkout(){
 
   state.workout =
-    document.getElementById("workoutText").value;
+    document.getElementById(
+      "workoutText"
+    ).value;
+
 
   saveState();
 
-  alert("Observação salva!");
+
+  alert(
+    "Observação salva!"
+  );
 
 }
 
@@ -4073,53 +5463,68 @@ function saveWorkout(){
 function renderReminders(){
 
   const container =
-    document.getElementById("remindersContainer");
+    document.getElementById(
+      "remindersContainer"
+    );
+
 
   let html="";
 
 
-  defaultReminders.forEach(item=>{
+  defaultReminders.forEach(
+    item=>{
 
-    const id=item[0];
-    const name=item[1];
-    const time=item[2];
+      const id =
+        item[0];
+
+      const name =
+        item[1];
+
+      const time =
+        item[2];
 
 
-    const enabled =
-      state.reminders[id];
+      const enabled =
+        state.reminders[id];
 
 
-    html += `
+      html += `
 
-      <div class="reminder">
+        <div class="reminder">
 
-        <div class="reminder-info">
+          <div class="reminder-info">
 
-          <strong>${name}</strong>
+            <strong>
+              ${name}
+            </strong>
 
-          <span>${time}</span>
+            <span>
+              ${time}
+            </span>
+
+          </div>
+
+          <label class="switch">
+
+            <input
+              type="checkbox"
+              ${enabled ? "checked":""}
+              onchange="toggleReminder('${id}')">
+
+            <span class="slider"></span>
+
+          </label>
 
         </div>
 
-        <label class="switch">
+      `;
 
-          <input
-            type="checkbox"
-            ${enabled ? "checked":""}
-            onchange="toggleReminder('${id}')">
-
-          <span class="slider"></span>
-
-        </label>
-
-      </div>
-
-    `;
-
-  });
+    }
+  );
 
 
-  container.innerHTML=html;
+  container.innerHTML =
+    html;
 
 }
 
@@ -4128,6 +5533,7 @@ function toggleReminder(id){
 
   state.reminders[id] =
     !state.reminders[id];
+
 
   saveState();
 
@@ -4138,27 +5544,43 @@ function toggleReminder(id){
    CRONÔMETRO DE DESCANSO
 ========================= */
 
-let restTimerInterval = null;
-
-let restTimerDuration = 90;
-
-let restTimerRemaining = 90;
-
-let restTimerRunning = false;
+let restTimerInterval =
+  null;
 
 
-function formatRestTime(seconds){
+let restTimerDuration =
+  90;
+
+
+let restTimerRemaining =
+  90;
+
+
+let restTimerRunning =
+  false;
+
+
+function formatRestTime(
+  seconds
+){
 
   const minutes =
-    Math.floor(seconds / 60);
+    Math.floor(
+      seconds / 60
+    );
+
 
   const secs =
     seconds % 60;
 
+
   return (
-    String(minutes).padStart(2,"0")
-    + ":" +
-    String(secs).padStart(2,"0")
+    String(minutes)
+      .padStart(2,"0")
+    + ":"
+    +
+    String(secs)
+      .padStart(2,"0")
   );
 
 }
@@ -4167,13 +5589,21 @@ function formatRestTime(seconds){
 function updateRestTimerDisplay(){
 
   const display =
-    document.getElementById("restTimerDisplay");
+    document.getElementById(
+      "restTimerDisplay"
+    );
+
 
   const status =
-    document.getElementById("restTimerStatus");
+    document.getElementById(
+      "restTimerStatus"
+    );
+
 
   const button =
-    document.getElementById("restStartButton");
+    document.getElementById(
+      "restStartButton"
+    );
 
 
   if(!display)
@@ -4181,16 +5611,22 @@ function updateRestTimerDisplay(){
 
 
   display.textContent =
-    formatRestTime(restTimerRemaining);
+    formatRestTime(
+      restTimerRemaining
+    );
 
 
   if(restTimerRemaining <= 0){
 
-    display.classList.add("finished");
+    display.classList.add(
+      "finished"
+    );
+
 
     if(status)
       status.textContent =
         "🔥 Descanso terminado! Próxima série.";
+
 
     if(button)
       button.textContent =
@@ -4198,7 +5634,10 @@ function updateRestTimerDisplay(){
 
   }else{
 
-    display.classList.remove("finished");
+    display.classList.remove(
+      "finished"
+    );
+
 
     if(button){
 
@@ -4214,21 +5653,28 @@ function updateRestTimerDisplay(){
 }
 
 
-function setRestTime(seconds){
+function setRestTime(
+  seconds
+){
 
   stopRestTimer();
+
 
   restTimerDuration =
     seconds;
 
+
   restTimerRemaining =
     seconds;
+
 
   updateRestTimerDisplay();
 
 
   const status =
-    document.getElementById("restTimerStatus");
+    document.getElementById(
+      "restTimerStatus"
+    );
 
 
   if(status){
@@ -4275,7 +5721,9 @@ function startRestTimer(){
 
 
   const status =
-    document.getElementById("restTimerStatus");
+    document.getElementById(
+      "restTimerStatus"
+    );
 
 
   if(status)
@@ -4287,20 +5735,26 @@ function startRestTimer(){
 
 
   restTimerInterval =
-    setInterval(()=>{
+    setInterval(
+      ()=>{
 
-      restTimerRemaining--;
-
-      updateRestTimerDisplay();
+        restTimerRemaining--;
 
 
-      if(restTimerRemaining <= 0){
+        updateRestTimerDisplay();
 
-        finishRestTimer();
 
-      }
+        if(
+          restTimerRemaining <= 0
+        ){
 
-    },1000);
+          finishRestTimer();
+
+        }
+
+      },
+      1000
+    );
 
 }
 
@@ -4311,13 +5765,19 @@ function pauseRestTimer(){
     restTimerInterval
   );
 
-  restTimerInterval=null;
 
-  restTimerRunning=false;
+  restTimerInterval =
+    null;
+
+
+  restTimerRunning =
+    false;
 
 
   const status =
-    document.getElementById("restTimerStatus");
+    document.getElementById(
+      "restTimerStatus"
+    );
 
 
   if(status){
@@ -4339,24 +5799,35 @@ function resetRestTimer(){
     restTimerInterval
   );
 
-  restTimerInterval=null;
 
-  restTimerRunning=false;
+  restTimerInterval =
+    null;
+
+
+  restTimerRunning =
+    false;
+
 
   restTimerRemaining =
     restTimerDuration;
 
 
   const display =
-    document.getElementById("restTimerDisplay");
+    document.getElementById(
+      "restTimerDisplay"
+    );
 
 
   if(display)
-    display.classList.remove("finished");
+    display.classList.remove(
+      "finished"
+    );
 
 
   const status =
-    document.getElementById("restTimerStatus");
+    document.getElementById(
+      "restTimerStatus"
+    );
 
 
   if(status)
@@ -4375,20 +5846,29 @@ function stopRestTimer(){
     restTimerInterval
   );
 
-  restTimerInterval=null;
 
-  restTimerRunning=false;
+  restTimerInterval =
+    null;
+
+
+  restTimerRunning =
+    false;
+
 
   restTimerRemaining =
     restTimerDuration;
 
 
   const display =
-    document.getElementById("restTimerDisplay");
+    document.getElementById(
+      "restTimerDisplay"
+    );
 
 
   if(display)
-    display.classList.remove("finished");
+    display.classList.remove(
+      "finished"
+    );
 
 
   updateRestTimerDisplay();
@@ -4402,11 +5882,17 @@ function finishRestTimer(){
     restTimerInterval
   );
 
-  restTimerInterval=null;
 
-  restTimerRunning=false;
+  restTimerInterval =
+    null;
 
-  restTimerRemaining=0;
+
+  restTimerRunning =
+    false;
+
+
+  restTimerRemaining =
+    0;
 
 
   updateRestTimerDisplay();
@@ -4437,14 +5923,22 @@ function finishRestTimer(){
         audio.createGain();
 
 
-      oscillator.connect(gain);
+      oscillator.connect(
+        gain
+      );
 
-      gain.connect(audio.destination);
+
+      gain.connect(
+        audio.destination
+      );
 
 
-      oscillator.frequency.value=880;
+      oscillator.frequency.value =
+        880;
 
-      oscillator.type="sine";
+
+      oscillator.type =
+        "sine";
 
 
       gain.gain.setValueAtTime(
@@ -4495,7 +5989,9 @@ function finishRestTimer(){
 
 
   const status =
-    document.getElementById("restTimerStatus");
+    document.getElementById(
+      "restTimerStatus"
+    );
 
 
   if(status)
@@ -4513,32 +6009,50 @@ function showPage(page){
 
   document
     .querySelectorAll(".page")
-    .forEach(p=>{
-      p.classList.remove("active");
-    });
+    .forEach(
+      p=>{
+        p.classList.remove(
+          "active"
+        );
+      }
+    );
 
 
   const selected =
-    document.getElementById(page);
+    document.getElementById(
+      page
+    );
 
 
   if(selected)
-    selected.classList.add("active");
+    selected.classList.add(
+      "active"
+    );
 
 
   document
-    .querySelectorAll(".nav button")
-    .forEach(btn=>{
-      btn.classList.remove("active");
-    });
+    .querySelectorAll(
+      ".nav button"
+    )
+    .forEach(
+      btn=>{
+        btn.classList.remove(
+          "active"
+        );
+      }
+    );
 
 
   const nav =
-    document.getElementById("nav-"+page);
+    document.getElementById(
+      "nav-"+page
+    );
 
 
   if(nav)
-    nav.classList.add("active");
+    nav.classList.add(
+      "active"
+    );
 
 
   if(page==="progress")
@@ -4547,6 +6061,10 @@ function showPage(page){
 
   if(page==="training")
     renderWeeklyTraining();
+
+
+  if(page==="home")
+    updateWeeklyDashboard();
 
 }
 
@@ -4559,28 +6077,40 @@ function init(){
 
   loadState();
 
+
   renderDate();
+
 
   renderDailyMotivation();
 
+
   renderMeals();
+
 
   renderTodayTraining();
 
+
   renderWeeklyTraining();
+
 
   renderCardio();
 
+
   renderSweet();
+
 
   updateWaterDisplay();
 
-  updateDailyGoal();
+
+  updateWeeklyDashboard();
+
 
   renderReminders();
 
 
-  document.getElementById("workoutText").value =
+  document.getElementById(
+    "workoutText"
+  ).value =
     state.workout || "";
 
 
