@@ -1058,7 +1058,7 @@ canvas{
           <div class="weekly-goal-top">
 
             <div class="weekly-goal-name">
-              🏋️️ Treinos
+              🏋 Treinos
             </div>
 
             <div
@@ -3039,6 +3039,17 @@ function renderDailyMotivation(){
   const now =
     new Date();
 
+  const currentHour =
+    now.getHours();
+
+  let greeting = "Bom dia";
+
+  if(currentHour >= 12 && currentHour < 18){
+    greeting = "Boa tarde";
+  }else if(currentHour >= 18 || currentHour < 5){
+    greeting = "Boa noite";
+  }
+
   const start =
     new Date(
       now.getFullYear(),
@@ -3067,7 +3078,7 @@ function renderDailyMotivation(){
     <div class="motivation">
 
       <div class="motivation-title">
-        Bom dia, Dênis! ☀️
+        ${greeting}, Dênis! ☀️
       </div>
 
       <div class="motivation-text">
@@ -3583,7 +3594,7 @@ function renderWeeklyTraining(){
           <div class="week-day-title">
 
             <h2>
-              🏋️ ${training.name}
+              🏋️️ ${training.name}
             </h2>
 
             <span>
@@ -5340,7 +5351,7 @@ function toggleRestTimer(){
     stopRestTimer();
   } else {
     restTimerRunning = true;
-    document.getElementById("restStartButton").textContent = "⏸️️ Pausar";
+    document.getElementById("restStartButton").textContent = "⏸ Pausar";
     restTimerInterval = setInterval(() => {
       restTimeLeft--;
       updateRestTimerDisplay();
